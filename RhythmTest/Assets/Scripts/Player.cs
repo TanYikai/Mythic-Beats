@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
         }
         else {
             if (rhythmController.IsTimeForPlayerAction) {
-                doMovement();
+                //doMovement();
             }
         }
 	}
@@ -76,6 +76,50 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(2, 0, 0);
             if (checkValidPosition(newPosition)) {
+                transform.position = newPosition;
+            }
+            return;
+        }
+    }
+
+    public void ExecuteKey(KeyCode keyCode) {
+        Vector3 newPosition;
+        if (keyCode == (KeyCode.W))
+        {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(0, 0, 2);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.A))
+        {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(-2, 0, 0);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.S))
+        {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(0, 0, -2);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.D))
+        {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(2, 0, 0);
+            if (checkValidPosition(newPosition))
+            {
                 transform.position = newPosition;
             }
             return;
