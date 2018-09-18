@@ -12,9 +12,14 @@ public class ControllerStick : MonoBehaviour
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
-    void Awake()
-    {
+    void Awake() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
 
+    void Update() {
+        if (Controller.GetHairTrigger())
+        {
+            EventManager.TriggerEvent("Toggle");
+        }
+    }
 }
