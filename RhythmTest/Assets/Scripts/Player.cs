@@ -20,23 +20,29 @@ public class Player : MonoBehaviour {
 
     private Combo combo;
 
+    // To allow debug without VR
+    GameObject mainCamera;
+
     // Use this for initialization
     void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         comboStack = "";
         combo = this.gameObject.GetComponent<Combo>();
+        mainCamera = GameObject.Find("Main Camera");
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButton("Fire1")) {
-            if (rhythmController.IsTimeForPlayerAction) {
-                //doCombo();
+        if (mainCamera) {
+            if (Input.GetButton("Fire1")) {
+                if (rhythmController.IsTimeForPlayerAction) {
+                    doCombo();
+                }
             }
-        }
-        else {
-            if (rhythmController.IsTimeForPlayerAction) {
-                //doMovement();
+            else {
+                if (rhythmController.IsTimeForPlayerAction) {
+                    doMovement();
+                }
             }
         }
 	}

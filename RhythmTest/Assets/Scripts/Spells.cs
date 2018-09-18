@@ -10,7 +10,7 @@ public class Spells : MonoBehaviour {
     // Use this for initialization
     void Start() {
         timeTillExpire = 0.5f;
-        Destroy(this.gameObject, timeTillExpire);
+        Destroy(this.transform.parent.gameObject, timeTillExpire);
     }
 
     public void setup(GameObject user, Vector3 position) {
