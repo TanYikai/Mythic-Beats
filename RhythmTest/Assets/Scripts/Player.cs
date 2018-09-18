@@ -18,11 +18,14 @@ public class Player : MonoBehaviour {
 
     private string comboStack;
 
-	// Use this for initialization
-	void Start () {
+    private Combo combo;
+
+    // Use this for initialization
+    void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         comboStack = "";
-	}
+        combo = this.gameObject.GetComponent<Combo>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -172,39 +175,26 @@ public class Player : MonoBehaviour {
 
     private void executeCombo() {
         Debug.Log("combo executed");
-        switch (comboStack) {
-            case "0":
-                StartCoroutine(tackleAnimation(new Vector3(0, 0, 1)));
-                break;
-            case "1":
-                StartCoroutine(tackleAnimation(new Vector3(0, 0, -1)));
-                break;
-            case "2":
-                StartCoroutine(tackleAnimation(new Vector3(-1, 0, 0)));
-                break;
-            case "3":
-                StartCoroutine(tackleAnimation(new Vector3(1, 0, 0)));
-                break;
-        }
+        combo.determineCombo(comboStack);
         comboStack = "";
     }
 
-    IEnumerator tackleAnimation(Vector3 directionVector) {
-        float animationTime = 0;
-        int startEndDistance = 2;
-        Vector3 startPosition = transform.position;
-        Vector3 endPosition = transform.position + (directionVector * startEndDistance);
-        while (animationTime < 0.2) {
-            animationTime += Time.deltaTime;
-            if (animationTime < 0.1) {
-                transform.position = Vector3.Lerp(startPosition, endPosition, animationTime / 0.1f);
-            }
-            else {
-                transform.position = Vector3.Lerp(endPosition, startPosition, animationTime / 0.1f);
-            }
-            yield return new WaitForSeconds(0.02f);
-        }
-    }
+    //IEnumerator tackleAnimation(Vector3 directionVector) {
+    //    float animationTime = 0;
+    //    int startEndDistance = 2;
+    //    Vector3 startPosition = transform.position;
+    //    Vector3 endPosition = transform.position + (directionVector * startEndDistance);
+    //    while (animationTime < 0.2) {
+    //        animationTime += Time.deltaTime;
+    //        if (animationTime < 0.1) {
+    //            transform.position = Vector3.Lerp(startPosition, endPosition, animationTime / 0.1f);
+    //        }
+    //        else {
+    //            transform.position = Vector3.Lerp(endPosition, startPosition, animationTime / 0.1f);
+    //        }
+    //        yield return new WaitForSeconds(0.02f);
+    //    }
+    //}
 
     private void checkAndUpdateIfComboIsTooLong() {
         if (comboStack.Length >= lengthOfCombo) {
@@ -212,9 +202,15 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Enemy") {
-            other.gameObject.GetComponent<Enemy>().takeDamage();
+    public void takeDamage() {
+        playerHealth--;
+        checkAndDestroyIfDead();
+    }
+
+    private void checkAndDestroyIfDead() {
+        if (playerHealth <= 0) {
+            Debug.Log("player dead");
+            Destroy(this.gameObject);
         }
     }
 
