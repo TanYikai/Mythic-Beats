@@ -28,12 +28,12 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (Input.GetButton("Fire1")) {
             if (rhythmController.IsTimeForPlayerAction) {
-                doCombo();
+                //doCombo();
             }
         }
         else {
             if (rhythmController.IsTimeForPlayerAction) {
-                doMovement();
+                //doMovement();
             }
         }
 	}
@@ -79,6 +79,56 @@ public class Player : MonoBehaviour {
                 transform.position = newPosition;
             }
             return;
+        }
+    }
+
+    public void ExecuteKey(KeyCode keyCode) {
+        Vector3 newPosition;
+
+        if (!rhythmController.IsTimeForPlayerAction) {
+            Debug.Log("Missed the beat");
+            return;
+        }
+
+        if (keyCode == (KeyCode.W)) {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(0, 0, 2);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.A)) {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(-2, 0, 0);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.S)) {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(0, 0, -2);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+        if (keyCode == (KeyCode.D)) {
+            rhythmController.IsTimeForPlayerAction = false;
+            newPosition = transform.position + new Vector3(2, 0, 0);
+            if (checkValidPosition(newPosition))
+            {
+                transform.position = newPosition;
+            }
+            return;
+        }
+
+        if (keyCode == (KeyCode.Z) || keyCode == (KeyCode.X) || keyCode == (KeyCode.C) || keyCode == (KeyCode.V)) {
+            Debug.Log("Attack registered");
         }
     }
 

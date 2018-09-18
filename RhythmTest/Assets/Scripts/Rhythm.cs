@@ -85,7 +85,7 @@ public class Rhythm : MonoBehaviour {
     }
 
     IEnumerator openWindowForAction() {
-        Debug.Log("now");
+        //Debug.Log("now");
         isTimeForPlayerAction = true;
         isActionWindowOpenedBeforeThisBeat = true;
         yield return new WaitForSeconds(timeDurationForAction);
