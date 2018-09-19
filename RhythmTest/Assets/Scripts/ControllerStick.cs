@@ -17,9 +17,11 @@ public class ControllerStick : MonoBehaviour
     }
 
     void Update() {
-        if (Controller.GetHairTrigger())
-        {
-            EventManager.TriggerEvent("Toggle");
+        if (Controller.GetHairTriggerDown()) {
+            EventManager.TriggerEvent("ToggleOn");
+        }
+        if (Controller.GetHairTriggerUp()) {
+            EventManager.TriggerEvent("ToggleOff");
         }
     }
 }

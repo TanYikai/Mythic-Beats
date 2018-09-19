@@ -6,9 +6,8 @@ using UnityEngine.Events;
 public class ControllerDrum : MonoBehaviour {
 
     public GameObject player;
-    public KeyCode keyCodeMovement;
-    public KeyCode keyCodeAttack;
-    private bool movementMode = true;
+    public KeyCode keyCode;
+    private bool comboMode = false;
 
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
@@ -16,48 +15,47 @@ public class ControllerDrum : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
     private Player playerRef;
-    private UnityAction toggleListener;
+    private UnityAction toggleOnListener;
+    private UnityAction toggleOffListener;
 
     void Start () {
-        EventManager.StartListening("Toggle", toggleListener);
+        EventManager.StartListening("ToggleOn", toggleOnListener);
+        EventManager.StartListening("ToggleOff", toggleOffListener);
         playerRef = player.GetComponent<Player>();
     }
 
 
     private void Awake()
     {
-        toggleListener = new UnityAction(ToggleMode);
+        toggleOnListener = new UnityAction(ToggleOn);
+        toggleOffListener = new UnityAction(ToggleOff);
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("Colldiing");
-        if (movementMode)
-        {
+        if (comboMode) {
             if (collider.CompareTag("DrumStick"))
             {
-                Debug.Log("Moving");
-                playerRef.ExecuteKey(keyCodeMovement);
+                Debug.Log("Sending " + keyCode + " (combo)");
+                playerRef.ExecuteKey(keyCode, true);
             }
         }
         else {
-            if (collider.CompareTag("DrumStick"))
-            {
-                Debug.Log("Attacking");
-                playerRef.ExecuteKey(keyCodeAttack);
+            if (collider.CompareTag("DrumStick")) {
+                Debug.Log("Sending " + keyCode + " (movement)");
+                playerRef.ExecuteKey(keyCode, false);
             }
         }
     }
 
-    private void ToggleMode() {
-        movementMode = !movementMode;
-        if (movementMode)
-        {
-            this.gameObject.GetComponent<Renderer>().material.color = Color.white;
-        }
-        else {
-            this.gameObject.GetComponent<Renderer>().material.color = Color.red;
-        }
+    private void ToggleOn() {
+        comboMode = true;
+        this.gameObject.GetComponent<Renderer>().material.color = Color.green;
+    }
+
+    private void ToggleOff() {
+        comboMode = false;
+        this.gameObject.GetComponent<Renderer>().material.color = Color.white;
     }
 
 }

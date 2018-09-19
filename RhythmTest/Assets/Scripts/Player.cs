@@ -91,7 +91,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void ExecuteKey(KeyCode keyCode) {
+    public void ExecuteKey(KeyCode keyCode, bool comboMode) {
         Vector3 newPosition;
 
         if (!rhythmController.IsTimeForPlayerAction) {
@@ -99,46 +99,91 @@ public class Player : MonoBehaviour {
             return;
         }
 
-        if (keyCode == (KeyCode.W)) {
-            rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(0, 0, 2);
-            if (checkValidPosition(newPosition))
+        if (comboMode)
+        {
+            if (keyCode == (KeyCode.Space))
             {
-                transform.position = newPosition;
+                rhythmController.IsTimeForPlayerAction = false;
+                executeCombo();
+                return;
             }
-            return;
+            if (keyCode == (KeyCode.W))
+            {
+                rhythmController.IsTimeForPlayerAction = false;
+                checkAndUpdateIfComboIsTooLong();
+                comboStack = comboStack + (int)ComboDirection.up;
+                Debug.Log(comboStack);
+                return;
+            }
+            if (keyCode == (KeyCode.A))
+            {
+                rhythmController.IsTimeForPlayerAction = false;
+                checkAndUpdateIfComboIsTooLong();
+                comboStack = comboStack + (int)ComboDirection.left;
+                Debug.Log(comboStack);
+                return;
+            }
+            if (keyCode == (KeyCode.S))
+            {
+                rhythmController.IsTimeForPlayerAction = false;
+                checkAndUpdateIfComboIsTooLong();
+                comboStack = comboStack + (int)ComboDirection.down;
+                Debug.Log(comboStack);
+                return;
+            }
+            if (keyCode == (KeyCode.D))
+            {
+                rhythmController.IsTimeForPlayerAction = false;
+                checkAndUpdateIfComboIsTooLong();
+                comboStack = comboStack + (int)ComboDirection.right;
+                Debug.Log(comboStack);
+                return;
+            }
         }
-        if (keyCode == (KeyCode.A)) {
-            rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(-2, 0, 0);
-            if (checkValidPosition(newPosition))
+        else
+        {
+            if (keyCode == (KeyCode.W))
             {
-                transform.position = newPosition;
+                rhythmController.IsTimeForPlayerAction = false;
+                newPosition = transform.position + new Vector3(0, 0, 2);
+                if (checkValidPosition(newPosition))
+                {
+                    transform.position = newPosition;
+                }
+                return;
             }
-            return;
-        }
-        if (keyCode == (KeyCode.S)) {
-            rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(0, 0, -2);
-            if (checkValidPosition(newPosition))
+            if (keyCode == (KeyCode.A))
             {
-                transform.position = newPosition;
+                rhythmController.IsTimeForPlayerAction = false;
+                newPosition = transform.position + new Vector3(-2, 0, 0);
+                if (checkValidPosition(newPosition))
+                {
+                    transform.position = newPosition;
+                }
+                return;
             }
-            return;
-        }
-        if (keyCode == (KeyCode.D)) {
-            rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(2, 0, 0);
-            if (checkValidPosition(newPosition))
+            if (keyCode == (KeyCode.S))
             {
-                transform.position = newPosition;
+                rhythmController.IsTimeForPlayerAction = false;
+                newPosition = transform.position + new Vector3(0, 0, -2);
+                if (checkValidPosition(newPosition))
+                {
+                    transform.position = newPosition;
+                }
+                return;
             }
-            return;
+            if (keyCode == (KeyCode.D))
+            {
+                rhythmController.IsTimeForPlayerAction = false;
+                newPosition = transform.position + new Vector3(2, 0, 0);
+                if (checkValidPosition(newPosition))
+                {
+                    transform.position = newPosition;
+                }
+                return;
+            }
         }
 
-        if (keyCode == (KeyCode.Z) || keyCode == (KeyCode.X) || keyCode == (KeyCode.C) || keyCode == (KeyCode.V)) {
-            Debug.Log("Attack registered");
-        }
     }
 
     private void doCombo() {
