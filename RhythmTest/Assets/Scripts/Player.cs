@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, 2);
             if (checkValidPosition(newPosition)) {
-                transform.position = newPosition;
+                StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
@@ -69,7 +69,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(-2, 0, 0);
             if (checkValidPosition(newPosition)) {
-                transform.position = newPosition;
+                StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
@@ -77,7 +77,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, -2);
             if (checkValidPosition(newPosition)) {
-                transform.position = newPosition;
+                StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(2, 0, 0);
             if (checkValidPosition(newPosition)) {
-                transform.position = newPosition;
+                StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
@@ -228,6 +228,16 @@ public class Player : MonoBehaviour {
         Debug.Log("combo executed");
         combo.determineCombo(comboStack);
         comboStack = "";
+    }
+
+    IEnumerator locationTransition(Vector3 startPosition, Vector3 endPosition) {
+        float currentAnimationTime = 0.0f;
+        float totalAnimationTime = 0.1f;
+        while (currentAnimationTime < totalAnimationTime) {
+            currentAnimationTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
+            yield return new WaitForSeconds(0.02f);
+        }
     }
 
     //IEnumerator tackleAnimation(Vector3 directionVector) {
