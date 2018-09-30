@@ -15,6 +15,8 @@ public class Player : MonoBehaviour {
     public int playerHealth;
 
     private Rhythm rhythmController;
+    private PlayerMovementRestrictor playerMovementRestrictor;
+    private GameObject enemy;
 
     private string comboStack;
 
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
+        enemy = GameObject.Find("Enemy");
+        playerMovementRestrictor = new PlayerMovementRestrictor(enemy);
         comboStack = "";
         combo = this.gameObject.GetComponent<Combo>();
         mainCamera = GameObject.Find("Main Camera");
@@ -47,44 +51,37 @@ public class Player : MonoBehaviour {
         }
 	}
 
-    private bool checkValidPosition(Vector3 position) {
-        if (position.x < -4 || position.x > 4 || position.z < -4 || position.z > 4) {
-            return false;
-        }
-        return true;
-    }
-
     private void doMovement() {
         Vector3 newPosition;
 
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(0, 0, 2);
-            if (checkValidPosition(newPosition)) {
+            newPosition = transform.position + new Vector3(0, 0, 1);
+            if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
         if (Input.GetKeyDown(KeyCode.A)) {
             rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(-2, 0, 0);
-            if (checkValidPosition(newPosition)) {
+            newPosition = transform.position + new Vector3(-1, 0, 0);
+            if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
         if (Input.GetKeyDown(KeyCode.S)) {
             rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(0, 0, -2);
-            if (checkValidPosition(newPosition)) {
+            newPosition = transform.position + new Vector3(0, 0, -1);
+            if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
         if (Input.GetKeyDown(KeyCode.D)) {
             rhythmController.IsTimeForPlayerAction = false;
-            newPosition = transform.position + new Vector3(2, 0, 0);
-            if (checkValidPosition(newPosition)) {
+            newPosition = transform.position + new Vector3(1, 0, 0);
+            if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
@@ -146,7 +143,7 @@ public class Player : MonoBehaviour {
             {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, 2);
-                if (checkValidPosition(newPosition))
+                if (playerMovementRestrictor.checkValidPosition(newPosition))
                 {
                     transform.position = newPosition;
                 }
@@ -156,7 +153,7 @@ public class Player : MonoBehaviour {
             {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(-2, 0, 0);
-                if (checkValidPosition(newPosition))
+                if (playerMovementRestrictor.checkValidPosition(newPosition))
                 {
                     transform.position = newPosition;
                 }
@@ -166,7 +163,7 @@ public class Player : MonoBehaviour {
             {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, -2);
-                if (checkValidPosition(newPosition))
+                if (playerMovementRestrictor.checkValidPosition(newPosition))
                 {
                     transform.position = newPosition;
                 }
@@ -176,7 +173,7 @@ public class Player : MonoBehaviour {
             {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(2, 0, 0);
-                if (checkValidPosition(newPosition))
+                if (playerMovementRestrictor.checkValidPosition(newPosition))
                 {
                     transform.position = newPosition;
                 }
@@ -232,30 +229,13 @@ public class Player : MonoBehaviour {
 
     IEnumerator locationTransition(Vector3 startPosition, Vector3 endPosition) {
         float currentAnimationTime = 0.0f;
-        float totalAnimationTime = 0.1f;
+        float totalAnimationTime = 0.05f;
         while (currentAnimationTime < totalAnimationTime) {
             currentAnimationTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
-
-    //IEnumerator tackleAnimation(Vector3 directionVector) {
-    //    float animationTime = 0;
-    //    int startEndDistance = 2;
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 endPosition = transform.position + (directionVector * startEndDistance);
-    //    while (animationTime < 0.2) {
-    //        animationTime += Time.deltaTime;
-    //        if (animationTime < 0.1) {
-    //            transform.position = Vector3.Lerp(startPosition, endPosition, animationTime / 0.1f);
-    //        }
-    //        else {
-    //            transform.position = Vector3.Lerp(endPosition, startPosition, animationTime / 0.1f);
-    //        }
-    //        yield return new WaitForSeconds(0.02f);
-    //    }
-    //}
 
     private void checkAndUpdateIfComboIsTooLong() {
         if (comboStack.Length >= lengthOfCombo) {
