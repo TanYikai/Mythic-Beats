@@ -4,44 +4,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    enum ComboDirection {
-        up,
-        down,
-        left,
-        right
-    };
-
     public int health;
 
     private Rhythm rhythmController;
-    private string comboStack;
-    private int lengthOfCombo = 1;
-
-    private Combo combo;
+    private StateController controller;
 
 	// Use this for initialization
 	void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         rhythmController.onBeat += doEnemyAction;
-        comboStack = "";
-        combo = this.gameObject.GetComponent<Combo>();
-    }
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
+        controller = this.gameObject.GetComponent<StateController>();
+    }
 
     private void doEnemyAction() {
-        int actionNumber = Random.Range(0, 2);
-        switch (actionNumber) {
-            case 0:
-                doMovement();
-                break;
-            case 1:
-                doCombo();
-                break;
-        }
+        controller.UpdateState();
     }
 
     public void takeDamage() {
@@ -95,62 +72,6 @@ public class Enemy : MonoBehaviour {
             currentAnimationTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
             yield return new WaitForSeconds(0.02f);
-        }
-    }
-
-    private void doCombo() {
-        if (comboStack.Length > 0) {
-            executeCombo();
-            return;
-        }
-
-        int comboNumber = Random.Range(0, 4);
-
-        switch (comboNumber) {
-            case 0:
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.up;
-                break;
-            case 1:
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.left;
-                break;
-            case 2:
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.down;
-                break;
-            case 3:
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.right;
-                break;
-        }
-    }
-
-    private void executeCombo() {
-        combo.determineCombo(comboStack);
-        comboStack = "";
-    }
-
-    //IEnumerator tackleAnimation(Vector3 directionVector) {
-    //    float animationTime = 0;
-    //    int startEndDistance = 2;
-    //    Vector3 startPosition = transform.position;
-    //    Vector3 endPosition = transform.position + (directionVector * startEndDistance);
-    //    while (animationTime < 0.2) {
-    //        animationTime += Time.deltaTime;
-    //        if (animationTime < 0.1) {
-    //            transform.position = Vector3.Lerp(startPosition, endPosition, animationTime / 0.1f);
-    //        }
-    //        else {
-    //            transform.position = Vector3.Lerp(endPosition, startPosition, animationTime / 0.1f);
-    //        }
-    //        yield return new WaitForSeconds(0.02f);
-    //    }
-    //}
-
-    private void checkAndUpdateIfComboIsTooLong() {
-        if (comboStack.Length >= lengthOfCombo) {
-            comboStack = "";
         }
     }
 

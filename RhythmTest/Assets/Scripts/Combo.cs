@@ -30,25 +30,25 @@ public class Combo : MonoBehaviour {
     }
 
     private void attackFront() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 2);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
     }
 
     private void attackBack() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, -2);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, -1);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
     }
 
     private void attackLeft() {
-        Vector3 targetPosition = user.transform.position + new Vector3(-2, 0, 0);
+        Vector3 targetPosition = user.transform.position + new Vector3(-1, 0, 0);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
     }
 
     private void attackRight() {
-        Vector3 targetPosition = user.transform.position + new Vector3(2, 0, 0);
+        Vector3 targetPosition = user.transform.position + new Vector3(1, 0, 0);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
     }
