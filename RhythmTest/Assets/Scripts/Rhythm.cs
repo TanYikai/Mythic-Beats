@@ -8,7 +8,9 @@ public class Rhythm : MonoBehaviour {
     public float timeBeforeBeatStarts;
     public float timeDurationForAction;
 
-    private AudioSource audioSource;
+    private AudioSource[] clips;
+    private AudioSource introClip;
+    private AudioSource loopClip;
     private bool isTimeForPlayerAction;
     private float actionTimeErrorMargin; // half the error margin time
     private float secondsPerBeat;
@@ -27,13 +29,17 @@ public class Rhythm : MonoBehaviour {
         isTimeForPlayerAction = false;
         actionTimeErrorMargin = timeDurationForAction / 2.0f;
         secondsPerBeat = 60 / beatsPerMinute;
-        audioSource = GetComponent<AudioSource>();
+        clips = GetComponents<AudioSource>();
+        introClip = clips[0];
+        loopClip = clips[1];
         isActionWindowOpenedBeforeThisBeat = false;
 
         //StartCoroutine(waitForNextBeat());
         //StartCoroutine(playDrumBeatLoop());
-        audioSource.Play();
-        StartCoroutine(checkForBeat());
+        introClip.Play();
+        loopClip.PlayDelayed(introClip.clip.length);
+
+        StartCoroutine(waitForIntro());
     }
 
     // Update is called once per frame
@@ -54,24 +60,26 @@ public class Rhythm : MonoBehaviour {
         StartCoroutine(openWindowForAction());
     }
 
+    IEnumerator waitForIntro() {
+        yield return new WaitForSeconds(introClip.clip.length - 0.05f); // minus 0.05 because of optimization in checkForBeat()
+        StartCoroutine(checkForBeat());
+    }
+
     IEnumerator checkForBeat() {
         yield return new WaitForSeconds(0.05f); // optimization to only do this check every 0.05s
-        float currSongTime = audioSource.time - timeBeforeBeatStarts;
 
-        if (currSongTime > 0) {
-            float moduloCurrSongTime = currSongTime % secondsPerBeat;
-            if (!isActionWindowOpenedBeforeThisBeat && (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin))) {
-                if (onBeat != null) {
-                    onBeat();
-                }
-            }   
-        }
+        float moduloCurrSongTime = loopClip.time % secondsPerBeat;
+        if (!isActionWindowOpenedBeforeThisBeat && (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin))) {
+            if (onBeat != null) {
+                onBeat();
+            }
+        }   
         StartCoroutine(checkForBeat());
     }
 
     IEnumerator playDrumBeatLoop() {
         Debug.Log(Time.time);
-        audioSource.PlayOneShot(audioSource.clip, 1.0f);
+        loopClip.PlayOneShot(loopClip.clip, 1.0f);
         Debug.Log(Time.time);
         yield return new WaitForSeconds(secondsPerBeat);
         StartCoroutine(waitForNextBeat());
