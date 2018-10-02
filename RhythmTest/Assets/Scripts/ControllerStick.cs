@@ -6,6 +6,7 @@ public class ControllerStick : MonoBehaviour
 {
 
     private SteamVR_TrackedObject trackedObj;
+    private bool attackMode = false;
 
     private SteamVR_Controller.Device Controller
     {
@@ -17,11 +18,14 @@ public class ControllerStick : MonoBehaviour
     }
 
     void Update() {
-        if (Controller.GetHairTriggerDown()) {
-            EventManager.TriggerEvent("ToggleOn");
-        }
-        if (Controller.GetHairTriggerUp()) {
-            EventManager.TriggerEvent("ToggleOff");
+        if (Controller.GetHairTrigger()) {
+            if (!attackMode)
+            {
+                EventManager.TriggerEvent("ToggleOn");
+            }
+            else {
+                EventManager.TriggerEvent("ToggleOff");
+            }
         }
     }
 }
