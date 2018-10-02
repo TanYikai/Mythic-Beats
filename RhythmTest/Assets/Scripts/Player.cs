@@ -39,20 +39,24 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (mainCamera) {
             if (Input.GetButton("Fire1")) {
-                if (rhythmController.IsTimeForPlayerAction) {
                     doCombo();
-                }
             }
             else {
-                if (rhythmController.IsTimeForPlayerAction) {
                     doMovement();
-                }
             }
         }
 	}
 
     private void doMovement() {
         Vector3 newPosition;
+
+        if (Input.anyKey && !rhythmController.IsTimeForPlayerAction) {
+            rhythmController.IsNextWindowDisabled = true;
+        }
+
+        if (!rhythmController.IsTimeForPlayerAction) {
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
@@ -185,6 +189,15 @@ public class Player : MonoBehaviour {
 
     private void doCombo() {
         //if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.D)) { // for easier testing
+
+        if (Input.anyKey && !rhythmController.IsTimeForPlayerAction) {
+            rhythmController.IsNextWindowDisabled = true;
+        }
+
+        if (!rhythmController.IsTimeForPlayerAction) {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space)) { 
             rhythmController.IsTimeForPlayerAction = false;
             executeCombo();
