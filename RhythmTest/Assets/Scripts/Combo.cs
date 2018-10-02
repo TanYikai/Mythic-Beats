@@ -7,63 +7,108 @@ public class Combo : MonoBehaviour {
 
     private GameObject spells;
     private GameObject user;
+    private Queue<string> queue;
 
     void Start() {
         spells = Resources.Load<GameObject>("Prefabs/Spells");
         user = this.gameObject;
+        queue = new Queue<string>();
     }
 
-    public void determineCombo(Stack<string> combo) {
+    public bool addToStack(string command) {
+        string[] arrayOfCommand = queue.ToArray();
 
-
-        if (combo.Count >= 4)
-        {
-            StringBuilder sb = new StringBuilder();
-            while (combo.Count > 0)
-            {
-                string word = combo.Pop();
-                sb.Append(word);
-            }
-            switch (sb.ToString())
-            {
-                case "LeftUpDownRight":
-                    Debug.Log("Something cool is supposed to happen");
-                    break;
-                case "LeftRightUpDown":
-                    Debug.Log("Something cool is supposed to happen");
-                    break;
-                case "LeftRightLeftRight":
-                    Debug.Log("Something cool is supposed to happen");
-                    break;
-                case "LeftDownUpDown":
-                    Debug.Log("Something cool is supposed to happen");
-                    break;
-                default:
-                    Debug.Log("Combo makes no sense");
-                    break;
-            }
-
-
+        switch (queue.Count) {
+            case 0:
+                if (command == "Left") {
+                    queue.Enqueue("Left");
+                }
+                break;
+            case 1:
+                if (command != "Left") {
+                    queue.Enqueue(command);
+                }
+                break;
+            case 2:
+                if ((arrayOfCommand[1] == "Up" && command == "Down") ||
+                    (arrayOfCommand[1] == "Right" && command == "Up") ||
+                    (arrayOfCommand[1] == "Right" && command == "Left") ||
+                    (arrayOfCommand[1] == "Down" && command == "Up")) {
+                    queue.Enqueue(command);
+                }
+                else {
+                    queue.Clear();
+                    if (command == "Left") {
+                        queue.Enqueue("Left");
+                    }
+                }
+                break;
+            case 3:
+                if ((arrayOfCommand[2] == "Down" && command == "Right") ||
+                    (arrayOfCommand[2] == "Up" && command == "Down") ||
+                    (arrayOfCommand[2] == "Left" && command == "Right") ||
+                    (arrayOfCommand[2] == "Up" && command == "Right")) {
+                    queue.Enqueue(command);
+                    determineCombo(buildComboCommand());
+                    return true;
+                }
+                else {
+                    queue.Clear();
+                    if (command == "Left") {
+                        queue.Enqueue("Left");
+                    }
+                }
+                break;
+            default:
+                Debug.LogError("Error encountered: Hit default in Combo");
+                return false;
         }
-        else
-        {
-            string word = combo.Peek();
-            switch (word)
-            {
+
+        determineCombo(command);
+        return false;
+    }
+
+    private string buildComboCommand() {
+        StringBuilder sb = new StringBuilder();
+
+        while (queue.Count > 0) {
+            sb.Append(queue.Dequeue());
+        }
+
+        return sb.ToString();
+    }
+
+    private void determineCombo(string command) {
+
+            switch (command) {
                 case "Up":
                     attackFront();
                     break;
-                case "Left":
+                case "Down":
                     attackBack();
                     break;
-                case "Right":
+                case "Left":
                     attackLeft();
                     break;
-                case "Down":
+                case "Right":
                     attackRight();
                     break;
+                case "LeftUpDownRight":
+                    Debug.Log("LeftUpDownRight combo happened");
+                    break;
+                case "LeftRightUpDown":
+                    Debug.Log("LeftRightUpDown combo happened");
+                    break;
+                case "LeftRightDownLeft":
+                    Debug.Log("LeftRightDownLeft combo happened");
+                    break;
+                case "LeftDownUpRight":
+                    Debug.Log("LeftDownUpRight combo happened");
+                    break;
+                default:
+                    Debug.LogError("Combo makes no sense");
+                    break;
             }
-        }
     }
 
     private void attackFront() {
@@ -89,4 +134,6 @@ public class Combo : MonoBehaviour {
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
     }
+
+
 }

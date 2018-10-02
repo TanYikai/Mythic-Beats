@@ -19,7 +19,6 @@ public class Player : MonoBehaviour {
     private GameObject enemy;
 
     //private string comboStack;
-    private Stack<string> comboStack;
 
     private Combo combo;
 
@@ -31,7 +30,6 @@ public class Player : MonoBehaviour {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         enemy = GameObject.Find("Enemy");
         playerMovementRestrictor = new PlayerMovementRestrictor(enemy);
-        comboStack = new Stack<string>();
         combo = this.gameObject.GetComponent<Combo>();
         mainCamera = GameObject.Find("Main Camera");
     }
@@ -107,26 +105,22 @@ public class Player : MonoBehaviour {
         if (comboMode) {
             if (Input.GetKeyDown(KeyCode.W)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                comboStack.Push("Up");
-                executeAttack();
+                combo.addToStack("Up");
                 return;
             }
             if (Input.GetKeyDown(KeyCode.A)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                comboStack.Push("Left");
-                executeAttack();
+                combo.addToStack("Left");
                 return;
             }
             if (Input.GetKeyDown(KeyCode.S)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                comboStack.Push("Down");
-                executeAttack();
+                combo.addToStack("Down");
                 return;
             }
             if (Input.GetKeyDown(KeyCode.D)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                comboStack.Push("Right");
-                executeAttack();
+                combo.addToStack("Right");
                 return;
             }
         }
@@ -173,7 +167,7 @@ public class Player : MonoBehaviour {
 
         if (!rhythmController.IsTimeForPlayerAction) {
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))) {
-                failBeat();
+                //failBeat();
             }
             return;
         }
@@ -181,43 +175,25 @@ public class Player : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
-            comboStack.Push("Up");
-            executeAttack();
+            combo.addToStack("Up");
             return;
         }
         if (Input.GetKeyDown(KeyCode.A)) {
             rhythmController.IsTimeForPlayerAction = false;
-            comboStack.Push("Left");
-            executeAttack();
+            combo.addToStack("Left");
             return;
         }
         if (Input.GetKeyDown(KeyCode.S)) {
             rhythmController.IsTimeForPlayerAction = false;
-            comboStack.Push("Down");
-            executeAttack();
+            combo.addToStack("Down");
             return;
         }
         if (Input.GetKeyDown(KeyCode.D)) {
             rhythmController.IsTimeForPlayerAction = false;
-            comboStack.Push("Right");
-            executeAttack();
+            combo.addToStack("Right");
             return;
         }
 
-    }
-
-    private void executeAttack() {
-        Debug.Log("Attack executed");
-        combo.determineCombo(comboStack);
-        if (comboStack.Count >= 4) {
-            comboStack.Clear();
-        }
-
-        /**
-         *  Need Combo to tell the player that a combo animation is occuring or not
-         *  If there is no combo yet due to size, nothing happens
-         *  If there is no combo due to combination being wrong, the queue here must dequeue once
-         */
     }
 
     IEnumerator locationTransition(Vector3 startPosition, Vector3 endPosition) {
@@ -245,7 +221,6 @@ public class Player : MonoBehaviour {
 
     private void failBeat() {
         rhythmController.IsNextWindowDisabled = true;
-        comboStack.Clear();
     }
 
 }
