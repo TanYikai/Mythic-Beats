@@ -98,77 +98,67 @@ public class Player : MonoBehaviour {
         Vector3 newPosition;
 
         if (!rhythmController.IsTimeForPlayerAction) {
-            Debug.Log("Missed the beat");
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))) {
+                failBeat();
+            }
             return;
         }
 
-        if (comboMode)
-        {
-            if (keyCode == (KeyCode.Space))
-            {
+        if (comboMode) {
+            if (Input.GetKeyDown(KeyCode.W)) {
                 rhythmController.IsTimeForPlayerAction = false;
+                comboStack.Push("Up");
                 executeAttack();
                 return;
             }
-            if (keyCode == (KeyCode.W))
-            {
+            if (Input.GetKeyDown(KeyCode.A)) {
                 rhythmController.IsTimeForPlayerAction = false;
+                comboStack.Push("Left");
+                executeAttack();
                 return;
             }
-            if (keyCode == (KeyCode.A))
-            {
+            if (Input.GetKeyDown(KeyCode.S)) {
                 rhythmController.IsTimeForPlayerAction = false;
+                comboStack.Push("Down");
+                executeAttack();
                 return;
             }
-            if (keyCode == (KeyCode.S))
-            {
+            if (Input.GetKeyDown(KeyCode.D)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                return;
-            }
-            if (keyCode == (KeyCode.D))
-            {
-                rhythmController.IsTimeForPlayerAction = false;
+                comboStack.Push("Right");
+                executeAttack();
                 return;
             }
         }
-        else
-        {
-            if (keyCode == (KeyCode.W))
-            {
+        else {
+            if (keyCode == (KeyCode.W)) {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, 2);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                     transform.position = newPosition;
                 }
                 return;
             }
-            if (keyCode == (KeyCode.A))
-            {
+            if (keyCode == (KeyCode.A)) {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(-2, 0, 0);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                     transform.position = newPosition;
                 }
                 return;
             }
-            if (keyCode == (KeyCode.S))
-            {
+            if (keyCode == (KeyCode.S)) {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, -2);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                     transform.position = newPosition;
                 }
                 return;
             }
-            if (keyCode == (KeyCode.D))
-            {
+            if (keyCode == (KeyCode.D)) {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(2, 0, 0);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
                     transform.position = newPosition;
                 }
                 return;
