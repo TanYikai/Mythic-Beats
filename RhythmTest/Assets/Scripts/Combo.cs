@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Combo : MonoBehaviour {
@@ -12,20 +13,56 @@ public class Combo : MonoBehaviour {
         user = this.gameObject;
     }
 
-    public void determineCombo(string combo) {
-        switch (combo) {
-            case "0":
-                attackFront();
-                break;
-            case "1":
-                attackBack();
-                break;
-            case "2":
-                attackLeft();
-                break;
-            case "3":
-                attackRight();
-                break;
+    public void determineCombo(Stack<string> combo) {
+
+
+        if (combo.Count >= 4)
+        {
+            StringBuilder sb = new StringBuilder();
+            while (combo.Count > 0)
+            {
+                string word = combo.Pop();
+                sb.Append(word);
+            }
+            switch (sb.ToString())
+            {
+                case "LeftUpDownRight":
+                    Debug.Log("Something cool is supposed to happen");
+                    break;
+                case "LeftRightUpDown":
+                    Debug.Log("Something cool is supposed to happen");
+                    break;
+                case "LeftRightLeftRight":
+                    Debug.Log("Something cool is supposed to happen");
+                    break;
+                case "LeftDownUpDown":
+                    Debug.Log("Something cool is supposed to happen");
+                    break;
+                default:
+                    Debug.Log("Combo makes no sense");
+                    break;
+            }
+
+
+        }
+        else
+        {
+            string word = combo.Peek();
+            switch (word)
+            {
+                case "Up":
+                    attackFront();
+                    break;
+                case "Left":
+                    attackBack();
+                    break;
+                case "Right":
+                    attackLeft();
+                    break;
+                case "Down":
+                    attackRight();
+                    break;
+            }
         }
     }
 
