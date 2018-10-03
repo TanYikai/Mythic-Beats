@@ -8,6 +8,7 @@ public class Combo : MonoBehaviour {
     private GameObject spells;
     private GameObject user;
     private Queue<string> queue;
+    public Animator anim;
 
     void Start() {
         spells = Resources.Load<GameObject>("Prefabs/Spells");
@@ -65,6 +66,7 @@ public class Combo : MonoBehaviour {
         }
 
         determineCombo(command);
+
         return false;
     }
 
@@ -94,13 +96,14 @@ public class Combo : MonoBehaviour {
                     attackRight();
                     break;
                 case "LeftUpDownRight":
-                    Debug.Log("LeftUpDownRight combo happened");
+                anim.SetBool("SpcAtk", true);
+                Debug.Log("LeftUpDownRight combo happened");
                     break;
                 case "LeftRightUpDown":
                     Debug.Log("LeftRightUpDown combo happened");
                     break;
-                case "LeftRightDownLeft":
-                    Debug.Log("LeftRightDownLeft combo happened");
+                case "LeftRightLeftRight":
+                    Debug.Log("LeftRightLeftRight combo happened");
                     break;
                 case "LeftDownUpRight":
                     Debug.Log("LeftDownUpRight combo happened");
@@ -112,28 +115,34 @@ public class Combo : MonoBehaviour {
     }
 
     private void attackFront() {
+        Debug.Log("front");
         Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        anim.SetBool("UpAtk", true);
     }
 
     private void attackBack() {
         Vector3 targetPosition = user.transform.position + new Vector3(0, 0, -1);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        anim.SetBool("DownAtk", true);
     }
 
     private void attackLeft() {
         Vector3 targetPosition = user.transform.position + new Vector3(-1, 0, 0);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        anim.SetBool("LeftAtk", true);
     }
 
     private void attackRight() {
         Vector3 targetPosition = user.transform.position + new Vector3(1, 0, 0);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        anim.SetBool("RightAtk", true);
     }
+
 
 
 }
