@@ -8,7 +8,7 @@ public class ControllerDrum : MonoBehaviour {
     public GameObject player;
     public GameObject rhythm;
     public KeyCode keyCode;
-    private bool comboMode = false;
+    private bool attackMode = false;
 
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
@@ -34,7 +34,7 @@ public class ControllerDrum : MonoBehaviour {
     }
 
     private void Update() {
-        if (rhythmRef.IsNextWindowDisabled) {
+        if (rhythmRef.IsNextWindowDisabled || rhythmRef.IsSpecialOccurring) {
             this.gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
         else {
@@ -44,7 +44,7 @@ public class ControllerDrum : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (comboMode) {
+        if (attackMode) {
             if (collider.CompareTag("DrumStick")) {
                 Debug.Log("Sending " + keyCode + " (combo)");
                 playerRef.ExecuteKey(keyCode, true);
@@ -59,13 +59,13 @@ public class ControllerDrum : MonoBehaviour {
     }
 
     private void ToggleOn() {
-        comboMode = true;
-        Debug.Log("comboMode ON");
+        attackMode = true;
+        Debug.Log("attackMode ON");
     }
 
     private void ToggleOff() {
-        comboMode = false;
-        Debug.Log("comboMode OFF");
+        attackMode = false;
+        Debug.Log("attackMode OFF");
     }
 
 }
