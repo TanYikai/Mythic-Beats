@@ -14,5 +14,7 @@ public abstract class EnemySkills {
     }
 
     public abstract void doSkill(Vector3 position);
+
+    public abstract void handleTelegraphAttack(Vector3 position, int stage);
 }
 

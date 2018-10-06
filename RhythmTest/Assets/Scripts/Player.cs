@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
     void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         enemy = GameObject.Find("Enemy");
-        playerMovementRestrictor = new PlayerMovementRestrictor(enemy);
+        playerMovementRestrictor = new PlayerMovementRestrictor();
         combo = this.gameObject.GetComponent<Combo>();
         mainCamera = GameObject.Find("Main Camera");
     }
@@ -293,6 +293,7 @@ public class Player : MonoBehaviour {
     
 
     public void takeDamage() {
+        Debug.Log("player took damage");
         playerHealth--;
         checkAndDestroyIfDead();
     }

@@ -26,13 +26,13 @@ public class DamageController : MonoBehaviour {
     }
 
     public void checkAndDoDamageToPlayer(int i, int j) {
-        if (player.transform.position.z == i && player.transform.position.x == j) {
+        if (Mathf.RoundToInt(player.transform.position.z) == i && Mathf.RoundToInt(player.transform.position.x) == j) {
             doDamageToPlayer();
         }
     }
 
     public void checkAndDoDamageToEnemy(int i, int j) {
-        if (enemy.transform.position.z == i && enemy.transform.position.x == j) {
+        if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x) == j) {
             doDamageToEnemy();
         }
     }

@@ -9,7 +9,7 @@ public class EnemySkillDecider {
         int skill = 0;
         switch (skill) {
             case 0:
-                return new ColumnAttack(2, user, 5);
+                return new ColumnAttack(3, user, 5);
         }
 
         return null;

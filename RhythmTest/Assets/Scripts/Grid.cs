@@ -12,6 +12,9 @@ public class Grid : MonoBehaviour {
 
     private int rows;
     private int columns;
+    private int gridICorrectionValue;
+    private int gridJCorrectionValue;
+
     GameObject[,] grid;
 
     void Awake() {
@@ -25,6 +28,9 @@ public class Grid : MonoBehaviour {
     void Init () {
         rows = 6;
         columns = 9;
+        gridICorrectionValue = (int)Mathf.Floor(rows / 2.0f);
+        gridJCorrectionValue = (int)Mathf.Floor(columns / 2.0f);
+
         setupGrid();
 	}
 
@@ -38,19 +44,30 @@ public class Grid : MonoBehaviour {
     }
 
     public void changeToFirstMaterial(int i, int j) {
-        changeMaterial(i, j, firstMaterial);
+        int gridI, gridJ;
+        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
+        changeMaterial(gridI, gridJ, firstMaterial);
     }
 
     public void changeToSecondMaterial(int i, int j) {
-        changeMaterial(i, j, secondMaterial);
+        int gridI, gridJ;
+        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
+        changeMaterial(gridI, gridJ, secondMaterial);
     }
 
     public void changeToOriginalMaterial(int i, int j) {
-        changeMaterial(i, j, originalMaterial);
+        int gridI, gridJ;
+        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
+        changeMaterial(gridI, gridJ, originalMaterial);
     }
 
     private void changeMaterial(int i, int j, Material newMaterial) {
         grid[i, j].GetComponent<Renderer>().material = newMaterial;
+    }
+
+    private void changeFromArrayIndexToGridIndex(int i, int j, out int gridI, out int gridJ) {
+        gridI = Mathf.Abs(i - gridICorrectionValue);
+        gridJ = j + gridJCorrectionValue;
     }
 
     private void print() {
