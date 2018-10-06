@@ -30,8 +30,8 @@ public class StateController : MonoBehaviour {
 
     public void TransitionToState(State nextState) {
         if (nextState != currentState) {
+            currentState.OnExitState(this);
             currentState = nextState;
-            OnExitState();
         }
     }
 
@@ -43,7 +43,11 @@ public class StateController : MonoBehaviour {
         chargeCount += 1;
     }
 
-    private void OnExitState() {
+    public void resetSkill() {
+        currentSkill = null;
+    }
+
+    public void resetCharge() {
         chargeCount = 0;
     }
 

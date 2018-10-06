@@ -7,6 +7,7 @@ public class State : ScriptableObject {
 
     public Action[] actions;
     public Transition[] transitions;
+    public Exit[] exits;
 
     public void UpdateState(StateController controller) {
         DoActions(controller);
@@ -29,6 +30,12 @@ public class State : ScriptableObject {
             else {
                 controller.TransitionToState(transitions[i].falseState);
             }
+        }
+    }
+
+    public void OnExitState(StateController controller) {
+        for (int i = 0; i < exits.Length; i++) {
+            exits[i].OnExit(controller);
         }
     }
 }
