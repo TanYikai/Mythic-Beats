@@ -10,7 +10,7 @@ public class AttackAction : Action {
     }
 
     private void attack(StateController controller) {
-        controller.currentSkill.doSkill(controller.getParent().transform.position);
+        controller.currentSkill.doSkill();
         controller.attackIsDone = true;
     }
 }
