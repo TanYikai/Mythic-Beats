@@ -37,20 +37,33 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public void doMovement(int movementNumber) {
+    public void doMovement() {
         Vector3 newPosition;
+        int movementNumber = Random.Range(0, 2);
+
         switch (movementNumber) {
-            //left
+            //left but right if at left boundary
             case 0: 
                 newPosition = transform.position + new Vector3(-1, 0, 0);
                 if (checkValidMovement(newPosition)) {
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
+                //temporary code
+                else {
+                    newPosition = transform.position + new Vector3(1, 0, 0);
+                    StartCoroutine(locationTransition(transform.position, newPosition));
+                }
+
                 break;
-            //right
+            //right but left if at right boundary
             case 1:
                 newPosition = transform.position + new Vector3(1, 0, 0);
                 if (checkValidMovement(newPosition)) {
+                    StartCoroutine(locationTransition(transform.position, newPosition));
+                }
+                //temporary code
+                else {
+                    newPosition = transform.position + new Vector3(-1, 0, 0);
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 break;
@@ -59,11 +72,11 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator locationTransition(Vector3 startPosition, Vector3 endPosition) {
         float currentAnimationTime = 0.0f;
-        float totalAnimationTime = 0.1f;
+        float totalAnimationTime = 0.05f;
         while (currentAnimationTime < totalAnimationTime) {
             currentAnimationTime += Time.deltaTime;
             transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

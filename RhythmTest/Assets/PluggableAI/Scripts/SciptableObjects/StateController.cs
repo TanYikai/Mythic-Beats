@@ -61,7 +61,15 @@ public class StateController : MonoBehaviour {
         return enemyScript.checkValidGeneralPosition(pos);
     }
 
-    public void doMovement(int movement) {
-        enemyScript.doMovement(movement);
+    public void doMovement() {
+        enemyScript.doMovement();
+    }
+
+    public bool decideMoveOrCharge() {
+        int value = Random.Range(0, 10);
+        if (value < 4) {
+            return false;
+        }
+        return true;
     }
 }
