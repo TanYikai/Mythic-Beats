@@ -26,6 +26,9 @@ public class Player : MonoBehaviour {
     // To allow debug without VR
     GameObject mainCamera;
 
+    // movement sound effects
+    private AudioSource[] movementSounds;
+
     // Use this for initialization
     void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
@@ -33,6 +36,8 @@ public class Player : MonoBehaviour {
         playerMovementRestrictor = new PlayerMovementRestrictor(enemy);
         combo = this.gameObject.GetComponent<Combo>();
         mainCamera = GameObject.Find("Main Camera");
+
+        movementSounds = GetComponents<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -55,6 +60,7 @@ public class Player : MonoBehaviour {
 
     private void doMovement() {
         Vector3 newPosition;
+        AudioSource sound;
 
         if (!rhythmController.IsTimeForPlayerAction) {
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))) {
@@ -67,6 +73,9 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, 1);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                sound = movementSounds[0];
+                sound.Play();
+
                 anim.SetBool("Up", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
@@ -76,6 +85,9 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(-1, 0, 0);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                sound = movementSounds[1];
+                sound.Play();
+
                 anim.SetBool("Left", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
@@ -85,6 +97,9 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, -1);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                sound = movementSounds[2];
+                sound.Play();
+
                 anim.SetBool("Down", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
@@ -94,6 +109,9 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(1, 0, 0);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                sound = movementSounds[3];
+                sound.Play();
+
                 anim.SetBool("Right", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
@@ -103,6 +121,7 @@ public class Player : MonoBehaviour {
 
     public void ExecuteKey(KeyCode keyCode, bool attackMode) {
         Vector3 newPosition;
+        AudioSource sound;
 
         if (!rhythmController.IsTimeForPlayerAction) {
             failBeat();
@@ -155,6 +174,9 @@ public class Player : MonoBehaviour {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, 1);
                 if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    sound = movementSounds[0];
+                    sound.Play();
+
                     anim.SetBool("Up", true);
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
@@ -164,6 +186,9 @@ public class Player : MonoBehaviour {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(-1, 0, 0);
                 if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    sound = movementSounds[1];
+                    sound.Play();
+
                     anim.SetBool("Left", true);
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
@@ -173,6 +198,9 @@ public class Player : MonoBehaviour {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(0, 0, -1);
                 if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    sound = movementSounds[2];
+                    sound.Play();
+
                     anim.SetBool("Down", true);
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
@@ -182,6 +210,9 @@ public class Player : MonoBehaviour {
                 rhythmController.IsTimeForPlayerAction = false;
                 newPosition = transform.position + new Vector3(1, 0, 0);
                 if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    sound = movementSounds[3];
+                    sound.Play();
+
                     anim.SetBool("Right", true);
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
