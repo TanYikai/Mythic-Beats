@@ -12,6 +12,7 @@ public class StateController : MonoBehaviour {
 
     private EnemySkillDecider skillDecider;
     private GameObject parent;
+    private Enemy enemyScript;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,7 @@ public class StateController : MonoBehaviour {
         skillDecider = new EnemySkillDecider();
 
         parent = this.gameObject;
+        enemyScript = gameObject.GetComponent<Enemy>();
 	}
 
     public void UpdateState() {
@@ -30,8 +32,8 @@ public class StateController : MonoBehaviour {
 
     public void TransitionToState(State nextState) {
         if (nextState != currentState) {
+            currentState.OnExitState(this);
             currentState = nextState;
-            OnExitState();
         }
     }
 
@@ -43,11 +45,31 @@ public class StateController : MonoBehaviour {
         chargeCount += 1;
     }
 
-    private void OnExitState() {
+    public void resetSkill() {
+        currentSkill = null;
+    }
+
+    public void resetCharge() {
         chargeCount = 0;
     }
 
     public GameObject getParent() {
         return parent;
+    }
+
+    public bool checkValidGeneralPosition(Vector3 pos) {
+        return enemyScript.checkValidGeneralPosition(pos);
+    }
+
+    public void doMovement() {
+        enemyScript.doMovement();
+    }
+
+    public bool decideMoveOrCharge() {
+        int value = Random.Range(0, 10);
+        if (value < 4) {
+            return false;
+        }
+        return true;
     }
 }

@@ -99,20 +99,20 @@ public class Rhythm : MonoBehaviour {
         StartCoroutine(checkForBeat());
     }
 
-    IEnumerator playDrumBeatLoop() {
-        Debug.Log(Time.time);
-        loopClip.PlayOneShot(loopClip.clip, 1.0f);
-        Debug.Log(Time.time);
-        yield return new WaitForSeconds(secondsPerBeat);
-        StartCoroutine(waitForNextBeat());
-        StartCoroutine(playDrumBeatLoop());
-    }
+    //IEnumerator playDrumBeatLoop() {
+    //    Debug.Log(Time.time);
+    //    loopClip.PlayOneShot(loopClip.clip, 1.0f);
+    //    Debug.Log(Time.time);
+    //    yield return new WaitForSeconds(secondsPerBeat);
+    //    StartCoroutine(waitForNextBeat());
+    //    StartCoroutine(playDrumBeatLoop());
+    //}
 
-    IEnumerator waitForNextBeat() {
-        float nextReadyTime = secondsPerBeat - actionTimeErrorMargin;
-        yield return new WaitForSeconds(nextReadyTime);
-        StartCoroutine(openWindowForAction());
-    }
+    //IEnumerator waitForNextBeat() {
+    //    float nextReadyTime = secondsPerBeat - actionTimeErrorMargin;
+    //    yield return new WaitForSeconds(nextReadyTime);
+    //    StartCoroutine(openWindowForAction());
+    //}
 
     IEnumerator openWindowForAction() {
         //Debug.Log("now");
