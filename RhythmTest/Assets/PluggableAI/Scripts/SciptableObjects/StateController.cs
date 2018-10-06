@@ -12,6 +12,7 @@ public class StateController : MonoBehaviour {
 
     private EnemySkillDecider skillDecider;
     private GameObject parent;
+    private Enemy enemyScript;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,7 @@ public class StateController : MonoBehaviour {
         skillDecider = new EnemySkillDecider();
 
         parent = this.gameObject;
+        enemyScript = gameObject.GetComponent<Enemy>();
 	}
 
     public void UpdateState() {
@@ -53,5 +55,13 @@ public class StateController : MonoBehaviour {
 
     public GameObject getParent() {
         return parent;
+    }
+
+    public bool checkValidGeneralPosition(Vector3 pos) {
+        return enemyScript.checkValidGeneralPosition(pos);
+    }
+
+    public void doMovement(int movement) {
+        enemyScript.doMovement(movement);
     }
 }

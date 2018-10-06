@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour {
 
     private Rhythm rhythmController;
     private StateController controller;
+    private EnemyBoundaryChecker boundaryChecker;
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,8 @@ public class Enemy : MonoBehaviour {
         rhythmController.onBeat += doEnemyAction;
 
         controller = this.gameObject.GetComponent<StateController>();
+
+        boundaryChecker = new EnemyBoundaryChecker();
     }
 
     private void doEnemyAction() {
@@ -34,31 +37,20 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    private void doMovement() {
+    public void doMovement(int movementNumber) {
         Vector3 newPosition;
-        int movementNumber = Random.Range(0, 4);
         switch (movementNumber) {
-            case 0:
-                newPosition = transform.position + new Vector3(0, 0, 2);
-                if (checkValidPosition(newPosition)) {
+            //left
+            case 0: 
+                newPosition = transform.position + new Vector3(-1, 0, 0);
+                if (checkValidMovement(newPosition)) {
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 break;
+            //right
             case 1:
-                newPosition = transform.position + new Vector3(-2, 0, 0);
-                if (checkValidPosition(newPosition)) {
-                    StartCoroutine(locationTransition(transform.position, newPosition));
-                }
-                break;
-            case 2:
-                newPosition = transform.position + new Vector3(0, 0, -2);
-                if (checkValidPosition(newPosition)) {
-                    StartCoroutine(locationTransition(transform.position, newPosition));
-                }
-                break;
-            case 3:
-                newPosition = transform.position + new Vector3(2, 0, 0);
-                if (checkValidPosition(newPosition)) {
+                newPosition = transform.position + new Vector3(1, 0, 0);
+                if (checkValidMovement(newPosition)) {
                     StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 break;
@@ -75,10 +67,12 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    private bool checkValidPosition(Vector3 position) {
-        if (position.x < -4 || position.x > 4 || position.z < -4 || position.z > 4) {
-            return false;
-        }
-        return true;
+    private bool checkValidMovement(Vector3 pos) {
+        return boundaryChecker.checkValidMovement(pos);
     }
+
+    public bool checkValidGeneralPosition(Vector3 pos) {
+        return boundaryChecker.checkValidGeneralPosition(pos);
+    }
+
 }

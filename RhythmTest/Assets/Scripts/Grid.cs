@@ -12,8 +12,8 @@ public class Grid : MonoBehaviour {
 
     private int rows;
     private int columns;
-    private int gridICorrectedValue;
-    private int gridJCorrectedValue;
+    private int gridICorrectionValue;
+    private int gridJCorrectionValue;
 
     GameObject[,] grid;
 
@@ -28,8 +28,8 @@ public class Grid : MonoBehaviour {
     void Init () {
         rows = 6;
         columns = 9;
-        gridICorrectedValue = (int)Mathf.Floor(rows / 2.0f);
-        gridJCorrectedValue = (int)Mathf.Floor(columns / 2.0f);
+        gridICorrectionValue = 3; //(int)Mathf.Floor(rows / 2.0f);
+        gridJCorrectionValue = 4; //(int)Mathf.Floor(columns / 2.0f);
 
         setupGrid();
 	}
@@ -66,8 +66,8 @@ public class Grid : MonoBehaviour {
     }
 
     private void changeFromArrayIndexToGridIndex(int i, int j, out int gridI, out int gridJ) {
-        gridI = Mathf.Abs(i - gridICorrectedValue);
-        gridJ = j + gridJCorrectedValue;
+        gridI = Mathf.Abs(i - gridICorrectionValue);
+        gridJ = j + gridJCorrectionValue;
     }
 
     private void print() {
