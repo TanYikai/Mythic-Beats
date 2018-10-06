@@ -19,7 +19,7 @@ public class ColumnAttack : EnemySkills {
         for (int i = 1; i < 9; i++) {
             Vector3 targetPosition = position + new Vector3(columnSelected, 0, -i);
             GameObject spell = GameObject.Instantiate(spells);
-            spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+            spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemy1");
         }
     }
 }
