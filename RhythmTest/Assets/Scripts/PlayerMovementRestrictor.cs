@@ -14,8 +14,8 @@ public class PlayerMovementRestrictor : MonoBehaviour {
         this.enemy = enemy;
         leftBoundary = -4;
         rightBoundary = 4;
-        backBoundary = -4;
-        frontBoundary = (int) (enemy.transform.position.z - 2);
+        backBoundary = -2;
+        frontBoundary = (int) (enemy.transform.position.z - 1);
     }
 
     public bool checkValidPosition(Vector3 position) {
