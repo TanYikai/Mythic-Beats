@@ -17,8 +17,9 @@ public class Player : MonoBehaviour {
     private Rhythm rhythmController;
     private PlayerMovementRestrictor playerMovementRestrictor;
     private GameObject enemy;
+    public Animator anim;
 
-    private string comboStack;
+    //private string comboStack;
 
     private Combo combo;
 
@@ -30,23 +31,24 @@ public class Player : MonoBehaviour {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         enemy = GameObject.Find("Enemy");
         playerMovementRestrictor = new PlayerMovementRestrictor(enemy);
-        comboStack = "";
         combo = this.gameObject.GetComponent<Combo>();
         mainCamera = GameObject.Find("Main Camera");
     }
 	
 	// Update is called once per frame
 	void Update () {
+        anim.SetBool("Up", false);
+        anim.SetBool("Down", false);
+        anim.SetBool("Left", false);
+        anim.SetBool("Right", false);
+
+
         if (mainCamera) {
             if (Input.GetButton("Fire1")) {
-                if (rhythmController.IsTimeForPlayerAction) {
-                    doCombo();
-                }
+                doAttack();
             }
             else {
-                if (rhythmController.IsTimeForPlayerAction) {
-                    doMovement();
-                }
+                doMovement();
             }
         }
 	}
@@ -54,10 +56,18 @@ public class Player : MonoBehaviour {
     private void doMovement() {
         Vector3 newPosition;
 
+        if (!rhythmController.IsTimeForPlayerAction) {
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))) {
+                failBeat();
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, 1);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                anim.SetBool("Up", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
@@ -66,6 +76,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(-1, 0, 0);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                anim.SetBool("Left", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
@@ -74,6 +85,7 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, -1);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                anim.SetBool("Down", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
@@ -82,100 +94,96 @@ public class Player : MonoBehaviour {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(1, 0, 0);
             if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                anim.SetBool("Right", true);
                 StartCoroutine(locationTransition(transform.position, newPosition));
             }
             return;
         }
     }
 
-    public void ExecuteKey(KeyCode keyCode, bool comboMode) {
+    public void ExecuteKey(KeyCode keyCode, bool attackMode) {
         Vector3 newPosition;
 
         if (!rhythmController.IsTimeForPlayerAction) {
-            Debug.Log("Missed the beat");
+            failBeat();
             return;
         }
 
-        if (comboMode)
-        {
-            if (keyCode == (KeyCode.Space))
-            {
+        if (attackMode) {
+            if (keyCode == (KeyCode.W)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                executeCombo();
+                if (combo.addToStack("Up")){
+                    StartCoroutine(specialTransition());
+                } else {
+                    StartCoroutine(attackTransition());
+                }
                 return;
             }
-            if (keyCode == (KeyCode.W))
-            {
+            if (keyCode == (KeyCode.A)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.up;
-                Debug.Log(comboStack);
+                if (combo.addToStack("Left")) {
+                    StartCoroutine(specialTransition());
+                }
+                else {
+                    StartCoroutine(attackTransition());
+                }
                 return;
             }
-            if (keyCode == (KeyCode.A))
-            {
+            if (keyCode == (KeyCode.S)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.left;
-                Debug.Log(comboStack);
+                if (combo.addToStack("Down")) {
+                    StartCoroutine(specialTransition());
+                }
+                else {
+                    StartCoroutine(attackTransition());
+                }
                 return;
             }
-            if (keyCode == (KeyCode.S))
-            {
+            if (keyCode == (KeyCode.D)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.down;
-                Debug.Log(comboStack);
-                return;
-            }
-            if (keyCode == (KeyCode.D))
-            {
-                rhythmController.IsTimeForPlayerAction = false;
-                checkAndUpdateIfComboIsTooLong();
-                comboStack = comboStack + (int)ComboDirection.right;
-                Debug.Log(comboStack);
+                if (combo.addToStack("Right")) {
+                    StartCoroutine(specialTransition());
+                }
+                else {
+                    StartCoroutine(attackTransition());
+                }
                 return;
             }
         }
-        else
-        {
-            if (keyCode == (KeyCode.W))
-            {
+        else {
+            if (keyCode == (KeyCode.W)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                newPosition = transform.position + new Vector3(0, 0, 2);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
-                    transform.position = newPosition;
+                newPosition = transform.position + new Vector3(0, 0, 1);
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    anim.SetBool("Up", true);
+                    StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 return;
             }
-            if (keyCode == (KeyCode.A))
-            {
+            if (keyCode == (KeyCode.A)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                newPosition = transform.position + new Vector3(-2, 0, 0);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
-                    transform.position = newPosition;
+                newPosition = transform.position + new Vector3(-1, 0, 0);
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    anim.SetBool("Left", true);
+                    StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 return;
             }
-            if (keyCode == (KeyCode.S))
-            {
+            if (keyCode == (KeyCode.S)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                newPosition = transform.position + new Vector3(0, 0, -2);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
-                    transform.position = newPosition;
+                newPosition = transform.position + new Vector3(0, 0, -1);
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    anim.SetBool("Down", true);
+                    StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 return;
             }
-            if (keyCode == (KeyCode.D))
-            {
+            if (keyCode == (KeyCode.D)) {
                 rhythmController.IsTimeForPlayerAction = false;
-                newPosition = transform.position + new Vector3(2, 0, 0);
-                if (playerMovementRestrictor.checkValidPosition(newPosition))
-                {
-                    transform.position = newPosition;
+                newPosition = transform.position + new Vector3(1, 0, 0);
+                if (playerMovementRestrictor.checkValidPosition(newPosition)) {
+                    anim.SetBool("Right", true);
+                    StartCoroutine(locationTransition(transform.position, newPosition));
                 }
                 return;
             }
@@ -183,48 +191,59 @@ public class Player : MonoBehaviour {
 
     }
 
-    private void doCombo() {
+    private void doAttack() {
         //if (Input.GetKeyDown(KeyCode.A) && Input.GetKeyDown(KeyCode.D)) { // for easier testing
-        if (Input.GetKeyDown(KeyCode.Space)) { 
-            rhythmController.IsTimeForPlayerAction = false;
-            executeCombo();
+
+
+        if (!rhythmController.IsTimeForPlayerAction) {
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D))) {
+                failBeat();
+            }
             return;
         }
+
+
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
-            checkAndUpdateIfComboIsTooLong();
-            comboStack = comboStack + (int)ComboDirection.up;
-            Debug.Log(comboStack);
+            if (combo.addToStack("Up")) {
+                StartCoroutine(specialTransition());
+            }
+            else {
+                StartCoroutine(attackTransition());
+            }       
             return;
         }
         if (Input.GetKeyDown(KeyCode.A)) {
             rhythmController.IsTimeForPlayerAction = false;
-            checkAndUpdateIfComboIsTooLong();
-            comboStack = comboStack + (int)ComboDirection.left;
-            Debug.Log(comboStack);
+            if (combo.addToStack("Left")) {
+                StartCoroutine(specialTransition());
+            }
+            else {
+                StartCoroutine(attackTransition());
+            }
             return;
         }
         if (Input.GetKeyDown(KeyCode.S)) {
             rhythmController.IsTimeForPlayerAction = false;
-            checkAndUpdateIfComboIsTooLong();
-            comboStack = comboStack + (int)ComboDirection.down;
-            Debug.Log(comboStack);
+            if (combo.addToStack("Down")) {
+                StartCoroutine(specialTransition());
+            }
+            else {
+                StartCoroutine(attackTransition());
+            }
             return;
         }
         if (Input.GetKeyDown(KeyCode.D)) {
             rhythmController.IsTimeForPlayerAction = false;
-            checkAndUpdateIfComboIsTooLong();
-            comboStack = comboStack + (int)ComboDirection.right;
-            Debug.Log(comboStack);
+            if (combo.addToStack("Right")) {
+                StartCoroutine(specialTransition());
+            }
+            else {
+                StartCoroutine(attackTransition());
+            }
             return;
         }
 
-    }
-
-    private void executeCombo() {
-        Debug.Log("combo executed");
-        combo.determineCombo(comboStack);
-        comboStack = "";
     }
 
     IEnumerator locationTransition(Vector3 startPosition, Vector3 endPosition) {
@@ -237,11 +256,41 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void checkAndUpdateIfComboIsTooLong() {
-        if (comboStack.Length >= lengthOfCombo) {
-            comboStack = "";
+    IEnumerator attackTransition() {
+        
+        float currentAnimationTime = 0.0f;
+        float totalAnimationTime = 0.3f;
+        while (currentAnimationTime < totalAnimationTime) {
+            currentAnimationTime += Time.deltaTime;
+            yield return new WaitForSeconds(0.01f);
         }
+        resetAttackAnimation();
     }
+
+    IEnumerator specialTransition() {
+        
+        //float currentAnimationTime = 0.0f;
+        //float totalAnimationTime = 0.3f;
+        rhythmController.IsSpecialOccurring = true;
+        //while (currentAnimationTime < totalAnimationTime) {
+            //currentAnimationTime += Time.deltaTime;
+            yield return new WaitForSeconds(2f);
+        //}
+        resetAttackAnimation();
+        Debug.Log("Special Transition");
+        anim.SetBool("SpcAtk", false);
+        rhythmController.IsSpecialOccurring = false;
+    }
+
+
+    private void resetAttackAnimation() {
+        anim.SetBool("UpAtk", false);
+        anim.SetBool("DownAtk", false);
+        anim.SetBool("LeftAtk", false);
+        anim.SetBool("RightAtk", false);
+    }
+
+    
 
     public void takeDamage() {
         playerHealth--;
@@ -253,6 +302,10 @@ public class Player : MonoBehaviour {
             Debug.Log("player dead");
             Destroy(this.gameObject);
         }
+    }
+
+    private void failBeat() {
+        rhythmController.IsNextWindowDisabled = true;
     }
 
 }

@@ -15,6 +15,8 @@ public class Rhythm : MonoBehaviour {
     private float actionTimeErrorMargin; // half the error margin time
     private float secondsPerBeat;
     private bool isActionWindowOpenedBeforeThisBeat;
+    public bool isNextWindowDisabled;
+    public bool isSpecialOccurring;
 
     public delegate void OnBeat();
 
@@ -33,6 +35,8 @@ public class Rhythm : MonoBehaviour {
         introClip = clips[0];
         loopClip = clips[1];
         isActionWindowOpenedBeforeThisBeat = false;
+        isNextWindowDisabled = false;
+        isSpecialOccurring = false;
 
         //StartCoroutine(waitForNextBeat());
         //StartCoroutine(playDrumBeatLoop());
@@ -53,6 +57,24 @@ public class Rhythm : MonoBehaviour {
         }
         set {
             isTimeForPlayerAction = value;
+        }
+    }
+
+    public bool IsNextWindowDisabled {
+        get {
+            return isNextWindowDisabled;
+        }
+        set {
+            isNextWindowDisabled = value;
+        }
+    }
+
+    public bool IsSpecialOccurring {
+        get {
+            return isSpecialOccurring;
+        }
+        set {
+            isSpecialOccurring = value;
         }
     }
 
@@ -94,10 +116,26 @@ public class Rhythm : MonoBehaviour {
 
     IEnumerator openWindowForAction() {
         //Debug.Log("now");
-        isTimeForPlayerAction = true;
-        isActionWindowOpenedBeforeThisBeat = true;
-        yield return new WaitForSeconds(timeDurationForAction);
-        isTimeForPlayerAction = false;
-        isActionWindowOpenedBeforeThisBeat = false;
+        if (isSpecialOccurring) {
+            Debug.Log("This window is closed due to special");
+            yield return new WaitForSeconds(timeDurationForAction);
+            isTimeForPlayerAction = false;
+            isActionWindowOpenedBeforeThisBeat = false;
+            isNextWindowDisabled = false;
+        } else if (!isNextWindowDisabled) {
+            isTimeForPlayerAction = true;
+            isActionWindowOpenedBeforeThisBeat = true;
+            yield return new WaitForSeconds(timeDurationForAction);
+            isTimeForPlayerAction = false;
+            isActionWindowOpenedBeforeThisBeat = false;
+            isNextWindowDisabled = false;
+        }
+        else {
+            Debug.Log("This window is closed due to a failed beat");
+            yield return new WaitForSeconds(timeDurationForAction);
+            isTimeForPlayerAction = false;
+            isActionWindowOpenedBeforeThisBeat = false;
+            isNextWindowDisabled = false;
+        }
     }   
 }

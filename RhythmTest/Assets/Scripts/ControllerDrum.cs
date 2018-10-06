@@ -6,8 +6,9 @@ using UnityEngine.Events;
 public class ControllerDrum : MonoBehaviour {
 
     public GameObject player;
+    public GameObject rhythm;
     public KeyCode keyCode;
-    private bool comboMode = false;
+    private bool attackMode = false;
 
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
@@ -15,6 +16,7 @@ public class ControllerDrum : MonoBehaviour {
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
     private Player playerRef;
+    private Rhythm rhythmRef;
     private UnityAction toggleOnListener;
     private UnityAction toggleOffListener;
 
@@ -22,20 +24,28 @@ public class ControllerDrum : MonoBehaviour {
         EventManager.StartListening("ToggleOn", toggleOnListener);
         EventManager.StartListening("ToggleOff", toggleOffListener);
         playerRef = player.GetComponent<Player>();
+        rhythmRef = rhythm.GetComponent<Rhythm>();
     }
 
 
-    private void Awake()
-    {
+    private void Awake() {
         toggleOnListener = new UnityAction(ToggleOn);
         toggleOffListener = new UnityAction(ToggleOff);
     }
 
+    private void Update() {
+        if (rhythmRef.IsNextWindowDisabled || rhythmRef.IsSpecialOccurring) {
+            this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else {
+            this.gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
-        if (comboMode) {
-            if (collider.CompareTag("DrumStick"))
-            {
+        if (attackMode) {
+            if (collider.CompareTag("DrumStick")) {
                 Debug.Log("Sending " + keyCode + " (combo)");
                 playerRef.ExecuteKey(keyCode, true);
             }
@@ -49,13 +59,13 @@ public class ControllerDrum : MonoBehaviour {
     }
 
     private void ToggleOn() {
-        comboMode = true;
-        this.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        attackMode = true;
+        Debug.Log("attackMode ON");
     }
 
     private void ToggleOff() {
-        comboMode = false;
-        this.gameObject.GetComponent<Renderer>().material.color = Color.white;
+        attackMode = false;
+        Debug.Log("attackMode OFF");
     }
 
 }
