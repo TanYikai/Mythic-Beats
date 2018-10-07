@@ -13,6 +13,8 @@ public abstract class EnemySkills {
         return chargeRequired;
     }
 
-    public abstract void doSkill(Vector3 position);
+    public abstract void doSkill();
+
+    public abstract void handleTelegraphAttack(Vector3 position, int stage);
 }
 

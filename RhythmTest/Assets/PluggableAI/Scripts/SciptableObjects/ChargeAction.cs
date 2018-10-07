@@ -16,5 +16,13 @@ public class ChargeAction : Action {
         }
 
         controller.incrementCharge();
+
+        showTelegraphAttack(controller);
+    }
+
+    private void showTelegraphAttack(StateController controller) {
+        int chargeLeft = controller.currentSkill.getCharge() - controller.chargeCount;
+
+        controller.currentSkill.handleTelegraphAttack(controller.getParent().transform.position, chargeLeft);
     }
 }
