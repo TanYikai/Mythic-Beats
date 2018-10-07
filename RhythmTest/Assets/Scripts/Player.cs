@@ -278,7 +278,10 @@ public class Player : MonoBehaviour {
         //}
         resetAttackAnimation();
         Debug.Log("Special Transition");
-        anim.SetBool("SpcAtk", false);
+        anim.SetBool("C1Atk", false);
+        anim.SetBool("C2Atk", false);
+        anim.SetBool("C3Atk", false);
+        anim.SetBool("C4Atk", false);
         rhythmController.IsSpecialOccurring = false;
     }
 

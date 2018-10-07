@@ -96,16 +96,19 @@ public class Combo : MonoBehaviour {
                     attackRight();
                     break;
                 case "LeftUpDownRight":
-                anim.SetBool("SpcAtk", true);
-                Debug.Log("LeftUpDownRight combo happened");
+                    anim.SetBool("C1Atk", true);
+                    Debug.Log("LeftUpDownRight combo happened");
                     break;
                 case "LeftRightUpDown":
+                    anim.SetBool("C2Atk", true);
                     Debug.Log("LeftRightUpDown combo happened");
                     break;
                 case "LeftRightLeftRight":
+                    anim.SetBool("C3Atk", true);
                     Debug.Log("LeftRightLeftRight combo happened");
                     break;
                 case "LeftDownUpRight":
+                    anim.SetBool("C4Atk", true);
                     Debug.Log("LeftDownUpRight combo happened");
                     break;
                 default:
