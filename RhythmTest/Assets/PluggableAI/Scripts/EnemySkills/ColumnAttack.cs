@@ -21,7 +21,7 @@ public class ColumnAttack : EnemySkills {
 
     public override void doSkill() {
         Debug.Log("do column attack");
-
+        
         for (int i = columnStartIndex; i < columnEndIndex+1; i++) {
             DamageController.instance.checkAndDoDamageToPlayer(i, firstColumnSelected);
             DamageController.instance.checkAndDoDamageToPlayer(i, secondColumnSelected);

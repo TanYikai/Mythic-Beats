@@ -43,7 +43,7 @@ public class Rhythm : MonoBehaviour {
         introClip.Play();
         loopClip.PlayDelayed(introClip.clip.length);
 
-        StartCoroutine(waitForIntro());
+        StartCoroutine(checkForBeat());
     }
 
     // Update is called once per frame
@@ -82,6 +82,7 @@ public class Rhythm : MonoBehaviour {
         StartCoroutine(openWindowForAction());
     }
 
+    // Not Used. Initially want to wait for 8 beats before able to start moving
     IEnumerator waitForIntro() {
         yield return new WaitForSeconds(introClip.clip.length - 0.05f); // minus 0.05 because of optimization in checkForBeat()
         StartCoroutine(checkForBeat());
