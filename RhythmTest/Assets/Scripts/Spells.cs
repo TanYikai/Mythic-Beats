@@ -30,56 +30,101 @@ public class Spells : MonoBehaviour {
     void StartEffect() {
         GameObject spell;
         AudioSource sound;
-        
+        Vector3 playerPos = user.transform.position;
+
         switch (type) {
             case "bFront":
-                Debug.Log("attack front");
+                // attack effects
                 spell = Instantiate(effects[0], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
+                // sound
                 sound = soundEffects[0];
                 sound.Play();
+                // damage
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x));
                 break;
             case "bBack":
+                // attack effects
                 spell = Instantiate(effects[1], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
+                // sound
                 sound = soundEffects[1];
                 sound.Play();
+                // damage
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x));
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 2, Mathf.RoundToInt(playerPos.x));
                 break;
             case "bLeft":
+                // attack effects
                 spell = Instantiate(effects[2], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
                 spell = Instantiate(effects[3], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
+                // sound
                 sound = soundEffects[2];
                 sound.Play();
+                // damaage
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x) -1);
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 2, Mathf.RoundToInt(playerPos.x) -1);
                 break;
             case "bRight":
+                // attack effects
                 spell = Instantiate(effects[2], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
                 spell = Instantiate(effects[3], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
+                // sound
                 sound = soundEffects[3];
                 sound.Play();
+                // damage
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x) + 1);
+                DamageController.instance.checkAndDoDamageToEnemy(Mathf.RoundToInt(playerPos.z) + 2, Mathf.RoundToInt(playerPos.x) + 1);
                 break;
             case "combo1":
+                // attack effects
                 spell = Instantiate(effects[4], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
+                // sound
                 sound = soundEffects[4];
                 sound.Play();
+                // damage
+                int rowIndex = Mathf.RoundToInt(playerPos.z);
+                int colIndex = Mathf.RoundToInt(playerPos.x);
+
+                for (int i = rowIndex + 1; i <= rowIndex + 3; i++) {
+                    DamageController.instance.checkAndDoDamageToEnemy(i, colIndex - 1);
+                    DamageController.instance.checkAndDoDamageToEnemy(i, colIndex);
+                    DamageController.instance.checkAndDoDamageToEnemy(i, colIndex + 1);
+                }
                 break;
             case "combo2":
+                // attack effects
                 spell = Instantiate(effects[5], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
+                //sound
                 sound = soundEffects[5];
                 sound.Play();
+                // damage checks using collision box
                 break;
             case "combo3":
+                // attack effects
                 spell = Instantiate(effects[6], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
+                //sound
                 sound = soundEffects[6];
                 sound.Play();
+                // damage
+                rowIndex = Mathf.RoundToInt(playerPos.z);
+                int colStartIndex = -4;
+                int colEndIndex = 4;
+
+                for (int i = colStartIndex; i <= colEndIndex; i++) {
+                    DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 1, i);
+                    DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 2, i);
+                }
                 break;
             case "combo4":
+                // attack effects
                 Vector3 leftTonardo = position + new Vector3(1f, 0, 0);
                 Vector3 righttTonardo = position + new Vector3(-1f, 0, 0);
                 spell = Instantiate(effects[7], position, Quaternion.identity, transform) as GameObject;
@@ -90,8 +135,14 @@ public class Spells : MonoBehaviour {
                 Destroy(spell, 2f);
                 spell = Instantiate(effects[8], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
+                // sound
                 sound = soundEffects[7];
                 sound.Play();
+                // damage
+                rowIndex = Mathf.RoundToInt(playerPos.z);
+                DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 1, Mathf.RoundToInt(playerPos.x) - 1);
+                DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 1, Mathf.RoundToInt(playerPos.x));
+                DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 1, Mathf.RoundToInt(playerPos.x) + 1);
                 break;
         }
     }
