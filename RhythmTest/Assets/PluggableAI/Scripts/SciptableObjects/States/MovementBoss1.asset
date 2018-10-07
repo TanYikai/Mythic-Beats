@@ -11,6 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d99a3f3868717e947b3f44d18a5cb079, type: 3}
   m_Name: MovementBoss1
   m_EditorClassIdentifier: 
-  actions: []
-  transitions: []
-  exits: []
+  actions:
+  - {fileID: 11400000, guid: 9fefcd17c8c74c64f931d9e5e261ad72, type: 2}
+  transitions:
+  - decision: {fileID: 11400000, guid: 02a40501281e8594ea8fc1ac438ad510, type: 2}
+    trueState: {fileID: 11400000, guid: 51aa7e935e4713a40abc9c1fa4511fc7, type: 2}
+    falseState: {fileID: 11400000}
+  exits:
+  - {fileID: 11400000, guid: f7d81b889c8b52245b642ff1cac10ac3, type: 2}
+  toSelectOnlyOneTransition: 0
+  selectionWeights: 
