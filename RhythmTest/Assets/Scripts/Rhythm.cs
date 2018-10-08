@@ -17,13 +17,16 @@ public class Rhythm : MonoBehaviour {
     private bool isActionWindowOpenedBeforeThisBeat;
     public bool isNextWindowDisabled;
     public bool isSpecialOccurring;
+    private bool isTimeForEnemyAction;
 
     public delegate void OnBeat();
 
-    public event OnBeat onBeat;
+    public event OnBeat onPlayerBeat;
+    public event OnBeat onEnemyBeat;
 
     void OnEnable () {
-        onBeat += openWindowForActionHandler;
+        onPlayerBeat += openWindowForPlayerActionHandler;
+        onEnemyBeat += openWindowForEnemyActionHandler;
     }
 
     // Use this for initialization
@@ -37,6 +40,7 @@ public class Rhythm : MonoBehaviour {
         isActionWindowOpenedBeforeThisBeat = false;
         isNextWindowDisabled = false;
         isSpecialOccurring = false;
+        isTimeForEnemyAction = true;
 
         //StartCoroutine(waitForNextBeat());
         //StartCoroutine(playDrumBeatLoop());
@@ -78,8 +82,12 @@ public class Rhythm : MonoBehaviour {
         }
     }
 
-    void openWindowForActionHandler() {
-        StartCoroutine(openWindowForAction());
+    void openWindowForPlayerActionHandler() {
+        StartCoroutine(openWindowForPlayerAction());
+    }
+
+    void openWindowForEnemyActionHandler() {
+        StartCoroutine(openWindowForEnemyAction());
     }
 
     // Not Used. Initially want to wait for 8 beats before able to start moving
@@ -92,11 +100,17 @@ public class Rhythm : MonoBehaviour {
         yield return new WaitForSeconds(0.05f); // optimization to only do this check every 0.05s
 
         float moduloCurrSongTime = loopClip.time % secondsPerBeat;
-        if (!isActionWindowOpenedBeforeThisBeat && (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin))) {
-            if (onBeat != null) {
-                onBeat();
+        if (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin)) {
+            if (!isActionWindowOpenedBeforeThisBeat && onPlayerBeat != null) {
+                onPlayerBeat();
             }
-        }   
+        }
+
+        if (isTimeForEnemyAction && onEnemyBeat != null)
+        {
+            onEnemyBeat();
+        }
+
         StartCoroutine(checkForBeat());
     }
 
@@ -115,7 +129,7 @@ public class Rhythm : MonoBehaviour {
     //    StartCoroutine(openWindowForAction());
     //}
 
-    IEnumerator openWindowForAction() {
+    IEnumerator openWindowForPlayerAction() {
         //Debug.Log("now");
         if (isSpecialOccurring) {
             Debug.Log("This window is closed due to special");
@@ -138,5 +152,11 @@ public class Rhythm : MonoBehaviour {
             isActionWindowOpenedBeforeThisBeat = false;
             isNextWindowDisabled = false;
         }
-    }   
+    }
+
+    IEnumerator openWindowForEnemyAction() {
+        isTimeForEnemyAction = false;
+        yield return new WaitForSeconds(timeDurationForAction);
+        isTimeForEnemyAction = true;
+    }
 }

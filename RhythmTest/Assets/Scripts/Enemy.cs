@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
-        rhythmController.onBeat += doEnemyAction;
+        rhythmController.onEnemyBeat += doEnemyAction;
 
         controller = this.gameObject.GetComponent<StateController>();
 
