@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour {
     }
 
     public void takeDamage() {
-        Debug.Log("damage taken");
+        Debug.Log("enemy damage taken");
         health--;
         checkAndDestroyIfDead();
     }
