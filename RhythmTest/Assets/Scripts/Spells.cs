@@ -115,8 +115,9 @@ public class Spells : MonoBehaviour {
                 sound.Play();
                 // damage
                 rowIndex = Mathf.RoundToInt(playerPos.z);
-                int colStartIndex = -4;
-                int colEndIndex = 4;
+                colIndex = Mathf.RoundToInt(playerPos.x);
+                int colStartIndex = colIndex - 4;
+                int colEndIndex = colIndex + 4;
 
                 for (int i = colStartIndex; i <= colEndIndex; i++) {
                     DamageController.instance.checkAndDoDamageToEnemy(rowIndex + 1, i);

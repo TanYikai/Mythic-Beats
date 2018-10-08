@@ -32,7 +32,8 @@ public class DamageController : MonoBehaviour {
     }
 
     public void checkAndDoDamageToEnemy(int i, int j) {
-        Debug.Log("Enemy check: " + i + " " + j);
+        //Debug.Log("Enemy location: " + Mathf.RoundToInt(enemy.transform.position.z) + " " + Mathf.RoundToInt(enemy.transform.position.x));
+        //Debug.Log("Enemy check: " + i + " " + j);
         if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x) == j) {
             doDamageToEnemy();
         } else if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x-1) == j) {
