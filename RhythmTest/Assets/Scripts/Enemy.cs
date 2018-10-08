@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     private Rhythm rhythmController;
     private StateController controller;
     private EnemyBoundaryChecker boundaryChecker;
+    private GameObject enemy;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,8 @@ public class Enemy : MonoBehaviour {
         controller = this.gameObject.GetComponent<StateController>();
 
         boundaryChecker = new EnemyBoundaryChecker();
+
+        enemy = this.gameObject.transform.parent.gameObject;
     }
 
     private void doEnemyAction() {
@@ -44,27 +47,27 @@ public class Enemy : MonoBehaviour {
         switch (movementNumber) {
             //left but right if at left boundary
             case 0: 
-                newPosition = transform.position + new Vector3(-1, 0, 0);
+                newPosition = enemy.transform.position + new Vector3(-1, 0, 0);
                 if (checkValidMovement(newPosition)) {
-                    StartCoroutine(locationTransition(transform.position, newPosition));
+                    StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 //temporary code
                 else {
-                    newPosition = transform.position + new Vector3(1, 0, 0);
-                    StartCoroutine(locationTransition(transform.position, newPosition));
+                    newPosition = enemy.transform.position + new Vector3(1, 0, 0);
+                    StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
 
                 break;
             //right but left if at right boundary
             case 1:
-                newPosition = transform.position + new Vector3(1, 0, 0);
+                newPosition = enemy.transform.position + new Vector3(1, 0, 0);
                 if (checkValidMovement(newPosition)) {
-                    StartCoroutine(locationTransition(transform.position, newPosition));
+                    StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 //temporary code
                 else {
-                    newPosition = transform.position + new Vector3(-1, 0, 0);
-                    StartCoroutine(locationTransition(transform.position, newPosition));
+                    newPosition = enemy.transform.position + new Vector3(-1, 0, 0);
+                    StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 break;
         }
@@ -75,7 +78,7 @@ public class Enemy : MonoBehaviour {
         float totalAnimationTime = 0.05f;
         while (currentAnimationTime < totalAnimationTime) {
             currentAnimationTime += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
+            enemy.transform.position = Vector3.Lerp(startPosition, endPosition, currentAnimationTime / totalAnimationTime);
             yield return new WaitForSeconds(0.01f);
         }
     }
