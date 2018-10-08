@@ -34,7 +34,7 @@ public class ControllerDrum : MonoBehaviour {
     }
 
     private void Update() {
-        if (rhythmRef.IsNextWindowDisabled || rhythmRef.IsSpecialOccurring) {
+        if (rhythmRef.beatsDenied > 0 || rhythmRef.IsSpecialOccurring) {
             this.gameObject.GetComponent<Renderer>().material.color = Color.red;
         }
         else {

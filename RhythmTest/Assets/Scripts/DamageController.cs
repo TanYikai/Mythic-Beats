@@ -33,24 +33,27 @@ public class DamageController : MonoBehaviour {
         }
     }
 
-    public void checkAndDoDamageToEnemy(int i, int j) {
+    public bool checkIfEnemyIsInRange(int i, int j) {
         //Debug.Log("Enemy location: " + Mathf.RoundToInt(enemyMesh.transform.position.z) + " " + Mathf.RoundToInt(enemyMesh.transform.position.x));
         //Debug.Log("Enemy check: " + i + " " + j);
         if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x) == j) {
-            doDamageToEnemy();
+            return true;
         } else if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x-1) == j) {
-            doDamageToEnemy();
+            return true;
         }
         else if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x+1) == j) {
-            doDamageToEnemy();
+            return true;
         }
+
+        return false;
     }
 
-    private void doDamageToPlayer() {
+
+    public void doDamageToPlayer() {
         playerScript.takeDamage();
     }
 
-    private void doDamageToEnemy() {
-        enemyScript.takeDamage();
+    public void doDamageToEnemy(int dmg) {
+        enemyScript.takeDamage(dmg);
     }
 }

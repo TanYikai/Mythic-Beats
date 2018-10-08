@@ -27,9 +27,15 @@ public class Enemy : MonoBehaviour {
         controller.UpdateState();
     }
 
-    public void takeDamage() {
+    public void takeDamage(int dmg) {
         Debug.Log("enemy damage taken");
-        health--;
+        if (health - dmg >= 0) {
+            health -= dmg;
+        }
+        else {
+            health = 0;
+        }
+        EventManager.TriggerEvent("ReduceEnemyHP");
         checkAndDestroyIfDead();
     }
 

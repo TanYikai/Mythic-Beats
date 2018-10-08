@@ -329,8 +329,8 @@ public class Player : MonoBehaviour {
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
-        checkAndDestroyIfDead();
         EventManager.TriggerEvent("ReducePlayerHP");
+        checkAndDestroyIfDead();
     }
 
     private void checkAndDestroyIfDead() {
@@ -341,7 +341,7 @@ public class Player : MonoBehaviour {
     }
 
     private void failBeat() {
-        rhythmController.IsNextWindowDisabled = true;
+        rhythmController.denyPlayerBeatWindow(1);
     }
 
 }

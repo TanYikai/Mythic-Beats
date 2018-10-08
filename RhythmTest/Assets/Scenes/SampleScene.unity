@@ -2192,7 +2192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatsPerMinute: 120
   timeBeforeBeatStarts: 4
-  timeDurationForAction: 0.4
+  timeDurationForAction: 0.3
   isNextWindowDisabled: 0
   isSpecialOccurring: 0
 --- !u!4 &580484874

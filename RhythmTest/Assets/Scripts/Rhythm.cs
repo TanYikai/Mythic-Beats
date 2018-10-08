@@ -7,6 +7,7 @@ public class Rhythm : MonoBehaviour {
     public float beatsPerMinute;
     public float timeBeforeBeatStarts;
     public float timeDurationForAction;
+    public int beatsDenied;
 
     private AudioSource[] clips;
     private AudioSource introClip;
@@ -15,7 +16,6 @@ public class Rhythm : MonoBehaviour {
     private float actionTimeErrorMargin; // half the error margin time
     private float secondsPerBeat;
     private bool isActionWindowOpenedBeforeThisBeat;
-    public bool isNextWindowDisabled;
     public bool isSpecialOccurring;
     private bool isTimeForEnemyAction;
 
@@ -38,9 +38,9 @@ public class Rhythm : MonoBehaviour {
         introClip = clips[0];
         loopClip = clips[1];
         isActionWindowOpenedBeforeThisBeat = false;
-        isNextWindowDisabled = false;
         isSpecialOccurring = false;
         isTimeForEnemyAction = true;
+        beatsDenied = 0;
 
         //StartCoroutine(waitForNextBeat());
         //StartCoroutine(playDrumBeatLoop());
@@ -61,15 +61,6 @@ public class Rhythm : MonoBehaviour {
         }
         set {
             isTimeForPlayerAction = value;
-        }
-    }
-
-    public bool IsNextWindowDisabled {
-        get {
-            return isNextWindowDisabled;
-        }
-        set {
-            isNextWindowDisabled = value;
         }
     }
 
@@ -101,8 +92,13 @@ public class Rhythm : MonoBehaviour {
 
         float moduloCurrSongTime = loopClip.time % secondsPerBeat;
         if (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin)) {
-            if (!isActionWindowOpenedBeforeThisBeat && onPlayerBeat != null) {
+            if (beatsDenied == 0 && !isSpecialOccurring && !isActionWindowOpenedBeforeThisBeat && onPlayerBeat != null) {
                 onPlayerBeat();
+            }
+            else {
+                if (beatsDenied > 0) {
+                    beatsDenied -= 1;
+                }
             }
         }
 
@@ -131,32 +127,21 @@ public class Rhythm : MonoBehaviour {
 
     IEnumerator openWindowForPlayerAction() {
         //Debug.Log("now");
-        if (isSpecialOccurring) {
-            Debug.Log("This window is closed due to special");
-            yield return new WaitForSeconds(timeDurationForAction);
-            isTimeForPlayerAction = false;
-            isActionWindowOpenedBeforeThisBeat = false;
-            isNextWindowDisabled = false;
-        } else if (!isNextWindowDisabled) {
-            isTimeForPlayerAction = true;
-            isActionWindowOpenedBeforeThisBeat = true;
-            yield return new WaitForSeconds(timeDurationForAction);
-            isTimeForPlayerAction = false;
-            isActionWindowOpenedBeforeThisBeat = false;
-            isNextWindowDisabled = false;
-        }
-        else {
-            Debug.Log("This window is closed due to a failed beat");
-            yield return new WaitForSeconds(timeDurationForAction);
-            isTimeForPlayerAction = false;
-            isActionWindowOpenedBeforeThisBeat = false;
-            isNextWindowDisabled = false;
-        }
+        isTimeForPlayerAction = true;
+        isActionWindowOpenedBeforeThisBeat = true;
+        yield return new WaitForSeconds(timeDurationForAction);
+        isTimeForPlayerAction = false;
+        isActionWindowOpenedBeforeThisBeat = false;
+
     }
 
     IEnumerator openWindowForEnemyAction() {
         isTimeForEnemyAction = false;
         yield return new WaitForSeconds(timeDurationForAction);
         isTimeForEnemyAction = true;
+    }
+
+    public void denyPlayerBeatWindow(int window) {
+        beatsDenied += window * 6;
     }
 }
