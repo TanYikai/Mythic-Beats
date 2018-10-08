@@ -8,6 +8,7 @@ public class DamageController : MonoBehaviour {
 
     private GameObject player;
     private GameObject enemy;
+    private GameObject enemyMesh;
     private Player playerScript;
     private Enemy enemyScript;
 
@@ -21,6 +22,7 @@ public class DamageController : MonoBehaviour {
     private void Init() {
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
+        enemyMesh = GameObject.Find("EnemyMesh");
         playerScript = player.GetComponent<Player>();
         enemyScript = enemy.GetComponentInChildren<Enemy>();
     }
@@ -32,14 +34,14 @@ public class DamageController : MonoBehaviour {
     }
 
     public void checkAndDoDamageToEnemy(int i, int j) {
-        //Debug.Log("Enemy location: " + Mathf.RoundToInt(enemy.transform.position.z) + " " + Mathf.RoundToInt(enemy.transform.position.x));
+        //Debug.Log("Enemy location: " + Mathf.RoundToInt(enemyMesh.transform.position.z) + " " + Mathf.RoundToInt(enemyMesh.transform.position.x));
         //Debug.Log("Enemy check: " + i + " " + j);
-        if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x) == j) {
+        if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x) == j) {
             doDamageToEnemy();
-        } else if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x-1) == j) {
+        } else if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x-1) == j) {
             doDamageToEnemy();
         }
-        else if (Mathf.RoundToInt(enemy.transform.position.z) == i && Mathf.RoundToInt(enemy.transform.position.x+1) == j) {
+        else if (Mathf.RoundToInt(enemyMesh.transform.position.z) == i && Mathf.RoundToInt(enemyMesh.transform.position.x+1) == j) {
             doDamageToEnemy();
         }
     }
