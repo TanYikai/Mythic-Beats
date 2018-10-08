@@ -330,6 +330,7 @@ public class Player : MonoBehaviour {
         Debug.Log("player took damage");
         playerHealth--;
         checkAndDestroyIfDead();
+        EventManager.TriggerEvent("ReducePlayerHP");
     }
 
     private void checkAndDestroyIfDead() {
