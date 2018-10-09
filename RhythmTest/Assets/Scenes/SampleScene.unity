@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c45e2042c1684ed479386f48a090329c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 100
 --- !u!65 &140055104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1370,7 +1370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lengthOfCombo: 1
-  playerHealth: 700
+  playerHealth: 5
   anim: {fileID: 1233737099}
 --- !u!65 &457941493
 BoxCollider:
@@ -2193,7 +2193,7 @@ MonoBehaviour:
   beatsPerMinute: 120
   timeBeforeBeatStarts: 4
   timeDurationForAction: 0.3
-  isNextWindowDisabled: 0
+  beatsDenied: 0
   isSpecialOccurring: 0
 --- !u!4 &580484874
 Transform:

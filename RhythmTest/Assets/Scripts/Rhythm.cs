@@ -142,6 +142,8 @@ public class Rhythm : MonoBehaviour {
     }
 
     public void denyPlayerBeatWindow(int window) {
-        beatsDenied += window * 6;
+        if (beatsDenied <= beatsPerMinute / 5) {
+            beatsDenied += (window * (int)beatsPerMinute / 15);
+        }
     }
 }
