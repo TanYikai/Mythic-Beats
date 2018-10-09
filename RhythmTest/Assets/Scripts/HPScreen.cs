@@ -38,7 +38,7 @@ public class HPScreen : MonoBehaviour {
 
     private void ReduceEnemyHP() {
         if (enemyHP > 0) {
-            enemyHP--;
+            enemyHP = enemy.GetComponent<Enemy>().health;
         }
         updateText();
     }
