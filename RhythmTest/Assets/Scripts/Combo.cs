@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Combo : MonoBehaviour {
 
+    public HPScreen hpScreen;
     private GameObject spells;
     private GameObject user;
     private Queue<string> queue;
@@ -50,6 +51,7 @@ public class Combo : MonoBehaviour {
                     (arrayOfCommand[2] == "Left" && command == "Right") ||
                     (arrayOfCommand[2] == "Up" && command == "Right")) {
                     queue.Enqueue(command);
+                    hpScreen.updateCombo(queue);
                     determineCombo(buildComboCommand());
                     return true;
                 }
@@ -65,6 +67,7 @@ public class Combo : MonoBehaviour {
                 return false;
         }
 
+        hpScreen.updateCombo(queue);
         determineCombo(command);
 
         return false;
@@ -82,7 +85,9 @@ public class Combo : MonoBehaviour {
 
     private void determineCombo(string command) {
 
-            switch (command) {
+        
+
+        switch (command) {
                 case "Up":
                     attackFront();
                     break;
@@ -175,5 +180,10 @@ public class Combo : MonoBehaviour {
         Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo4");
+    }
+
+    public void clearCombo() {
+        queue.Clear();
+        EventManager.TriggerEvent("ClearComboText");
     }
 }

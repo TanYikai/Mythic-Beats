@@ -342,6 +342,7 @@ public class Player : MonoBehaviour {
 
     private void failBeat() {
         rhythmController.denyPlayerBeatWindow(1);
+        combo.clearCombo();
     }
 
 }

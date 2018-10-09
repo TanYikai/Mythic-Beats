@@ -10,12 +10,14 @@ public class HPScreen : MonoBehaviour {
     public float playerHP;
     public float enemyHP;
     private TextMesh thisText;
+    private string currCombo;
 
 
 	// Use this for initialization
 	void Start () {
         EventManager.StartListening("ReducePlayerHP", ReducePlayerHP);
         EventManager.StartListening("ReduceEnemyHP", ReduceEnemyHP);
+        EventManager.StartListening("ClearComboText", ClearComboText);
         thisText = this.GetComponent<TextMesh>();
         playerHP = player.GetComponent<Player>().playerHealth;
         enemyHP = enemy.GetComponent<Enemy>().health;
@@ -42,6 +44,21 @@ public class HPScreen : MonoBehaviour {
     }
 
     private void updateText() {
-        thisText.text = "Your HP: " + playerHP + "\nEnemy HP: " + enemyHP;
+        thisText.text = "Your HP: " + playerHP + "\nEnemy HP: " + enemyHP + "\nCombo:" + currCombo;
+    }
+
+    public void updateCombo(Queue<string> queue) {
+        currCombo = "";
+
+        foreach (string key in queue) {
+            currCombo = currCombo + " " + key ;
+        }
+
+        updateText();
+    }
+
+    private void ClearComboText() {
+        currCombo = "";
+        updateText();
     }
 }
