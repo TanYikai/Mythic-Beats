@@ -19,8 +19,6 @@ public class Player : MonoBehaviour {
     private GameObject enemy;
     public Animator anim;
 
-    //private string comboStack;
-
     private Combo combo;
 
     // To allow debug without VR
@@ -127,6 +125,8 @@ public class Player : MonoBehaviour {
             failBeat();
             return;
         }
+
+        EventManager.TriggerEvent("TriggerVibration");
 
         if (attackMode) {
             if (keyCode == (KeyCode.W)) {
