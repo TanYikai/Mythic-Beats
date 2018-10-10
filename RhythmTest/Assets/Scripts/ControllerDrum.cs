@@ -7,6 +7,7 @@ public class ControllerDrum : MonoBehaviour {
 
     public GameObject player;
     public GameObject rhythm;
+    public GameObject drumRim;
     public KeyCode keyCode;
     private bool attackMode = false;
 
@@ -17,6 +18,7 @@ public class ControllerDrum : MonoBehaviour {
     }
     private Player playerRef;
     private Rhythm rhythmRef;
+    private Material drumRimMat;
     private UnityAction toggleOnListener;
     private UnityAction toggleOffListener;
 
@@ -25,6 +27,7 @@ public class ControllerDrum : MonoBehaviour {
         EventManager.StartListening("ToggleOff", toggleOffListener);
         playerRef = player.GetComponent<Player>();
         rhythmRef = rhythm.GetComponent<Rhythm>();
+        drumRimMat = drumRim.GetComponent<Renderer>().material;
     }
 
 
@@ -35,10 +38,10 @@ public class ControllerDrum : MonoBehaviour {
 
     private void Update() {
         if (rhythmRef.beatsDenied > 0 || rhythmRef.IsSpecialOccurring) {
-            this.gameObject.GetComponent<Renderer>().material.color = Color.red;
+            drumRimMat.color = Color.red;
         }
         else {
-            this.gameObject.GetComponent<Renderer>().material.color = Color.white;
+            drumRimMat.color = Color.green;
         }
     }
 
