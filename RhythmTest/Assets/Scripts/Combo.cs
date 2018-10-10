@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Combo : MonoBehaviour {
 
+    public HPScreen hpScreen;
     private GameObject spells;
     private GameObject user;
     private Queue<string> queue;
@@ -50,6 +51,7 @@ public class Combo : MonoBehaviour {
                     (arrayOfCommand[2] == "Left" && command == "Right") ||
                     (arrayOfCommand[2] == "Up" && command == "Right")) {
                     queue.Enqueue(command);
+                    hpScreen.updateCombo(queue);
                     determineCombo(buildComboCommand());
                     return true;
                 }
@@ -65,6 +67,7 @@ public class Combo : MonoBehaviour {
                 return false;
         }
 
+        hpScreen.updateCombo(queue);
         determineCombo(command);
 
         return false;
@@ -82,7 +85,9 @@ public class Combo : MonoBehaviour {
 
     private void determineCombo(string command) {
 
-            switch (command) {
+        
+
+        switch (command) {
                 case "Up":
                     attackFront();
                     break;
@@ -96,17 +101,24 @@ public class Combo : MonoBehaviour {
                     attackRight();
                     break;
                 case "LeftUpDownRight":
-                anim.SetBool("SpcAtk", true);
-                Debug.Log("LeftUpDownRight combo happened");
+                    anim.SetBool("C1Atk", true);
+                    Debug.Log("LeftUpDownRight combo happened");
+                    combo1();
                     break;
                 case "LeftRightUpDown":
+                    anim.SetBool("C2Atk", true);
                     Debug.Log("LeftRightUpDown combo happened");
+                    combo2 ();
                     break;
                 case "LeftRightLeftRight":
+                    anim.SetBool("C3Atk", true);
                     Debug.Log("LeftRightLeftRight combo happened");
+                    combo3();
                     break;
                 case "LeftDownUpRight":
+                    anim.SetBool("C4Atk", true);
                     Debug.Log("LeftDownUpRight combo happened");
+                    combo4();
                     break;
                 default:
                     Debug.LogError("Combo makes no sense");
@@ -115,34 +127,63 @@ public class Combo : MonoBehaviour {
     }
 
     private void attackFront() {
-        Debug.Log("front");
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
         GameObject spell = Instantiate(spells);
-        spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bFront");
         anim.SetBool("UpAtk", true);
     }
 
     private void attackBack() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, -1);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
         GameObject spell = Instantiate(spells);
-        spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bBack");
         anim.SetBool("DownAtk", true);
     }
 
     private void attackLeft() {
-        Vector3 targetPosition = user.transform.position + new Vector3(-1, 0, 0);
+        Vector3 targetPosition = user.transform.position + new Vector3(-0.5f, 0, 0.1f);
         GameObject spell = Instantiate(spells);
-        spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bLeft");
         anim.SetBool("LeftAtk", true);
     }
 
     private void attackRight() {
-        Vector3 targetPosition = user.transform.position + new Vector3(1, 0, 0);
+        Vector3 targetPosition = user.transform.position + new Vector3(0.5f, 0, 0.1f);
         GameObject spell = Instantiate(spells);
-        spell.GetComponentInChildren<Spells>().setup(user, targetPosition);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bRight");
         anim.SetBool("RightAtk", true);
     }
 
+    private void combo1()
+    {
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1.5f);
+        GameObject spell = Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo1");
+    }
 
+    private void combo2()
+    {
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
+        GameObject spell = Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo2");
+    }
 
+    private void combo3()
+    {
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0.5f, 0.5f);
+        GameObject spell = Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo3");
+    }
+
+    private void combo4()
+    {
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
+        GameObject spell = Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo4");
+    }
+
+    public void clearCombo() {
+        queue.Clear();
+        EventManager.TriggerEvent("ClearComboText");
+    }
 }

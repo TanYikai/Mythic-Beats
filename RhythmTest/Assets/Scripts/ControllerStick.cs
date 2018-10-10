@@ -14,6 +14,10 @@ public class ControllerStick : MonoBehaviour
         get { return SteamVR_Controller.Input((int)trackedObj.index); }
     }
 
+    private void Start() {
+        EventManager.StartListening("TriggerVibration", TriggerVibration);
+    }
+
     void Awake() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
     }
@@ -40,5 +44,9 @@ public class ControllerStick : MonoBehaviour
         else if (Controller.GetHairTriggerUp()) {
             isButtonPressed = false;
         }
+    }
+
+    private void TriggerVibration() {
+        Controller.TriggerHapticPulse(500);
     }
 }
