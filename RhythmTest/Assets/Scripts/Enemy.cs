@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour {
         boundaryChecker = new EnemyBoundaryChecker();
 
         enemy = this.gameObject.transform.parent.gameObject;
+
+        anim.SetBool("B_Died", false);
     }
 
     private void doEnemyAction() {
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour {
             health -= dmg;
         }
         else {
+            anim.SetBool("B_Died", true);
             health = 0;
         }
         EventManager.TriggerEvent("ReduceEnemyHP");
@@ -49,6 +52,7 @@ public class Enemy : MonoBehaviour {
     private void checkAndDestroyIfDead() {
         if (health <= 0) {
             Debug.Log("dead");
+            //Create a delay here for the death animation
             Destroy(this.gameObject);
         }
     }
