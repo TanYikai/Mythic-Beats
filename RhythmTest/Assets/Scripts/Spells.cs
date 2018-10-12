@@ -48,7 +48,9 @@ public class Spells : MonoBehaviour {
                 break;
             case "bBack":
                 // attack effects
+                Vector3 frontPosition = position + new Vector3(0, 0, 1f);
                 spell = Instantiate(effects[1], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[1], frontPosition, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
                 // sound
                 sound = soundEffects[1];
@@ -61,9 +63,10 @@ public class Spells : MonoBehaviour {
                 break;
             case "bLeft":
                 // attack effects
+                frontPosition = position + new Vector3(0, 0, 1f);
                 spell = Instantiate(effects[2], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
-                spell = Instantiate(effects[3], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[3], frontPosition, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
                 // sound
                 sound = soundEffects[2];
@@ -76,9 +79,10 @@ public class Spells : MonoBehaviour {
                 break;
             case "bRight":
                 // attack effects
+                frontPosition = position + new Vector3(0, 0, 1f);
                 spell = Instantiate(effects[2], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
-                spell = Instantiate(effects[3], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[3], frontPosition, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 0.5f);
                 // sound
                 sound = soundEffects[3];
@@ -91,7 +95,19 @@ public class Spells : MonoBehaviour {
                 break;
             case "combo1":
                 // attack effects
+                // center
                 spell = Instantiate(effects[4], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(0, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(0, 0, 2f), Quaternion.identity, transform) as GameObject;
+                // left
+                spell = Instantiate(effects[4], position + new Vector3(-1f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(-1f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(-1f, 0, 2f), Quaternion.identity, transform) as GameObject;
+                // right
+                spell = Instantiate(effects[4], position + new Vector3(1f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(1f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[4], position + new Vector3(1f, 0, 2f), Quaternion.identity, transform) as GameObject;
+
                 Destroy(spell, 2f);
                 // sound
                 sound = soundEffects[4];
@@ -122,7 +138,28 @@ public class Spells : MonoBehaviour {
                 break;
             case "combo3":
                 // attack effects
+                // first row
+                spell = Instantiate(effects[6], position + new Vector3(-1f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-2f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-3f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-4f, 0, 0), Quaternion.identity, transform) as GameObject;
                 spell = Instantiate(effects[6], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(1f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(2f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(3f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(4f, 0, 0), Quaternion.identity, transform) as GameObject;
+
+                // second row
+                spell = Instantiate(effects[6], position + new Vector3(-1f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-2f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-3f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(-4f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(0, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(1f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(2f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(3f, 0, 1f), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[6], position + new Vector3(4f, 0, 1f), Quaternion.identity, transform) as GameObject;
+
                 Destroy(spell, 2f);
                 //sound
                 sound = soundEffects[6];
@@ -145,14 +182,9 @@ public class Spells : MonoBehaviour {
                 break;
             case "combo4":
                 // attack effects
-                Vector3 leftTonardo = position + new Vector3(1f, 0, 0);
-                Vector3 righttTonardo = position + new Vector3(-1f, 0, 0);
                 spell = Instantiate(effects[7], position, Quaternion.identity, transform) as GameObject;
-                Destroy(spell, 2f);
-                spell = Instantiate(effects[7], leftTonardo, Quaternion.identity, transform) as GameObject;
-                Destroy(spell, 2f);
-                spell = Instantiate(effects[7], righttTonardo, Quaternion.identity, transform) as GameObject;
-                Destroy(spell, 2f);
+                spell = Instantiate(effects[7], position + new Vector3(1f, 0, 0), Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[7], position + new Vector3(-1f, 0, 0), Quaternion.identity, transform) as GameObject;
                 spell = Instantiate(effects[8], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
                 // sound
@@ -179,7 +211,7 @@ public class Spells : MonoBehaviour {
     void Update() {
             if (this.type.Equals("bBack") || this.type.Equals("bLeft") || this.type.Equals("bRight"))
             { // all basic attacks except front
-                this.transform.Translate(Vector3.forward * 3f * Time.deltaTime);
+                //this.transform.Translate(Vector3.forward * 3f * Time.deltaTime);
             }
             else if (this.type.Equals("combo2"))
             {

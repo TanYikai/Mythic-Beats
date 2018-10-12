@@ -127,28 +127,28 @@ public class Combo : MonoBehaviour {
     }
 
     private void attackFront() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bFront");
         anim.SetBool("UpAtk", true);
     }
 
     private void attackBack() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bBack");
         anim.SetBool("DownAtk", true);
     }
 
     private void attackLeft() {
-        Vector3 targetPosition = user.transform.position + new Vector3(-0.5f, 0, 0.1f);
+        Vector3 targetPosition = user.transform.position + new Vector3(-1f, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bLeft");
         anim.SetBool("LeftAtk", true);
     }
 
     private void attackRight() {
-        Vector3 targetPosition = user.transform.position + new Vector3(0.5f, 0, 0.1f);
+        Vector3 targetPosition = user.transform.position + new Vector3(1f, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "bRight");
         anim.SetBool("RightAtk", true);
@@ -156,21 +156,21 @@ public class Combo : MonoBehaviour {
 
     private void combo1()
     {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1.5f);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo1");
     }
 
     private void combo2()
     {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 0.5f);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 0, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo2");
     }
 
     private void combo3()
     {
-        Vector3 targetPosition = user.transform.position + new Vector3(0, 0.5f, 0.5f);
+        Vector3 targetPosition = user.transform.position + new Vector3(0, 1f, 1f);
         GameObject spell = Instantiate(spells);
         spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "combo3");
     }
