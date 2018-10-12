@@ -29,8 +29,6 @@ public class StateController : MonoBehaviour {
 	}
 
     public void UpdateState() {
-        //anim.SetBool("B_Left", false);
-        //anim.SetBool("B_Right", false);
         currentState.UpdateState(this);
     }
 
