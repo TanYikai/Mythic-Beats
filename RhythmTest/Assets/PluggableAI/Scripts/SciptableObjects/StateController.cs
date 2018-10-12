@@ -14,6 +14,8 @@ public class StateController : MonoBehaviour {
     private GameObject parent;
     private Enemy enemyScript;
 
+    public Animator anim;
+
 	// Use this for initialization
 	void Start () {
         attackIsDone = false;
@@ -27,6 +29,8 @@ public class StateController : MonoBehaviour {
 	}
 
     public void UpdateState() {
+        //anim.SetBool("B_Left", false);
+        //anim.SetBool("B_Right", false);
         currentState.UpdateState(this);
     }
 
@@ -38,6 +42,7 @@ public class StateController : MonoBehaviour {
     }
 
     public void decideSkill() {
+        anim.SetBool("B_Atk", true);
         currentSkill = skillDecider.decideSkill(parent);
     }
 

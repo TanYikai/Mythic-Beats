@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour {
     private EnemyBoundaryChecker boundaryChecker;
     private GameObject enemy;
 
+    public Animator anim;
+
 	// Use this for initialization
 	void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
@@ -24,11 +26,16 @@ public class Enemy : MonoBehaviour {
     }
 
     private void doEnemyAction() {
+        anim.SetBool("B_Left", false);
+        anim.SetBool("B_Right", false);
+        anim.SetBool("B_Hit", false);
+        anim.SetBool("B_Atk", false);
         controller.UpdateState();
     }
 
     public void takeDamage(int dmg) {
         Debug.Log("enemy damage taken");
+        anim.SetBool("B_Hit", true);
         if (health - dmg >= 0) {
             health -= dmg;
         }
@@ -52,13 +59,17 @@ public class Enemy : MonoBehaviour {
 
         switch (movementNumber) {
             //left but right if at left boundary
-            case 0: 
+            case 0:
                 newPosition = enemy.transform.position + new Vector3(-1, 0, 0);
                 if (checkValidMovement(newPosition)) {
+                    anim.SetBool("B_Right", true);
+                    anim.SetBool("B_Left", false);
                     StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 //temporary code
                 else {
+                    anim.SetBool("B_Right", false);
+                    anim.SetBool("B_Left", true);
                     newPosition = enemy.transform.position + new Vector3(1, 0, 0);
                     StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
@@ -68,11 +79,15 @@ public class Enemy : MonoBehaviour {
             case 1:
                 newPosition = enemy.transform.position + new Vector3(1, 0, 0);
                 if (checkValidMovement(newPosition)) {
+                    anim.SetBool("B_Right", false);
+                    anim.SetBool("B_Left", true);
                     StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 //temporary code
                 else {
                     newPosition = enemy.transform.position + new Vector3(-1, 0, 0);
+                    anim.SetBool("B_Right", true);
+                    anim.SetBool("B_Left", false);
                     StartCoroutine(locationTransition(enemy.transform.position, newPosition));
                 }
                 break;
