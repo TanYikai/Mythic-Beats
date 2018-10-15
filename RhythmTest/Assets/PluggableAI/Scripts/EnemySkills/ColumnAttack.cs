@@ -7,14 +7,14 @@ public class ColumnAttack : EnemySkills {
     const int undefinedValue = -100;
 
     private GameObject user;
-    private int firstColumnSelected;
-    private int secondColumnSelected;
+
+    private int columnSelected;
     private int columnStartIndex;
     private int columnEndIndex;
 
     public ColumnAttack(int chargeRequired, GameObject user) : base(chargeRequired) {
         this.user = user;
-        firstColumnSelected = undefinedValue;
+        columnSelected = undefinedValue;
         columnStartIndex = -2;
         columnEndIndex = 2;
     }
@@ -23,15 +23,15 @@ public class ColumnAttack : EnemySkills {
         Debug.Log("do column attack");
         
         for (int i = columnStartIndex; i < columnEndIndex+1; i++) {
-            DamageController.instance.checkAndDoDamageToPlayer(i, firstColumnSelected);
-            DamageController.instance.checkAndDoDamageToPlayer(i, secondColumnSelected);
+            DamageController.instance.checkAndDoDamageToPlayer(i, columnSelected - 1);
+            DamageController.instance.checkAndDoDamageToPlayer(i, columnSelected);
+            DamageController.instance.checkAndDoDamageToPlayer(i, columnSelected + 1);
         }
     }
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {
-        if (firstColumnSelected == undefinedValue) {
-            firstColumnSelected = Random.Range(-4, 5);
-            setOtherColumn();
+        if (columnSelected == undefinedValue) {
+            columnSelected = Mathf.RoundToInt(user.transform.position.x);
         }
 
         switch (stage) {
@@ -47,34 +47,28 @@ public class ColumnAttack : EnemySkills {
         }
     }
 
-    private void setOtherColumn() {
-        if (user.GetComponentInChildren<Enemy>().checkValidGeneralPosition(new Vector3(firstColumnSelected - 1, 0, 0))) {
-            secondColumnSelected = firstColumnSelected - 1;
-        }
-        else {
-            secondColumnSelected = firstColumnSelected + 1;
-        }
-    }
-
     private void changeToFirstMaterial(Vector3 position) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            //Vector3 targetPosition = position + new Vector3(firstColumnSelected, 0, -i);
-            Grid.instance.changeToFirstMaterial(i, firstColumnSelected);
-            Grid.instance.changeToFirstMaterial(i, secondColumnSelected);
+            //Vector3 targetPosition = position + new Vector3(columnSelected, 0, -i);
+            Grid.instance.changeToFirstMaterial(i, columnSelected - 1);
+            Grid.instance.changeToFirstMaterial(i, columnSelected);
+            Grid.instance.changeToFirstMaterial(i, columnSelected + 1);
         }
     }
 
     private void changeToSecondMaterial(Vector3 position) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToSecondMaterial(i, firstColumnSelected);
-            Grid.instance.changeToSecondMaterial(i, secondColumnSelected);
+            Grid.instance.changeToSecondMaterial(i, columnSelected - 1);
+            Grid.instance.changeToSecondMaterial(i, columnSelected);
+            Grid.instance.changeToSecondMaterial(i, columnSelected + 1);
         }
     }
 
     private void changeToOriginalMaterial(Vector3 position) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToOriginalMaterial(i, firstColumnSelected);
-            Grid.instance.changeToOriginalMaterial(i, secondColumnSelected);
+            Grid.instance.changeToOriginalMaterial(i, columnSelected - 1);
+            Grid.instance.changeToOriginalMaterial(i, columnSelected);
+            Grid.instance.changeToOriginalMaterial(i, columnSelected + 1);
         }
     }
 }

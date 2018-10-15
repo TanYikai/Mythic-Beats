@@ -116,4 +116,8 @@ public class Enemy : MonoBehaviour {
         return boundaryChecker.checkValidGeneralPosition(pos);
     }
 
+    public GameObject getEnemy() {
+        return enemy;
+    }
+
 }
