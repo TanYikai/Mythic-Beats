@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour {
     private StateController controller;
     private EnemyBoundaryChecker boundaryChecker;
     private GameObject enemy;
+    private GameObject player;
 
     public Animator anim;
 
@@ -23,6 +24,8 @@ public class Enemy : MonoBehaviour {
         boundaryChecker = new EnemyBoundaryChecker();
 
         enemy = this.gameObject.transform.parent.gameObject;
+
+        player = GameObject.Find("Player").gameObject;
 
         anim.SetBool("B_Died", false);
     }
@@ -117,7 +120,7 @@ public class Enemy : MonoBehaviour {
     }
 
     public GameObject getEnemy() {
-        return enemy;
+        return player;
     }
 
 }

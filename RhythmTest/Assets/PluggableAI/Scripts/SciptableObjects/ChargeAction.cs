@@ -10,7 +10,6 @@ public class ChargeAction : Action {
     }
 
     private void charging(StateController controller) {
-        Debug.Log("charging");
         if (controller.currentSkill == null) {
             controller.decideSkill();
         }
