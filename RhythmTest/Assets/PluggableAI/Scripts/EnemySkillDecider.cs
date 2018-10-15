@@ -18,7 +18,7 @@ public class EnemySkillDecider {
 
     public EnemySkillDecider(GameObject enemy) {
         this.enemy = enemy;
-        player = enemy.GetComponentInChildren<Enemy>().getEnemy();
+        player = enemy.GetComponentInChildren<Enemy>().getPlayer();
         setupAttacksWeight();
     }
 

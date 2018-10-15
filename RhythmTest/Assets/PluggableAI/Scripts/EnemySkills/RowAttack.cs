@@ -30,7 +30,7 @@ public class RowAttack : EnemySkills {
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {
         if (firstRowSelected == undefinedValue) {
-            firstRowSelected = Random.Range(-2, 3);
+            firstRowSelected = generateRandomPositionNearPlayer();
             setOtherRow();
         }
 
@@ -45,6 +45,11 @@ public class RowAttack : EnemySkills {
                 changeToSecondMaterial(position);
                 break;
         }
+    }
+
+    private int generateRandomPositionNearPlayer() {
+        int playerZ = Mathf.RoundToInt(user.GetComponentInChildren<Enemy>().getPlayer().transform.position.z);
+        return Random.Range(Mathf.Max(-2, playerZ - 1), Mathf.Min(3, playerZ + 1));
     }
 
     private void setOtherRow() {
