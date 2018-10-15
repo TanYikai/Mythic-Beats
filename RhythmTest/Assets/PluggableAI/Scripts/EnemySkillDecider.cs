@@ -6,7 +6,8 @@ public class EnemySkillDecider {
 
     private enum Attacks {
         columnAttack,
-        rowAttack
+        rowAttack,
+        randomAttack
     };
 
     private GameObject enemy;
@@ -23,9 +24,9 @@ public class EnemySkillDecider {
     }
 
     private void setupAttacksWeight() {
-        totalNumberOfAttacks = 2;
-        attackListWeights = new int[2]{ 0, 1 };  //first weight for columnAttack and so on...
-        originalAttacksListWeights = new int[2] { 0, 1 };
+        totalNumberOfAttacks = 3;
+        attackListWeights = new int[3]{ 0, 1, 1 };  //first weight for columnAttack and so on...
+        originalAttacksListWeights = new int[3] { 0, 1, 1 };
     }
 
     public EnemySkills decideSkill() {
@@ -42,6 +43,9 @@ public class EnemySkillDecider {
                 break;
             case 1:
                 chosenSkill = new RowAttack(3, enemy);
+                break;
+            case 2:
+                chosenSkill = new RandomAttack(3, enemy, 2);
                 break;
         }
 
