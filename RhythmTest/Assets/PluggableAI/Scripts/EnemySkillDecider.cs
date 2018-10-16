@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySkillDecider {
 
-    private enum Attacks {
+    public enum Attacks {
         columnAttack,
         rowAttack,
         randomAttack,
@@ -13,30 +13,50 @@ public class EnemySkillDecider {
 
     private GameObject enemy;
     private GameObject player;
+    private Enemy enemyScript;
 
-    private int totalNumberOfAttacks;
-    private int[] attackListWeights;
-    private int[] originalAttacksListWeights;
+    private EnemySkillWeights normalAttackWeights;
+    private EnemySkillWeights berserkAttackWeights;
 
     public EnemySkillDecider(GameObject enemy) {
         this.enemy = enemy;
-        player = enemy.GetComponentInChildren<Enemy>().getPlayer();
-        setupAttacksWeight();
+        enemyScript = enemy.GetComponentInChildren<Enemy>();
+        player = enemyScript.getPlayer();
+        
+        setupAttacksWeightNormal();
+        setupAttacksWeightBerserk();
     }
 
-    private void setupAttacksWeight() {
-        totalNumberOfAttacks = 4;
-        attackListWeights = new int[4]{ 0, 1, 1, 1 };  //first weight for columnAttack and so on...
-        originalAttacksListWeights = new int[4] { 0, 1, 1, 1 };
+    private void setupAttacksWeightNormal() {
+        List<int> attackListWeights = new List<int>{ 0, 1, 1, 1 };  //first weight for columnAttack and so on...
+        normalAttackWeights = new EnemySkillWeights(attackListWeights);
+    }
+
+    private void setupAttacksWeightBerserk() {
+        List<int> attackListWeights = new List<int> { 0, 1, 1, 1 };  //first weight for columnAttack and so on...
+        berserkAttackWeights = new EnemySkillWeights(attackListWeights);
     }
 
     public EnemySkills decideSkill() {
 
         EnemySkills chosenSkill = null;
 
-        changeWeightsOfAttacks();
+        if (!enemyScript.getIsBerserk()) {
+            chosenSkill = generateSkillNormal();
+        }
+        else {
+            chosenSkill = generateSkillBerserk();
+        }
 
-        int skillValue = generateSkillSelectorValue();
+        return chosenSkill;
+    }
+
+    private EnemySkills generateSkillNormal() {
+        EnemySkills chosenSkill = null;
+
+        changeWeightsOfAttacksNormal();
+
+        int skillValue = normalAttackWeights.generateSkillSelectorValue();
 
         switch (skillValue) {
             case 0:
@@ -53,20 +73,47 @@ public class EnemySkillDecider {
                 break;
         }
 
-        resetWeightsOfAttacks();
+        normalAttackWeights.resetWeightsOfAttacks();
 
         return chosenSkill;
     }
 
-    private void changeWeightsOfAttacks() {
+    private void changeWeightsOfAttacksNormal() {
         if (isPlayerInFrontOfEnemy()) {
-            attackListWeights[(int)Attacks.columnAttack] = 3;
+            normalAttackWeights.changeWeightsOfAttack(Attacks.columnAttack, 3);
         }
     }
 
-    private void resetWeightsOfAttacks() {
-        for (int i = 0; i < attackListWeights.Length; i++) {
-            attackListWeights[i] = originalAttacksListWeights[i];
+    private EnemySkills generateSkillBerserk() {
+        EnemySkills chosenSkill = null;
+
+        changeWeightsOfAttacksBerserk();
+
+        int skillValue = berserkAttackWeights.generateSkillSelectorValue();
+
+        switch (skillValue) {
+            case 0:
+                chosenSkill = new ColumnAttack(2, enemy);
+                break;
+            case 1:
+                chosenSkill = new RowAttack(2, enemy);
+                break;
+            case 2:
+                chosenSkill = new RandomAttack(3, enemy, 4);
+                break;
+            case 3:
+                chosenSkill = new ColumnProjectileAttack(2, enemy);
+                break;
+        }
+
+        berserkAttackWeights.resetWeightsOfAttacks();
+
+        return chosenSkill;
+    }
+
+    private void changeWeightsOfAttacksBerserk() {
+        if (isPlayerInFrontOfEnemy()) {
+            berserkAttackWeights.changeWeightsOfAttack(Attacks.columnAttack, 3);
         }
     }
 
@@ -78,8 +125,22 @@ public class EnemySkillDecider {
         }
         return false;
     }
+}
 
-    private int generateSkillSelectorValue() {
+public class EnemySkillWeights {
+
+    private int totalNumberOfAttacks;
+    private List<int> attackListWeights;
+    private List<int> originalAttackListWeights;
+
+    public EnemySkillWeights(List<int> attackListWeights) {
+        this.attackListWeights = new List<int>(attackListWeights);
+        originalAttackListWeights = new List<int>(attackListWeights);
+        totalNumberOfAttacks = attackListWeights.Count;
+
+    }
+
+    public int generateSkillSelectorValue() {
         int[] cumulativeSum = new int[totalNumberOfAttacks];
         int totalWeightValue = 0;
 
@@ -95,7 +156,14 @@ public class EnemySkillDecider {
                 return i;
             }
         }
-
         return 0;
+    }
+
+    public void changeWeightsOfAttack(EnemySkillDecider.Attacks attackType, int weight) {
+        attackListWeights[(int)attackType] = weight;
+    }
+
+    public void resetWeightsOfAttacks() {
+        attackListWeights = new List<int>(originalAttackListWeights);
     }
 }
