@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour {
     private StateController controller;
     private EnemyBoundaryChecker boundaryChecker;
     private GameObject enemy;
+    private GameObject player;
+    private bool isBerserk;
 
     public Animator anim;
 
@@ -23,6 +25,9 @@ public class Enemy : MonoBehaviour {
         boundaryChecker = new EnemyBoundaryChecker();
 
         enemy = this.gameObject.transform.parent.gameObject;
+        player = GameObject.Find("Player").gameObject;
+
+        isBerserk = true;
 
         anim.SetBool("B_Died", false);
     }
@@ -49,6 +54,13 @@ public class Enemy : MonoBehaviour {
         }
         EventManager.TriggerEvent("ReduceEnemyHP");
         checkAndDestroyIfDead();
+        checkAndSetEnemyBerserk();
+    }
+
+    private void checkAndSetEnemyBerserk() {
+        if (health < health / 2) {
+            isBerserk = true;
+        }
     }
 
     private void checkAndDestroyIfDead() {
@@ -116,6 +128,14 @@ public class Enemy : MonoBehaviour {
 
     public bool checkValidGeneralPosition(Vector3 pos) {
         return boundaryChecker.checkValidGeneralPosition(pos);
+    }
+
+    public GameObject getPlayer() {
+        return player;
+    }
+
+    public bool getIsBerserk() {
+        return isBerserk;
     }
 
 }

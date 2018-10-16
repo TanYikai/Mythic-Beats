@@ -11,7 +11,7 @@ public class StateController : MonoBehaviour {
     [HideInInspector] public EnemySkills currentSkill;
 
     private EnemySkillDecider skillDecider;
-    private GameObject parent;
+    private GameObject parentObj;
     private Enemy enemyScript;
 
     public Animator anim;
@@ -22,10 +22,10 @@ public class StateController : MonoBehaviour {
         chargeCount = 0;
         currentSkill = null;
 
-        skillDecider = new EnemySkillDecider();
-
-        parent = this.gameObject;
+        parentObj = this.gameObject;
         enemyScript = gameObject.GetComponent<Enemy>();
+
+        skillDecider = new EnemySkillDecider(parentObj.transform.parent.gameObject);
 	}
 
     public void UpdateState() {
@@ -41,7 +41,7 @@ public class StateController : MonoBehaviour {
 
     public void decideSkill() {
         anim.SetBool("B_Atk", true);
-        currentSkill = skillDecider.decideSkill(parent);
+        currentSkill = skillDecider.decideSkill();
     }
 
     public void incrementCharge() {
@@ -57,7 +57,7 @@ public class StateController : MonoBehaviour {
     }
 
     public GameObject getParent() {
-        return parent;
+        return parentObj;
     }
 
     public bool checkValidGeneralPosition(Vector3 pos) {

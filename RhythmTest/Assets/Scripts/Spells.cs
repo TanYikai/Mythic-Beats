@@ -198,6 +198,15 @@ public class Spells : MonoBehaviour {
                     DamageController.instance.doDamageToEnemy(20);
                 }
                 break;
+            case "enemyColumnProjectile":
+                // attack effects
+                spell = Instantiate(effects[5], position, Quaternion.identity, transform) as GameObject;
+                Destroy(spell, 2f);
+                //sound
+                sound = soundEffects[5];
+                sound.Play();
+                // damage checks using collision box
+                break;
         }
     }
 
@@ -209,14 +218,17 @@ public class Spells : MonoBehaviour {
     }
 
     void Update() {
-            if (this.type.Equals("bBack") || this.type.Equals("bLeft") || this.type.Equals("bRight"))
-            { // all basic attacks except front
-                //this.transform.Translate(Vector3.forward * 3f * Time.deltaTime);
-            }
-            else if (this.type.Equals("combo2"))
-            {
-                this.transform.Translate(Vector3.forward * 4f * Time.deltaTime);
-            }
+        if (this.type.Equals("bBack") || this.type.Equals("bLeft") || this.type.Equals("bRight"))
+        { // all basic attacks except front
+            //this.transform.Translate(Vector3.forward * 3f * Time.deltaTime);
+        }
+        else if (this.type.Equals("combo2"))
+        {
+            this.transform.Translate(Vector3.forward * 4f * Time.deltaTime);
+        }
+        else if (this.type.Equals("enemyColumnProjectile")) {
+            this.transform.Translate(Vector3.back * 4f * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter(Collider other) {
