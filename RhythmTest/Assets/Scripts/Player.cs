@@ -67,6 +67,13 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
+        {
+            EventManager.TriggerEvent("FeedbackDrum");
+            rhythmController.playerComboCount += 1;
+            EventManager.TriggerEvent("UpdateCounter");
+        }
+
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
             newPosition = transform.position + new Vector3(0, 0, 1);
@@ -126,7 +133,10 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        rhythmController.playerComboCount += 1;
         EventManager.TriggerEvent("TriggerVibration");
+        EventManager.TriggerEvent("FeedbackDrum");
+        EventManager.TriggerEvent("UpdateCounter");
 
         if (attackMode) {
             if (keyCode == (KeyCode.W)) {
@@ -233,6 +243,12 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)))
+        {
+            EventManager.TriggerEvent("FeedbackDrum");
+            rhythmController.playerComboCount += 1;
+            EventManager.TriggerEvent("UpdateCounter");
+        }
 
         if (Input.GetKeyDown(KeyCode.W)) {
             rhythmController.IsTimeForPlayerAction = false;
@@ -303,6 +319,7 @@ public class Player : MonoBehaviour {
         //float currentAnimationTime = 0.0f;
         //float totalAnimationTime = 0.3f;
         rhythmController.IsSpecialOccurring = true;
+        EventManager.TriggerEvent("DeactivateDrum");
         //while (currentAnimationTime < totalAnimationTime) {
             //currentAnimationTime += Time.deltaTime;
             yield return new WaitForSeconds(2f);
@@ -341,8 +358,11 @@ public class Player : MonoBehaviour {
     }
 
     private void failBeat() {
-        rhythmController.denyPlayerBeatWindow(1);
-        combo.clearCombo();
+        Debug.Log("Fail Happened");
+        EventManager.TriggerEvent("DeactivateDrum");
+        rhythmController.playerComboCount = 0;
+        EventManager.TriggerEvent("UpdateCounter");
+        //combo.clearCombo();
     }
 
 }

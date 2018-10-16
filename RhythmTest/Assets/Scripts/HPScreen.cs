@@ -7,8 +7,10 @@ public class HPScreen : MonoBehaviour {
 
     public Player player;
     public Enemy enemy;
-    public float playerHP;
-    public float enemyHP;
+    public Rhythm rhythm;
+    private int playerHP;
+    private int enemyHP;
+    private int comboCount;
     private TextMesh thisText;
     private string currCombo;
 
@@ -18,9 +20,11 @@ public class HPScreen : MonoBehaviour {
         EventManager.StartListening("ReducePlayerHP", ReducePlayerHP);
         EventManager.StartListening("ReduceEnemyHP", ReduceEnemyHP);
         EventManager.StartListening("ClearComboText", ClearComboText);
+        EventManager.StartListening("UpdateCounter", UpdateCounter);
         thisText = this.GetComponent<TextMesh>();
         playerHP = player.GetComponent<Player>().playerHealth;
         enemyHP = enemy.GetComponent<Enemy>().health;
+        comboCount = rhythm.GetComponent<Rhythm>().playerComboCount;
         updateText();
     }
 	
@@ -43,8 +47,13 @@ public class HPScreen : MonoBehaviour {
         updateText();
     }
 
+    private void UpdateCounter() {
+        comboCount = rhythm.GetComponent<Rhythm>().playerComboCount;
+        updateText();
+    }
+
     private void updateText() {
-        thisText.text = "Your HP: " + playerHP + "\nEnemy HP: " + enemyHP + "\nCombo:" + currCombo;
+        thisText.text = "Your HP: " + playerHP + "\nEnemy HP: " + enemyHP + "\nCounter: " + comboCount + "\nCombo:" + currCombo;
     }
 
     public void updateCombo(Queue<string> queue) {

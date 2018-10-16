@@ -7,7 +7,7 @@ public class Rhythm : MonoBehaviour {
     public float beatsPerMinute;
     public float timeBeforeBeatStarts;
     public float timeDurationForAction;
-    public int beatsDenied;
+    public int playerComboCount;
 
     private AudioSource[] clips;
     private AudioSource introClip;
@@ -34,13 +34,13 @@ public class Rhythm : MonoBehaviour {
         isTimeForPlayerAction = false;
         actionTimeErrorMargin = timeDurationForAction / 2.0f;
         secondsPerBeat = 60 / beatsPerMinute;
+        playerComboCount = 0;
         clips = GetComponents<AudioSource>();
         introClip = clips[0];
         loopClip = clips[1];
         isActionWindowOpenedBeforeThisBeat = false;
         isSpecialOccurring = false;
         isTimeForEnemyAction = true;
-        beatsDenied = 0;
 
         //StartCoroutine(waitForNextBeat());
         //StartCoroutine(playDrumBeatLoop());
@@ -92,13 +92,8 @@ public class Rhythm : MonoBehaviour {
 
         float moduloCurrSongTime = loopClip.time % secondsPerBeat;
         if (moduloCurrSongTime <= actionTimeErrorMargin || moduloCurrSongTime >= (secondsPerBeat - actionTimeErrorMargin)) {
-            if (beatsDenied == 0 && !isSpecialOccurring && !isActionWindowOpenedBeforeThisBeat && onPlayerBeat != null) {
+            if (!isSpecialOccurring && !isActionWindowOpenedBeforeThisBeat && onPlayerBeat != null) {
                 onPlayerBeat();
-            }
-            else {
-                if (beatsDenied > 0) {
-                    beatsDenied -= 1;
-                }
             }
         }
 
@@ -129,6 +124,7 @@ public class Rhythm : MonoBehaviour {
         //Debug.Log("now");
         isTimeForPlayerAction = true;
         isActionWindowOpenedBeforeThisBeat = true;
+        EventManager.TriggerEvent("ActivateDrum");
         yield return new WaitForSeconds(timeDurationForAction);
         isTimeForPlayerAction = false;
         isActionWindowOpenedBeforeThisBeat = false;
@@ -141,9 +137,4 @@ public class Rhythm : MonoBehaviour {
         isTimeForEnemyAction = true;
     }
 
-    public void denyPlayerBeatWindow(int window) {
-        if (beatsDenied <= beatsPerMinute / 5) {
-            beatsDenied += (window * (int)beatsPerMinute / 15);
-        }
-    }
 }

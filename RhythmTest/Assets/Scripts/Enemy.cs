@@ -39,6 +39,8 @@ public class Enemy : MonoBehaviour {
     }
 
     public void takeDamage(int dmg) {
+        dmg = (int) (rhythmController.playerComboCount * 0.1 + dmg);
+
         Debug.Log("enemy damage taken");
         anim.SetBool("B_Hit", true);
         if (health - dmg >= 0) {

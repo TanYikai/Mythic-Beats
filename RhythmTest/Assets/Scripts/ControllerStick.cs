@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ControllerStick : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class ControllerStick : MonoBehaviour
     private SteamVR_TrackedObject trackedObj;
     private bool attackMode = false;
     private bool isButtonPressed = false;
+    private UnityAction vibrationListener;
 
     private SteamVR_Controller.Device Controller
     {
@@ -15,11 +17,13 @@ public class ControllerStick : MonoBehaviour
     }
 
     private void Start() {
-        EventManager.StartListening("TriggerVibration", TriggerVibration);
+        EventManager.StartListening("TriggerVibration", vibrationListener);
     }
 
     void Awake() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        vibrationListener = new UnityAction(TriggerVibration);
+
     }
 
     void Update() {
