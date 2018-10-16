@@ -200,13 +200,55 @@ public class Spells : MonoBehaviour {
                 break;
             case "enemyColumnProjectile":
                 // attack effects
-                spell = Instantiate(effects[5], position, Quaternion.identity, transform) as GameObject;
+                spell = Instantiate(effects[10], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
                 //sound
-                sound = soundEffects[5];
+                sound = soundEffects[8];
                 sound.Play();
                 // damage checks using collision box
                 break;
+            case "enemyColumnAttack":
+                // attack effects
+                int columnStartIndex = -4;
+                int columnEndIndex = 0;
+
+                for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
+                    spell = Instantiate(effects[9], position + new Vector3(1f, 0, i), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(-1f, 0, i), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(0, 0, i), Quaternion.identity, transform) as GameObject;
+                    Destroy(spell, 2f);
+                }
+                //sound
+                sound = soundEffects[9];
+                sound.Play();
+                // damage checks in ColumnAttack.cs
+                break;
+            case "enemyRowAttack":
+                // attack effects
+                int rowStartIndex = -4;
+                int rowEndIndex = 4;
+
+                for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
+                    spell = Instantiate(effects[9], position + new Vector3(i, 0, 0), Quaternion.identity, transform) as GameObject;
+                    Destroy(spell, 2f);
+                }
+                //sound
+                sound = soundEffects[10];
+                sound.Play();
+                // damage checks in RowAttack.cs
+                break;
+            case "enemyRandomAttack":
+                // attack effects
+                spell = Instantiate(effects[9], position, Quaternion.identity, transform) as GameObject;
+                Destroy(spell, 2f);
+                // damage checks in RandomAttack.cs
+                break;
+            case "enemyRandomAttackSound":
+                //sound
+                sound = soundEffects[11];
+                sound.Play();
+                break;
+
         }
     }
 

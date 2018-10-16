@@ -7,6 +7,7 @@ public class ColumnAttack : EnemySkills {
     const int undefinedValue = -100;
 
     private GameObject user;
+    private GameObject spells;
 
     private int columnSelected;
     private int columnStartIndex;
@@ -14,9 +15,17 @@ public class ColumnAttack : EnemySkills {
 
     public ColumnAttack(int chargeRequired, GameObject user) : base(chargeRequired) {
         this.user = user;
+        spells = Resources.Load<GameObject>("Prefabs/Spells");
+
         columnSelected = undefinedValue;
         columnStartIndex = -2;
         columnEndIndex = 2;
+    }
+
+    private void setupAndCastSpell() {
+        Vector3 targetPosition = new Vector3(columnSelected, user.transform.position.y, user.transform.position.z - 1f);
+        GameObject spell = GameObject.Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemyColumnAttack");
     }
 
     public override void doSkill() {
@@ -27,6 +36,8 @@ public class ColumnAttack : EnemySkills {
             DamageController.instance.checkAndDoDamageToPlayer(i, columnSelected);
             DamageController.instance.checkAndDoDamageToPlayer(i, columnSelected + 1);
         }
+
+        setupAndCastSpell();
     }
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {

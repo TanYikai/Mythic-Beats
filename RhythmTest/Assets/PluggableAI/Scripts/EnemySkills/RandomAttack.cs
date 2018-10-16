@@ -5,6 +5,7 @@ using UnityEngine;
 public class RandomAttack : EnemySkills {
 
     private GameObject user;
+    private GameObject spells;
 
     private int columnStartIndex;
     private int columnEndIndex;
@@ -17,6 +18,8 @@ public class RandomAttack : EnemySkills {
 
     public RandomAttack(int chargeRequired, GameObject user, int attacksPerRow) : base(chargeRequired) {
         this.user = user;
+        spells = Resources.Load<GameObject>("Prefabs/Spells");
+
         columnStartIndex = -2;
         columnEndIndex = 2;
         rowStartIndex = -4;
@@ -49,6 +52,29 @@ public class RandomAttack : EnemySkills {
         }
     }
 
+    private void setupAndCastSpell() {
+        Vector3 targetPosition;
+        GameObject spell;
+
+        for (int i = columnStartIndex; i < columnEndIndex + 1; i++)
+        {
+            List<int> currentRow = chosenAttackGrid[i + 2];
+            for (int j = 0; j < currentRow.Count; j++)
+            {
+
+                targetPosition = new Vector3(currentRow[j], user.transform.position.y, i);
+                spell = GameObject.Instantiate(spells);
+                spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemyRandomAttack");
+            }
+        }
+        // only play sound once
+        targetPosition = new Vector3(0, 0, 0);
+        spell = GameObject.Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemyRandomAttackSound");
+
+    }
+
+
     public override void doSkill() {
         Debug.Log("do random attack");
 
@@ -58,6 +84,8 @@ public class RandomAttack : EnemySkills {
                 DamageController.instance.checkAndDoDamageToPlayer(i, currentRow[j]);
             }
         }
+
+        setupAndCastSpell();
     }
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {

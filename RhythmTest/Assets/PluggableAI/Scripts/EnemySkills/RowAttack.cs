@@ -7,6 +7,8 @@ public class RowAttack : EnemySkills {
     const int undefinedValue = -100;
 
     private GameObject user;
+    private GameObject spells;
+
     private int firstRowSelected;
     private int secondRowSelected;
     private int rowStartIndex;
@@ -14,9 +16,23 @@ public class RowAttack : EnemySkills {
 
     public RowAttack(int chargeRequired, GameObject user) : base(chargeRequired) {
         this.user = user;
+        spells = Resources.Load<GameObject>("Prefabs/Spells");
+
         firstRowSelected = undefinedValue;
         rowStartIndex = -4;
         rowEndIndex = 4;
+    }
+
+    private void setupAndCastSpell() {
+        // first row
+        Vector3 firstTargetPosition = new Vector3(0, user.transform.position.y, firstRowSelected);
+        GameObject spell = GameObject.Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, firstTargetPosition, "enemyRowAttack");
+
+        // second row
+        Vector3 secondTargetPosition = new Vector3(0, user.transform.position.y, secondRowSelected);
+        spell = GameObject.Instantiate(spells);
+        spell.GetComponentInChildren<Spells>().setup(user, secondTargetPosition, "enemyRowAttack");
     }
 
     public override void doSkill() {
@@ -26,6 +42,8 @@ public class RowAttack : EnemySkills {
             DamageController.instance.checkAndDoDamageToPlayer(firstRowSelected, i);
             DamageController.instance.checkAndDoDamageToPlayer(secondRowSelected, i);
         }
+
+        setupAndCastSpell();
     }
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {
