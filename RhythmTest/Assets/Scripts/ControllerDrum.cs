@@ -21,10 +21,16 @@ public class ControllerDrum : MonoBehaviour {
     private Material drumRimMat;
     private UnityAction toggleOnListener;
     private UnityAction toggleOffListener;
+    private UnityAction deactivateDrumListener;
+    private UnityAction activateDrumListener;
+    private UnityAction feedbackDrumListener;
 
     void Start () {
         EventManager.StartListening("ToggleOn", toggleOnListener);
         EventManager.StartListening("ToggleOff", toggleOffListener);
+        EventManager.StartListening("DeactivateDrum", deactivateDrumListener);
+        EventManager.StartListening("FeedbackDrum", feedbackDrumListener);
+        EventManager.StartListening("ActivateDrum", activateDrumListener);
         playerRef = player.GetComponent<Player>();
         rhythmRef = rhythm.GetComponent<Rhythm>();
         drumRimMat = drumRim.GetComponent<Renderer>().material;
@@ -34,15 +40,15 @@ public class ControllerDrum : MonoBehaviour {
     private void Awake() {
         toggleOnListener = new UnityAction(ToggleOn);
         toggleOffListener = new UnityAction(ToggleOff);
+        deactivateDrumListener = new UnityAction(DeactivateDrum);
+        activateDrumListener = new UnityAction(ActivateDrum);
+        feedbackDrumListener = new UnityAction(FeedbackDrum);
     }
 
     private void Update() {
-        if (rhythmRef.beatsDenied > 0 || rhythmRef.IsSpecialOccurring) {
-            drumRimMat.color = Color.red;
-        }
-        else {
-            drumRimMat.color = Color.green;
-        }
+        
+
+
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -69,6 +75,31 @@ public class ControllerDrum : MonoBehaviour {
     private void ToggleOff() {
         attackMode = false;
         Debug.Log("attackMode OFF");
+    }
+
+    private void DeactivateDrum() {
+        StartCoroutine(colorTransition(drumRimMat.color, Color.red));
+    }
+
+
+    private void ActivateDrum() {
+        StartCoroutine(colorTransition(drumRimMat.color, Color.blue));
+    }
+
+    private void FeedbackDrum(){
+        StartCoroutine(colorTransition(drumRimMat.color, Color.green));
+    }
+
+    IEnumerator colorTransition(Color initialColor, Color finalColor)
+    {
+        float currentAnimationTime = 0.0f;
+        float totalAnimationTime = 0.1f;
+        while (currentAnimationTime < totalAnimationTime)
+        {
+            currentAnimationTime += Time.deltaTime;
+            drumRimMat.color = Color.Lerp(initialColor, finalColor, currentAnimationTime / totalAnimationTime);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
 }
