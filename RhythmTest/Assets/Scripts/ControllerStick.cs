@@ -49,6 +49,6 @@ public class ControllerStick : MonoBehaviour
     }
 
     private void TriggerVibration() {
-        Controller.TriggerHapticPulse(500);
+        Controller.TriggerHapticPulse((ushort)Mathf.Lerp(0, 500, 0.5f));    //Start Duration,End Duration,Strength
     }
 }
