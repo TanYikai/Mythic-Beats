@@ -8,8 +8,9 @@ public class ControllerDrum : MonoBehaviour {
     public GameObject player;
     public GameObject rhythm;
     public GameObject drumRim;
+    public GameObject altDrum;
+    public bool isAttackDrum;
     public KeyCode keyCode;
-    private bool attackMode = false;
 
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device Controller
@@ -19,27 +20,24 @@ public class ControllerDrum : MonoBehaviour {
     private Player playerRef;
     private Rhythm rhythmRef;
     private Material drumRimMat;
-    private UnityAction toggleOnListener;
-    private UnityAction toggleOffListener;
+    private UnityAction toggleDrumToAttackListener;
+    private UnityAction toggleDrumToMovementListener;
     private UnityAction deactivateDrumListener;
     private UnityAction activateDrumListener;
     private UnityAction feedbackDrumListener;
 
+
     void Start () {
-        EventManager.StartListening("ToggleOn", toggleOnListener);
-        EventManager.StartListening("ToggleOff", toggleOffListener);
-        EventManager.StartListening("DeactivateDrum", deactivateDrumListener);
-        EventManager.StartListening("FeedbackDrum", feedbackDrumListener);
-        EventManager.StartListening("ActivateDrum", activateDrumListener);
+        startUpListeners();
         playerRef = player.GetComponent<Player>();
         rhythmRef = rhythm.GetComponent<Rhythm>();
-        drumRimMat = drumRim.GetComponent<Renderer>().material;
+        drumRimMat = drumRim.GetComponent<Renderer>().materials[4];
     }
 
 
     private void Awake() {
-        toggleOnListener = new UnityAction(ToggleOn);
-        toggleOffListener = new UnityAction(ToggleOff);
+        toggleDrumToAttackListener = new UnityAction(ToggleDrumToAttack);
+        toggleDrumToMovementListener = new UnityAction(ToggleDrumToMovement);
         deactivateDrumListener = new UnityAction(DeactivateDrum);
         activateDrumListener = new UnityAction(ActivateDrum);
         feedbackDrumListener = new UnityAction(FeedbackDrum);
@@ -47,13 +45,11 @@ public class ControllerDrum : MonoBehaviour {
 
     private void Update() {
         
-
-
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (attackMode) {
+        if (isAttackDrum) {
             if (collider.CompareTag("DrumStick")) {
                 Debug.Log("Sending " + keyCode + " (combo)");
                 playerRef.ExecuteKey(keyCode, true);
@@ -67,15 +63,35 @@ public class ControllerDrum : MonoBehaviour {
         }
     }
 
-    private void ToggleOn() {
-        attackMode = true;
-        Debug.Log("attackMode ON");
+    private void ToggleDrumToAttack() {
+        if (!isAttackDrum)
+        {
+            altDrum.SetActive(true);
+            altDrum.GetComponent<ControllerDrum>().startUpListeners();
+            EventManager.StopListening("ToggleDrumToAttack", toggleDrumToAttackListener);
+            EventManager.StopListening("ToggleDrumToMovement", toggleDrumToMovementListener);
+            EventManager.StopListening("DeactivateDrum", deactivateDrumListener);
+            EventManager.StopListening("FeedbackDrum", feedbackDrumListener);
+            EventManager.StopListening("ActivateDrum", activateDrumListener);
+            this.gameObject.SetActive(false);
+        }
+
     }
 
-    private void ToggleOff() {
-        attackMode = false;
-        Debug.Log("attackMode OFF");
+    private void ToggleDrumToMovement() {
+        if (isAttackDrum)
+        {
+            altDrum.SetActive(true);
+            altDrum.GetComponent<ControllerDrum>().startUpListeners();
+            EventManager.StopListening("ToggleDrumToAttack", toggleDrumToAttackListener);
+            EventManager.StopListening("ToggleDrumToMovement", toggleDrumToMovementListener);
+            EventManager.StopListening("DeactivateDrum", deactivateDrumListener);
+            EventManager.StopListening("FeedbackDrum", feedbackDrumListener);
+            EventManager.StopListening("ActivateDrum", activateDrumListener);
+            this.gameObject.SetActive(false);
+        }
     }
+
 
     private void DeactivateDrum() {
         StartCoroutine(colorTransition(drumRimMat.color, Color.red));
@@ -83,11 +99,19 @@ public class ControllerDrum : MonoBehaviour {
 
 
     private void ActivateDrum() {
-        StartCoroutine(colorTransition(drumRimMat.color, Color.blue));
+        StartCoroutine(colorTransition(drumRimMat.color, Color.grey));
     }
 
     private void FeedbackDrum(){
         StartCoroutine(colorTransition(drumRimMat.color, Color.green));
+    }
+
+    public void startUpListeners() {
+        EventManager.StartListening("ToggleDrumToAttack", toggleDrumToAttackListener);
+        EventManager.StartListening("ToggleDrumToMovement", toggleDrumToMovementListener);
+        EventManager.StartListening("DeactivateDrum", deactivateDrumListener);
+        EventManager.StartListening("FeedbackDrum", feedbackDrumListener);
+        EventManager.StartListening("ActivateDrum", activateDrumListener);
     }
 
     IEnumerator colorTransition(Color initialColor, Color finalColor)

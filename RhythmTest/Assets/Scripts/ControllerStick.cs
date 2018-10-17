@@ -7,9 +7,9 @@ public class ControllerStick : MonoBehaviour
 {
 
     private SteamVR_TrackedObject trackedObj;
-    private bool attackMode = false;
     private bool isButtonPressed = false;
     private UnityAction vibrationListener;
+    private bool isAttackMode = false;
 
     private SteamVR_Controller.Device Controller
     {
@@ -35,14 +35,12 @@ public class ControllerStick : MonoBehaviour
             }
 
             isButtonPressed = true;
-            if (!attackMode)
+            if (isAttackMode)
             {
-                EventManager.TriggerEvent("ToggleOn");
-                attackMode = true;
+                EventManager.TriggerEvent("ToggleDrumToMovement");
             }
             else {
-                EventManager.TriggerEvent("ToggleOff");
-                attackMode = false;
+                EventManager.TriggerEvent("ToggleDrumToAttack");
             }
         }
         else if (Controller.GetHairTriggerUp()) {
