@@ -281,7 +281,7 @@ public class Spells : MonoBehaviour {
             other.gameObject.GetComponent<Enemy>().takeDamage(20);
         }
 
-        if (other.gameObject.tag == "Player" && other.gameObject != user) {
+        if (type.Equals("enemyColumnProjectile") && other.gameObject.tag == "Player" && other.gameObject != user) {
             other.gameObject.GetComponent<Player>().takeDamage();
         }
     }

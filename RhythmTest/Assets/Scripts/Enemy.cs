@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour {
         enemy = this.gameObject.transform.parent.gameObject;
         player = GameObject.Find("Player").gameObject;
 
-        isBerserk = true;
+        isBerserk = false;
 
         anim.SetBool("B_Died", false);
     }
