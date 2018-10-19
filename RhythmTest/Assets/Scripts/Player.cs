@@ -140,7 +140,6 @@ public class Player : MonoBehaviour {
         }
 
         rhythmController.playerComboCount += 1;
-        EventManager.TriggerEvent("TriggerVibration");
         EventManager.TriggerEvent("FeedbackDrum");
         EventManager.TriggerEvent("UpdateCounter");
 
@@ -328,7 +327,7 @@ public class Player : MonoBehaviour {
         EventManager.TriggerEvent("DeactivateDrum");
         //while (currentAnimationTime < totalAnimationTime) {
             //currentAnimationTime += Time.deltaTime;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
         //}
         resetAttackAnimation();
         Debug.Log("Special Transition");

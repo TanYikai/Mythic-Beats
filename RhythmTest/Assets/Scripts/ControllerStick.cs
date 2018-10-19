@@ -6,10 +6,12 @@ using UnityEngine.Events;
 public class ControllerStick : MonoBehaviour
 {
 
+    public int id;
+    public PlayerControlController playerControl;
+
     private SteamVR_TrackedObject trackedObj;
     private bool isButtonPressed = false;
-    private UnityAction vibrationListener;
-    private bool isAttackMode = false;
+
 
     private SteamVR_Controller.Device Controller
     {
@@ -17,13 +19,10 @@ public class ControllerStick : MonoBehaviour
     }
 
     private void Start() {
-        EventManager.StartListening("TriggerVibration", vibrationListener);
     }
 
     void Awake() {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
-        vibrationListener = new UnityAction(TriggerVibration);
-
     }
 
     void Update() {
@@ -35,20 +34,23 @@ public class ControllerStick : MonoBehaviour
             }
 
             isButtonPressed = true;
-            if (isAttackMode)
+            if (playerControl.isAttackMode)
             {
                 EventManager.TriggerEvent("ToggleDrumToMovement");
+
             }
             else {
                 EventManager.TriggerEvent("ToggleDrumToAttack");
             }
+
         }
         else if (Controller.GetHairTriggerUp()) {
             isButtonPressed = false;
         }
     }
 
-    private void TriggerVibration() {
-        Controller.TriggerHapticPulse((ushort)Mathf.Lerp(0, 500, 0.5f));    //Start Duration,End Duration,Strength
+    public void triggerVibration() {
+        Controller.TriggerHapticPulse(2000);
     }
+
 }
