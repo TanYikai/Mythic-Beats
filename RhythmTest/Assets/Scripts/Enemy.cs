@@ -82,7 +82,30 @@ public class Enemy : MonoBehaviour {
         Destroy(this.gameObject.transform.parent.gameObject);
     }
 
-    public void doMovement() {
+    public bool decideMoveOrCharge() {
+        int value = Random.Range(0, 10);
+        if (value < 7) {
+            return false;
+        }
+        return true;
+    }
+
+    public void doMovementORStayIdle() {
+        int rand = Random.Range(0, 2);
+        if (rand < 1) {
+            stayIdle();
+        }
+        else {
+            doMovement();
+        }
+    }
+
+    private void stayIdle() {
+        // does nothing
+        Debug.Log("Enemy idle");
+    }
+
+    private void doMovement() {
         Vector3 newPosition;
         int movementNumber = Random.Range(0, 2);
 

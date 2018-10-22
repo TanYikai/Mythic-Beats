@@ -65,14 +65,10 @@ public class StateController : MonoBehaviour {
     }
 
     public void doMovement() {
-        enemyScript.doMovement();
+        enemyScript.doMovementORStayIdle();
     }
 
     public bool decideMoveOrCharge() {
-        int value = Random.Range(0, 10);
-        if (value < 4) {
-            return false;
-        }
-        return true;
+        return enemyScript.decideMoveOrCharge();
     }
 }
