@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
     private GameObject enemy;
     private GameObject player;
     private bool isBerserk;
+    private bool isDead;
 
     public Animator anim;
 
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour {
         player = GameObject.Find("Player").gameObject;
 
         isBerserk = false;
+        isDead = false;
 
         anim.SetBool("B_Died", false);
     }
@@ -43,6 +45,12 @@ public class Enemy : MonoBehaviour {
     }
 
     public void takeDamage(int dmg) {
+        if (!isDead) {
+            handleDamageTaken(dmg);
+        }
+    }
+
+    private void handleDamageTaken(int dmg) {
         dmg = (int) (rhythmController.playerComboCount * 0.1 + dmg);
 
         Debug.Log("enemy damage taken");
@@ -75,6 +83,7 @@ public class Enemy : MonoBehaviour {
 
     private IEnumerator doDeathAnimationAndDestroyObject(float duration) {
         float startTime = Time.time;
+        isDead = true;
         controller = null;
         while (duration >= (Time.time - startTime)) {
             yield return new WaitForSeconds(0.05f);
