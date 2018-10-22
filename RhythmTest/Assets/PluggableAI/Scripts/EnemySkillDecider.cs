@@ -60,13 +60,13 @@ public class EnemySkillDecider {
 
         switch (skillValue) {
             case 0:
-                chosenSkill = new ColumnAttack(3, enemy);
+                chosenSkill = new ColumnAttack(4, enemy);
                 break;
             case 1:
-                chosenSkill = new RowAttack(3, enemy);
+                chosenSkill = new RowAttack(4, enemy);
                 break;
             case 2:
-                chosenSkill = new RandomAttack(3, enemy, 2);
+                chosenSkill = new RandomAttack(4, enemy, 2);
                 break;
             case 3:
                 chosenSkill = new ColumnProjectileAttack(3, enemy);
@@ -93,10 +93,10 @@ public class EnemySkillDecider {
 
         switch (skillValue) {
             case 0:
-                chosenSkill = new ColumnAttack(2, enemy);
+                chosenSkill = new ColumnAttack(3, enemy);
                 break;
             case 1:
-                chosenSkill = new RowAttack(2, enemy);
+                chosenSkill = new RowAttack(3, enemy);
                 break;
             case 2:
                 chosenSkill = new RandomAttack(3, enemy, 4);

@@ -94,6 +94,9 @@ public class RandomAttack : EnemySkills {
             case 2:
                 changeToSecondMaterial(position);
                 break;
+            case 3:
+                changeToThirdMaterial(position);
+                break;
         }
     }
 
@@ -111,6 +114,15 @@ public class RandomAttack : EnemySkills {
             List<int> currentRow = chosenAttackGrid[i + 2];
             for (int j = 0; j < currentRow.Count; j++) {
                 Grid.instance.changeToSecondMaterial(i, currentRow[j]);
+            }
+        }
+    }
+
+    private void changeToThirdMaterial(Vector3 position) {
+        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
+            List<int> currentRow = chosenAttackGrid[i + 2];
+            for (int j = 0; j < currentRow.Count; j++) {
+                Grid.instance.changeToThirdMaterial(i, currentRow[j]);
             }
         }
     }

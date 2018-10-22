@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour {
     private GameObject player;
     private bool isBerserk;
     private bool isDead;
+    private int initialHealth;
 
     public Animator anim;
     private AudioSource enemyDamagedSound;
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour {
 
         isBerserk = false;
         isDead = false;
+        initialHealth = health;
 
         anim.SetBool("B_Died", false);
 
@@ -72,7 +74,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void checkAndSetEnemyBerserk() {
-        if (health < health / 2) {
+        if (health < initialHealth / 2) {
             isBerserk = true;
         }
     }
