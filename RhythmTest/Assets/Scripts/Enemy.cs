@@ -37,7 +37,9 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("B_Right", false);
         anim.SetBool("B_Hit", false);
         anim.SetBool("B_Atk", false);
-        controller.UpdateState();
+        if (controller != null) {
+            controller.UpdateState();
+        }
     }
 
     public void takeDamage(int dmg) {
@@ -67,8 +69,17 @@ public class Enemy : MonoBehaviour {
         if (health <= 0) {
             Debug.Log("dead");
             //Create a delay here for the death animation
-            Destroy(this.gameObject);
+            StartCoroutine(doDeathAnimationAndDestroyObject(4.0f));
         }
+    }
+
+    private IEnumerator doDeathAnimationAndDestroyObject(float duration) {
+        float startTime = Time.time;
+        controller = null;
+        while (duration >= (Time.time - startTime)) {
+            yield return new WaitForSeconds(0.05f);
+        }
+        Destroy(this.gameObject.transform.parent.gameObject);
     }
 
     public void doMovement() {
