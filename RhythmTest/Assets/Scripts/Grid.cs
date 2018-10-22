@@ -9,6 +9,7 @@ public class Grid : MonoBehaviour {
     public Material originalMaterial;
     public Material firstMaterial;
     public Material secondMaterial;
+    public Material thirdMaterial;
 
     private int rows;
     private int columns;
@@ -53,6 +54,12 @@ public class Grid : MonoBehaviour {
         int gridI, gridJ;
         changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
         changeMaterial(gridI, gridJ, secondMaterial);
+    }
+
+    public void changeToThirdMaterial(int i, int j) {
+        int gridI, gridJ;
+        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
+        changeMaterial(gridI, gridJ, thirdMaterial);
     }
 
     public void changeToOriginalMaterial(int i, int j) {

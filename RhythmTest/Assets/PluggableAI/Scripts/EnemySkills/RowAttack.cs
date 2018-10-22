@@ -62,6 +62,9 @@ public class RowAttack : EnemySkills {
             case 2:
                 changeToSecondMaterial(position);
                 break;
+            case 3:
+                changeToThirdMaterial(position);
+                break;
         }
     }
 
@@ -90,6 +93,13 @@ public class RowAttack : EnemySkills {
         for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
             Grid.instance.changeToSecondMaterial(firstRowSelected, i);
             Grid.instance.changeToSecondMaterial(secondRowSelected, i);
+        }
+    }
+
+    private void changeToThirdMaterial(Vector3 position) {
+        for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
+            Grid.instance.changeToThirdMaterial(firstRowSelected, i);
+            Grid.instance.changeToThirdMaterial(secondRowSelected, i);
         }
     }
 

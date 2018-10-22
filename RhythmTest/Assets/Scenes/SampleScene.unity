@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.3
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.03159987, g: 0.08670034, b: 0.22443543, a: 0.3}
+  m_IndirectSpecularColor: {r: 0.034294154, g: 0.09421674, b: 0.22349949, a: 0.3}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -35920,7 +35920,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalMaterial: {fileID: 2100000, guid: 09dea93d1a803ab4483ff99b7d365a73, type: 2}
   firstMaterial: {fileID: 2100000, guid: ba5533c00152e8c45b165d2d272067f1, type: 2}
-  secondMaterial: {fileID: 2100000, guid: cfcad015354ba2644ac4c94888d820f2, type: 2}
+  secondMaterial: {fileID: 2100000, guid: fa2147ef957fd2c4ca7051e5c82dc93a, type: 2}
+  thirdMaterial: {fileID: 2100000, guid: cfcad015354ba2644ac4c94888d820f2, type: 2}
 --- !u!4 &1618228732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4526791939225540, guid: c23a5db78ca1a5b4f921e0109f33128c,

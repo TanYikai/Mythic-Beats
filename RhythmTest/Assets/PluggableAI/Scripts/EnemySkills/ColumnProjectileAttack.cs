@@ -49,6 +49,9 @@ public class ColumnProjectileAttack : EnemySkills {
             case 2:
                 changeToSecondMaterial(position);
                 break;
+            case 3:
+                changeToThirdMaterial(position);
+                break;
         }
     }
 
@@ -66,6 +69,12 @@ public class ColumnProjectileAttack : EnemySkills {
     private void changeToSecondMaterial(Vector3 position) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
             Grid.instance.changeToSecondMaterial(i, columnSelected);
+        }
+    }
+
+    private void changeToThirdMaterial(Vector3 position) {
+        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
+            Grid.instance.changeToThirdMaterial(i, columnSelected);
         }
     }
 
