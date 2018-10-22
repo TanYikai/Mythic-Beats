@@ -62,16 +62,11 @@ public class RandomAttack : EnemySkills {
             for (int j = 0; j < currentRow.Count; j++)
             {
 
-                targetPosition = new Vector3(currentRow[j], user.transform.position.y, i);
+                targetPosition = new Vector3(currentRow[j], user.transform.position.y - 0.3f, i - 0.1f);
                 spell = GameObject.Instantiate(spells);
                 spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemyRandomAttack");
             }
         }
-        // only play sound once
-        targetPosition = new Vector3(0, 0, 0);
-        spell = GameObject.Instantiate(spells);
-        spell.GetComponentInChildren<Spells>().setup(user, targetPosition, "enemyRandomAttackSound");
-
     }
 
 

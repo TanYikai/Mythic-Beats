@@ -15,9 +15,10 @@ public class Enemy : MonoBehaviour {
     private bool isDead;
 
     public Animator anim;
+    private AudioSource enemyDamagedSound;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         rhythmController = GameObject.Find("Rhythm").GetComponent<Rhythm>();
         rhythmController.onEnemyBeat += doEnemyAction;
 
@@ -32,6 +33,8 @@ public class Enemy : MonoBehaviour {
         isDead = false;
 
         anim.SetBool("B_Died", false);
+
+        enemyDamagedSound = GetComponent<AudioSource>();
     }
 
     private void doEnemyAction() {
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour {
 
     private void handleDamageTaken(int dmg) {
         dmg = (int) (rhythmController.playerComboCount * 0.1 + dmg);
+        enemyDamagedSound.Play();
 
         Debug.Log("enemy damage taken");
         anim.SetBool("B_Hit", true);

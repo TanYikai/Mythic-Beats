@@ -6,10 +6,14 @@ public class Spells : MonoBehaviour {
 
     private float timeTillExpire;
     private GameObject user;
+    private GameObject player;
+    private GameObject enemy;
     private string type;
     private Vector3 position;
     public GameObject[] effects;
     private AudioSource[] soundEffects;
+    GameObject spell;
+    private bool spellDestroyed = false;
 
     // Use this for initialization
     void Start() { 
@@ -17,6 +21,8 @@ public class Spells : MonoBehaviour {
         timeTillExpire = 2f;
         Destroy(this.transform.parent.gameObject, timeTillExpire);
 
+        player = GameObject.Find("Player").gameObject;
+        enemy = GameObject.Find("Enemy").gameObject;
         soundEffects = GetComponents<AudioSource>();
 
         StartCoroutine(WaitForAnimation());
@@ -28,7 +34,7 @@ public class Spells : MonoBehaviour {
     }
 
     void StartEffect() {
-        GameObject spell;
+        //GameObject spell;
         AudioSource sound;
         Vector3 playerPos = user.transform.position;
         bool dmgIsToBeDone = false;
@@ -202,9 +208,6 @@ public class Spells : MonoBehaviour {
                 // attack effects
                 spell = Instantiate(effects[10], position, Quaternion.identity, transform) as GameObject;
                 Destroy(spell, 2f);
-                //sound
-                sound = soundEffects[8];
-                sound.Play();
                 // damage checks using collision box
                 break;
             case "enemyColumnAttack":
@@ -213,14 +216,11 @@ public class Spells : MonoBehaviour {
                 int columnEndIndex = 0;
 
                 for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-                    spell = Instantiate(effects[9], position + new Vector3(1f, 0, i), Quaternion.identity, transform) as GameObject;
-                    spell = Instantiate(effects[9], position + new Vector3(-1f, 0, i), Quaternion.identity, transform) as GameObject;
-                    spell = Instantiate(effects[9], position + new Vector3(0, 0, i), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(1f, -0.3f, i - 0.1f), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(-1f, -0.3f, i - 0.1f), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(0, -0.3f, i - 0.1f), Quaternion.identity, transform) as GameObject;
                     Destroy(spell, 2f);
                 }
-                //sound
-                sound = soundEffects[9];
-                sound.Play();
                 // damage checks in ColumnAttack.cs
                 break;
             case "enemyRowAttack":
@@ -229,12 +229,9 @@ public class Spells : MonoBehaviour {
                 int rowEndIndex = 4;
 
                 for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
-                    spell = Instantiate(effects[9], position + new Vector3(i, 0, 0), Quaternion.identity, transform) as GameObject;
+                    spell = Instantiate(effects[9], position + new Vector3(i, -0.3f, -0.1f), Quaternion.identity, transform) as GameObject;
                     Destroy(spell, 2f);
                 }
-                //sound
-                sound = soundEffects[10];
-                sound.Play();
                 // damage checks in RowAttack.cs
                 break;
             case "enemyRandomAttack":
@@ -243,12 +240,6 @@ public class Spells : MonoBehaviour {
                 Destroy(spell, 2f);
                 // damage checks in RandomAttack.cs
                 break;
-            case "enemyRandomAttackSound":
-                //sound
-                sound = soundEffects[11];
-                sound.Play();
-                break;
-
         }
     }
 
@@ -260,16 +251,17 @@ public class Spells : MonoBehaviour {
     }
 
     void Update() {
-        if (this.type.Equals("bBack") || this.type.Equals("bLeft") || this.type.Equals("bRight"))
-        { // all basic attacks except front
-            //this.transform.Translate(Vector3.forward * 3f * Time.deltaTime);
-        }
-        else if (this.type.Equals("combo2"))
+        if (this.type.Equals("combo2"))
         {
-            this.transform.Translate(Vector3.forward * 4f * Time.deltaTime);
+            if (!spellDestroyed) {
+                this.transform.Translate(Vector3.forward * 4f * Time.deltaTime);
+            }
         }
         else if (this.type.Equals("enemyColumnProjectile")) {
-            this.transform.Translate(Vector3.back * 4f * Time.deltaTime);
+            if (!spellDestroyed)
+            {
+                this.transform.Translate(Vector3.back * 4f * Time.deltaTime);
+            }
         }
     }
 
@@ -279,10 +271,26 @@ public class Spells : MonoBehaviour {
         if (type.Equals("combo2") && other.gameObject.tag == "Enemy" && other.gameObject != user) {
             Debug.Log("avatar projectile");
             other.gameObject.GetComponent<Enemy>().takeDamage(20);
+
+            Destroy(spell);
+            spellDestroyed = true;
+
+            GameObject explode = Instantiate(effects[4], enemy.transform.position, Quaternion.identity, transform) as GameObject;
+            Destroy(explode, 0.5f);
+            Debug.Log("hit by projectile");
+            Debug.Log(enemy.transform.position);
         }
 
         if (type.Equals("enemyColumnProjectile") && other.gameObject.tag == "Player" && other.gameObject != user) {
             other.gameObject.GetComponent<Player>().takeDamage();
+            Destroy(spell);
+            spellDestroyed = true;
+
+            GameObject explode = Instantiate(effects[4], player.transform.position, Quaternion.identity, transform) as GameObject;
+            Destroy(explode, 0.5f);
+            //Destroy(this.transform.parent.gameObject, 0.5f);
+            Debug.Log("hit by projectile");
+            Debug.Log(player.transform.position);
         }
     }
 }
