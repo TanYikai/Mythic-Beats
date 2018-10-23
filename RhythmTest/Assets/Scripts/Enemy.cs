@@ -106,8 +106,8 @@ public class Enemy : MonoBehaviour {
     }
 
     public void doMovementORStayIdle() {
-        int rand = Random.Range(0, 2);
-        if (rand < 1) {
+        int rand = Random.Range(0, 3);
+        if (rand < 2) {
             stayIdle();
         }
         else {

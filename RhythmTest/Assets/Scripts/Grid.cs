@@ -44,28 +44,26 @@ public class Grid : MonoBehaviour {
         }
     }
 
-    public void changeToFirstMaterial(int i, int j) {
+    public void decideAndChangeMaterial(int i, int j, int stage) {
         int gridI, gridJ;
         changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
-        changeMaterial(gridI, gridJ, firstMaterial);
+        Material chosenMaterial = decideMaterial(stage);
+        changeMaterial(gridI, gridJ, chosenMaterial);
     }
 
-    public void changeToSecondMaterial(int i, int j) {
-        int gridI, gridJ;
-        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
-        changeMaterial(gridI, gridJ, secondMaterial);
-    }
-
-    public void changeToThirdMaterial(int i, int j) {
-        int gridI, gridJ;
-        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
-        changeMaterial(gridI, gridJ, thirdMaterial);
-    }
-
-    public void changeToOriginalMaterial(int i, int j) {
-        int gridI, gridJ;
-        changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
-        changeMaterial(gridI, gridJ, originalMaterial);
+    private Material decideMaterial(int stage) {
+        switch (stage) {
+            case 0:
+                return originalMaterial;
+            case 1:
+                return firstMaterial;
+            case 2:
+                return secondMaterial;
+            case 3:
+                return thirdMaterial;
+            default:
+                return originalMaterial;
+        }
     }
 
     private void changeMaterial(int i, int j, Material newMaterial) {

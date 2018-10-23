@@ -52,20 +52,7 @@ public class RowAttack : EnemySkills {
             setOtherRow();
         }
 
-        switch (stage) {
-            case 0:
-                changeToOrignalMaterial(position);
-                break;
-            case 1:
-                changeToFirstMaterial(position);
-                break;
-            case 2:
-                changeToSecondMaterial(position);
-                break;
-            case 3:
-                changeToThirdMaterial(position);
-                break;
-        }
+        changeSelectedTileMaterial(stage);
     }
 
     private int generateRandomPositionNearPlayer() {
@@ -82,31 +69,10 @@ public class RowAttack : EnemySkills {
         }
     }
 
-    private void changeToFirstMaterial(Vector3 position) {
+    private void changeSelectedTileMaterial(int stage) {
         for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
-            Grid.instance.changeToFirstMaterial(firstRowSelected, i);
-            Grid.instance.changeToFirstMaterial(secondRowSelected, i);
-        }
-    }
-
-    private void changeToSecondMaterial(Vector3 position) {
-        for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
-            Grid.instance.changeToSecondMaterial(firstRowSelected, i);
-            Grid.instance.changeToSecondMaterial(secondRowSelected, i);
-        }
-    }
-
-    private void changeToThirdMaterial(Vector3 position) {
-        for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
-            Grid.instance.changeToThirdMaterial(firstRowSelected, i);
-            Grid.instance.changeToThirdMaterial(secondRowSelected, i);
-        }
-    }
-
-    private void changeToOrignalMaterial(Vector3 position) {
-        for (int i = rowStartIndex; i < rowEndIndex + 1; i++) {
-            Grid.instance.changeToOriginalMaterial(firstRowSelected, i);
-            Grid.instance.changeToOriginalMaterial(secondRowSelected, i);
+            Grid.instance.decideAndChangeMaterial(firstRowSelected, i, stage);
+            Grid.instance.decideAndChangeMaterial(secondRowSelected, i, stage);
         }
     }
 }

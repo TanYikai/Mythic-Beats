@@ -45,52 +45,14 @@ public class ColumnAttack : EnemySkills {
             columnSelected = Mathf.RoundToInt(user.transform.position.x);
         }
 
-        switch (stage) {
-            case 0:
-                changeToOriginalMaterial(position);
-                break;
-            case 1:
-                changeToFirstMaterial(position);
-                break;
-            case 2:
-                changeToSecondMaterial(position);
-                break;
-            case 3:
-                changeToThirdMaterial(position);
-                break;
-        }
+        changeSelectedTileMaterial(stage);
     }
 
-    private void changeToFirstMaterial(Vector3 position) {
+    private void changeSelectedTileMaterial(int stage) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            //Vector3 targetPosition = position + new Vector3(columnSelected, 0, -i);
-            Grid.instance.changeToFirstMaterial(i, columnSelected - 1);
-            Grid.instance.changeToFirstMaterial(i, columnSelected);
-            Grid.instance.changeToFirstMaterial(i, columnSelected + 1);
-        }
-    }
-
-    private void changeToSecondMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToSecondMaterial(i, columnSelected - 1);
-            Grid.instance.changeToSecondMaterial(i, columnSelected);
-            Grid.instance.changeToSecondMaterial(i, columnSelected + 1);
-        }
-    }
-
-    private void changeToThirdMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToThirdMaterial(i, columnSelected - 1);
-            Grid.instance.changeToThirdMaterial(i, columnSelected);
-            Grid.instance.changeToThirdMaterial(i, columnSelected + 1);
-        }
-    }
-
-    private void changeToOriginalMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToOriginalMaterial(i, columnSelected - 1);
-            Grid.instance.changeToOriginalMaterial(i, columnSelected);
-            Grid.instance.changeToOriginalMaterial(i, columnSelected + 1);
+            Grid.instance.decideAndChangeMaterial(i, columnSelected - 1, stage);
+            Grid.instance.decideAndChangeMaterial(i, columnSelected, stage);
+            Grid.instance.decideAndChangeMaterial(i, columnSelected + 1, stage);
         }
     }
 }

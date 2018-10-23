@@ -39,20 +39,7 @@ public class ColumnProjectileAttack : EnemySkills {
             columnSelected = generateRandomPositionNearPlayer();
         }
 
-        switch (stage) {
-            case 0:
-                changeToOriginalMaterial(position);
-                break;
-            case 1:
-                changeToFirstMaterial(position);
-                break;
-            case 2:
-                changeToSecondMaterial(position);
-                break;
-            case 3:
-                changeToThirdMaterial(position);
-                break;
-        }
+        changeSelectedTileMaterial(stage);
     }
 
     private int generateRandomPositionNearPlayer() {
@@ -60,27 +47,9 @@ public class ColumnProjectileAttack : EnemySkills {
         return Random.Range(Mathf.Max(-4, playerX - 1), Mathf.Min(4, playerX + 1));
     }
 
-    private void changeToFirstMaterial(Vector3 position) {
+    private void changeSelectedTileMaterial(int stage) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToFirstMaterial(i, columnSelected);
-        }
-    }
-
-    private void changeToSecondMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToSecondMaterial(i, columnSelected);
-        }
-    }
-
-    private void changeToThirdMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToThirdMaterial(i, columnSelected);
-        }
-    }
-
-    private void changeToOriginalMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            Grid.instance.changeToOriginalMaterial(i, columnSelected);
+            Grid.instance.decideAndChangeMaterial(i, columnSelected, stage);
         }
     }
 }
