@@ -351,7 +351,7 @@ public class Player : MonoBehaviour {
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
-        EventManager.TriggerEvent("ReducePlayerHP");
+        EventManager.TriggerEvent("UpdatePlayerHealth");
         checkAndDestroyIfDead();
     }
 

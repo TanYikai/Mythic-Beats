@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour {
             anim.SetBool("B_Died", true);
             health = 0;
         }
-        EventManager.TriggerEvent("ReduceEnemyHP");
+        EventManager.TriggerEvent("UpdateEnemyHealth");
         checkAndDestroyIfDead();
         checkAndSetEnemyBerserk();
     }
