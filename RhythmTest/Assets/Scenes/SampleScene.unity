@@ -10335,7 +10335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76195e9fc27e0004d9736ebaf704444f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpScreen: {fileID: 0}
   anim: {fileID: 1233737099}
 --- !u!82 &457941499
 AudioSource:
@@ -27803,7 +27802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.08, y: 4.87}
+  m_AnchoredPosition: {x: 0.08, y: 3.34}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1265957746
@@ -28925,7 +28924,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: 00
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -28993,7 +28992,7 @@ MonoBehaviour:
   m_margin: {x: 94.15294, y: 20.190231, z: 94.403175, w: 20.247581}
   m_textInfo:
     textComponent: {fileID: 1306998205}
-    characterCount: 2
+    characterCount: 1
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -33818,6 +33817,8 @@ MonoBehaviour:
   playerRef: {fileID: 457941492}
   enemyRef: {fileID: 140055103}
   playerComboRef: {fileID: 457941498}
+  rhythmRef: {fileID: 580484873}
+  textMeshProUGUI: {fileID: 1306998205}
   comboStones:
   - {fileID: 449886787}
   - {fileID: 96927111}
