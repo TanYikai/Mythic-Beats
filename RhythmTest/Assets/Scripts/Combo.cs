@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Combo : MonoBehaviour {
 
-    public HPScreen hpScreen;
     private GameObject spells;
     private GameObject user;
     private Queue<string> queue;
