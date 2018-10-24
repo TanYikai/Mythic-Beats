@@ -9,7 +9,8 @@ public class TutorialController : MonoBehaviour {
         MovementWithBeat,
         TogglingToAttack,
         NormalAttack,
-        ComboAttack
+        ComboAttack,
+        TransitionToMainGame
     };
 
     private TutorialStage currentStage;
@@ -24,10 +25,12 @@ public class TutorialController : MonoBehaviour {
     private bool[] attackDirectionChecklist; // in order of up, down, left, right
 
     private GameObject enemy;
+    private TextController textController;
     
 
     void Awake() {
         enemy = GameObject.Find("Enemy");
+        textController = GameObject.Find("DisplayText").GetComponent<TextController>();
 
         setupMovementWithoutBeatStage();
     }
@@ -41,30 +44,51 @@ public class TutorialController : MonoBehaviour {
             case TutorialStage.MovementWithoutBeat:
                 if (checkDirectionChecklist()) {
                     setupMovementWithBeatStage();
+                    displayTextAfterStage();
                 }
                 break;
             case TutorialStage.MovementWithBeat:
                 if (checkDirectionChecklist()) {
                     //setupTogglingToAttackStage();
                     setupNormalAttackStage();
+                    displayTextAfterStage();
                 }
                 break;
             case TutorialStage.TogglingToAttack:
                 if (isAttackTogglingObjectiveCompleted) {
                     setupNormalAttackStage();
+                    displayTextAfterStage();
                 }
                 break;
             case TutorialStage.NormalAttack:
                 if (checkAttackDirectionChecklist()) {
                     setupComboAttackStage();
+                    displayTextAfterStage();
                 }
                 break;
             case TutorialStage.ComboAttack:
                 if (isComboObjectiveCompleted) {
+                    setupTransitionToMainGame();
+                    displayTextAfterStage();
+                }
+                break;
+            case TutorialStage.TransitionToMainGame:
+                if (!isTextShowing) {
                     transitToMainGame();
                 }
                 break;
         }    
+    }
+
+    private void displayTextAfterStage() {
+        textController.transform.parent.gameObject.SetActive(true);
+        progressText();
+    }
+
+    public void progressText() {
+        if (!textController.proceedAndDisplayNextText()) {
+            isTextShowing = false;
+        }
     }
 
     private bool checkDirectionChecklist() {
@@ -172,4 +196,18 @@ public class TutorialController : MonoBehaviour {
         Debug.Log("Entering combo attack stage");
     }
 
+    private void setupTransitionToMainGame() {
+        currentStage = TutorialStage.TransitionToMainGame;
+        isTextShowing = true;
+        isMovementEnabled = true;
+        isBeatEnabled = true;
+        isAttackTogglingEnabled = true;
+        isComboEnabled = true;
+        directionChecklist = new bool[4];
+        attackDirectionChecklist = new bool[4];
+        isAttackTogglingObjectiveCompleted = false;
+        isComboObjectiveCompleted = false;
+
+        Debug.Log("Entering transition to main game stage");
+    }
 }

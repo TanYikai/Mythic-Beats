@@ -47,6 +47,13 @@ public class PlayerTutorial : MonoBehaviour {
 
 
         if (mainCamera) {
+            if (tutorialController.isTextShowing) {
+                if (Input.GetMouseButtonDown(0)) {
+                    tutorialController.progressText();
+                }
+                return;
+            }
+
             if (tutorialController.isAttackTogglingEnabled) {
                 if (Input.GetKey(KeyCode.Q)) {
                     EventManager.TriggerEvent("ToggleDrumToAttack");
@@ -145,6 +152,11 @@ public class PlayerTutorial : MonoBehaviour {
     }
 
     public void ExecuteKey(KeyCode keyCode, bool attackMode) {
+        if (tutorialController.isTextShowing) {
+            tutorialController.progressText();
+            return;
+        }
+
         Vector3 newPosition;
         AudioSource sound;
 
