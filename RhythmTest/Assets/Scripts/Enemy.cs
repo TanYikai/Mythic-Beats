@@ -88,12 +88,9 @@ public class Enemy : MonoBehaviour {
     }
 
     private IEnumerator doDeathAnimationAndDestroyObject(float duration) {
-        float startTime = Time.time;
         isDead = true;
         controller = null;
-        while (duration >= (Time.time - startTime)) {
-            yield return new WaitForSeconds(0.05f);
-        }
+        yield return new WaitForSeconds(duration);
         Destroy(this.gameObject.transform.parent.gameObject);
     }
 
@@ -106,8 +103,8 @@ public class Enemy : MonoBehaviour {
     }
 
     public void doMovementORStayIdle() {
-        int rand = Random.Range(0, 2);
-        if (rand < 1) {
+        int rand = Random.Range(0, 3);
+        if (rand < 2) {
             stayIdle();
         }
         else {
@@ -117,7 +114,6 @@ public class Enemy : MonoBehaviour {
 
     private void stayIdle() {
         // does nothing
-        Debug.Log("Enemy idle");
     }
 
     private void doMovement() {

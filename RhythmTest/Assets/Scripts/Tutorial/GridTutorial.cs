@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour {
+public class GridTutorial : MonoBehaviour {
 
-    public static Grid instance = null;
+    public static GridTutorial instance = null;
 
     public Material originalMaterial;
     public Material firstMaterial;
@@ -26,20 +26,20 @@ public class Grid : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Init () {
-        rows = 6;
-        columns = 9;
-        gridICorrectionValue = 3; //(int)Mathf.Floor(rows / 2.0f);
-        gridJCorrectionValue = 4; //(int)Mathf.Floor(columns / 2.0f);
+    void Init() {
+        rows = 4;
+        columns = 3;
+        gridICorrectionValue = 2; //(int)Mathf.Floor(rows / 2.0f);
+        gridJCorrectionValue = 1; //(int)Mathf.Floor(columns / 2.0f);
 
         setupGrid();
-	}
+    }
 
     private void setupGrid() {
         grid = new GameObject[rows, columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                grid[i, j] = transform.GetChild(i*columns + j).gameObject;
+                grid[i, j] = transform.GetChild(i * columns + j).gameObject;
             }
         }
     }
@@ -73,13 +73,5 @@ public class Grid : MonoBehaviour {
     private void changeFromArrayIndexToGridIndex(int i, int j, out int gridI, out int gridJ) {
         gridI = Mathf.Abs(i - gridICorrectionValue);
         gridJ = j + gridJCorrectionValue;
-    }
-
-    private void print() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                Debug.Log(grid[i,j]);
-            }
-        }
     }
 }

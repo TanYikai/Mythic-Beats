@@ -54,6 +54,8 @@ public class DamageController : MonoBehaviour {
     }
 
     public void doDamageToEnemy(int dmg) {
-        enemyScript.takeDamage(dmg);
+        if (enemyScript != null) {
+            enemyScript.takeDamage(dmg);
+        }
     }
 }

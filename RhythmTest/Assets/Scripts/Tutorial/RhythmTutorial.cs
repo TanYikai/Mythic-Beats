@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rhythm : MonoBehaviour {
+public class RhythmTutorial : MonoBehaviour {
 
     public float beatsPerMinute;
     public float timeBeforeBeatStarts;
@@ -24,7 +24,7 @@ public class Rhythm : MonoBehaviour {
     public event OnBeat onPlayerBeat;
     public event OnBeat onEnemyBeat;
 
-    void OnEnable () {
+    void OnEnable() {
         onPlayerBeat += openWindowForPlayerActionHandler;
         onEnemyBeat += openWindowForEnemyActionHandler;
     }
@@ -42,18 +42,7 @@ public class Rhythm : MonoBehaviour {
         isSpecialOccurring = false;
         isTimeForEnemyAction = true;
 
-        //StartCoroutine(waitForNextBeat());
-        //StartCoroutine(playDrumBeatLoop());
-        introClip.Play();
-        loopClip.PlayDelayed(introClip.clip.length);
-
-        StartCoroutine(checkForBeatIntro());
-        StartCoroutine(waitForIntro());
-    }
-
-    // Update is called once per frame
-    void Update() {
-
+        startRhythm();
     }
 
     public bool IsTimeForPlayerAction {
@@ -72,6 +61,14 @@ public class Rhythm : MonoBehaviour {
         set {
             isSpecialOccurring = value;
         }
+    }
+
+    public void startRhythm() {
+        introClip.Play();
+        loopClip.PlayDelayed(introClip.clip.length);
+
+        StartCoroutine(checkForBeatIntro());
+        StartCoroutine(waitForIntro());
     }
 
     void openWindowForPlayerActionHandler() {
@@ -112,28 +109,12 @@ public class Rhythm : MonoBehaviour {
             }
         }
 
-        if (isTimeForEnemyAction && onEnemyBeat != null)
-        {
+        if (isTimeForEnemyAction && onEnemyBeat != null) {
             onEnemyBeat();
         }
 
         StartCoroutine(checkForBeat());
     }
-
-    //IEnumerator playDrumBeatLoop() {
-    //    Debug.Log(Time.time);
-    //    loopClip.PlayOneShot(loopClip.clip, 1.0f);
-    //    Debug.Log(Time.time);
-    //    yield return new WaitForSeconds(secondsPerBeat);
-    //    StartCoroutine(waitForNextBeat());
-    //    StartCoroutine(playDrumBeatLoop());
-    //}
-
-    //IEnumerator waitForNextBeat() {
-    //    float nextReadyTime = secondsPerBeat - actionTimeErrorMargin;
-    //    yield return new WaitForSeconds(nextReadyTime);
-    //    StartCoroutine(openWindowForAction());
-    //}
 
     IEnumerator openWindowForPlayerAction() {
         //Debug.Log("now");

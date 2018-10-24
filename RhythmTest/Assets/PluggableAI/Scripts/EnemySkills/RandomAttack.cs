@@ -69,7 +69,6 @@ public class RandomAttack : EnemySkills {
         }
     }
 
-
     public override void doSkill() {
         Debug.Log("do random attack");
 
@@ -84,54 +83,14 @@ public class RandomAttack : EnemySkills {
     }
 
     public override void handleTelegraphAttack(Vector3 position, int stage) {
-        switch (stage) {
-            case 0:
-                changeToOrignalMaterial(position);
-                break;
-            case 1:
-                changeToFirstMaterial(position);
-                break;
-            case 2:
-                changeToSecondMaterial(position);
-                break;
-            case 3:
-                changeToThirdMaterial(position);
-                break;
-        }
+        changeSelectedTileMaterial(stage);
     }
 
-    private void changeToFirstMaterial(Vector3 position) {
+    private void changeSelectedTileMaterial(int stage) {
         for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
             List<int> currentRow = chosenAttackGrid[i + 2];
             for (int j = 0; j < currentRow.Count; j++) {
-                Grid.instance.changeToFirstMaterial(i, currentRow[j]);
-            }
-        }
-    }
-
-    private void changeToSecondMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            List<int> currentRow = chosenAttackGrid[i + 2];
-            for (int j = 0; j < currentRow.Count; j++) {
-                Grid.instance.changeToSecondMaterial(i, currentRow[j]);
-            }
-        }
-    }
-
-    private void changeToThirdMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            List<int> currentRow = chosenAttackGrid[i + 2];
-            for (int j = 0; j < currentRow.Count; j++) {
-                Grid.instance.changeToThirdMaterial(i, currentRow[j]);
-            }
-        }
-    }
-
-    private void changeToOrignalMaterial(Vector3 position) {
-        for (int i = columnStartIndex; i < columnEndIndex + 1; i++) {
-            List<int> currentRow = chosenAttackGrid[i + 2];
-            for (int j = 0; j < currentRow.Count; j++) {
-                Grid.instance.changeToOriginalMaterial(i, currentRow[j]);
+                Grid.instance.decideAndChangeMaterial(i, currentRow[j], stage);
             }
         }
     }
