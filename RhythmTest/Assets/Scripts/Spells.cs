@@ -12,7 +12,6 @@ public class Spells : MonoBehaviour {
     private Vector3 position;
     public GameObject[] effects;
     private AudioSource[] soundEffects;
-    GameObject spell;
     private bool spellDestroyed = false;
 
     // Use this for initialization
@@ -34,7 +33,7 @@ public class Spells : MonoBehaviour {
     }
 
     void StartEffect() {
-        //GameObject spell;
+        GameObject spell;
         AudioSource sound;
         Vector3 playerPos = user.transform.position;
         bool dmgIsToBeDone = false;
@@ -269,28 +268,23 @@ public class Spells : MonoBehaviour {
         // enemy and player should fall under the same base class
         // only if its projectile will check for collision
         if (type.Equals("combo2") && other.gameObject.tag == "Enemy" && other.gameObject != user) {
-            Debug.Log("avatar projectile");
             other.gameObject.GetComponent<Enemy>().takeDamage(20);
 
-            Destroy(spell);
+            Destroy(gameObject, 0.15f);
             spellDestroyed = true;
 
             GameObject explode = Instantiate(effects[4], enemy.transform.position, Quaternion.identity, transform) as GameObject;
             Destroy(explode, 0.5f);
-            Debug.Log("hit by projectile");
-            Debug.Log(enemy.transform.position);
         }
 
         if (type.Equals("enemyColumnProjectile") && other.gameObject.tag == "Player" && other.gameObject != user) {
             other.gameObject.GetComponent<Player>().takeDamage();
-            Destroy(spell);
+
+            Destroy(gameObject, 0.15f);
             spellDestroyed = true;
 
             GameObject explode = Instantiate(effects[4], player.transform.position, Quaternion.identity, transform) as GameObject;
             Destroy(explode, 0.5f);
-            //Destroy(this.transform.parent.gameObject, 0.5f);
-            Debug.Log("hit by projectile");
-            Debug.Log(player.transform.position);
         }
     }
 }
