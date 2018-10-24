@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
     private GameObject enemy;
     public Animator anim;
 
-    private Combo combo;
+    public Combo combo;
 
     // To allow debug without VR
     GameObject mainCamera;

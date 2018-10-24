@@ -51,7 +51,7 @@ public class Combo : MonoBehaviour {
                     (arrayOfCommand[2] == "Left" && command == "Right") ||
                     (arrayOfCommand[2] == "Up" && command == "Right")) {
                     queue.Enqueue(command);
-                    hpScreen.updateCombo(queue);
+                    EventManager.TriggerEvent("UpdateComboStatus");
                     determineCombo(buildComboCommand());
                     return true;
                 }
@@ -67,8 +67,9 @@ public class Combo : MonoBehaviour {
                 return false;
         }
 
-        hpScreen.updateCombo(queue);
         determineCombo(command);
+        EventManager.TriggerEvent("UpdateComboStatus");
+        Debug.Log("In Combo");
 
         return false;
     }
@@ -84,8 +85,6 @@ public class Combo : MonoBehaviour {
     }
 
     private void determineCombo(string command) {
-
-        
 
         switch (command) {
                 case "Up":
@@ -108,7 +107,7 @@ public class Combo : MonoBehaviour {
                 case "LeftRightUpDown":
                     anim.SetBool("C2Atk", true);
                     Debug.Log("LeftRightUpDown combo happened");
-                    combo2 ();
+                    combo2();
                     break;
                 case "LeftRightLeftRight":
                     anim.SetBool("C3Atk", true);
@@ -124,6 +123,7 @@ public class Combo : MonoBehaviour {
                     Debug.LogError("Combo makes no sense");
                     break;
             }
+
     }
 
     private void attackFront() {
@@ -185,5 +185,9 @@ public class Combo : MonoBehaviour {
     public void clearCombo() {
         queue.Clear();
         EventManager.TriggerEvent("ClearComboText");
+    }
+
+    public Queue<string> getQueue() {
+        return queue;
     }
 }
