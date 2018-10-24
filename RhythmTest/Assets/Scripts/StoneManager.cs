@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,6 +9,8 @@ public class StoneManager : MonoBehaviour {
     public Player playerRef;
     public Enemy enemyRef;
     public Combo playerComboRef;
+    public Rhythm rhythmRef;
+    public TextMeshProUGUI textMeshProUGUI;
 
     public GameObject[] comboStones;
     public GameObject[] healthStones;
@@ -18,6 +21,7 @@ public class StoneManager : MonoBehaviour {
     private UnityAction updatePlayerHealthListener;
     private UnityAction updateEnemyHealthListener;
     private UnityAction updateComboStatusListener;
+    private UnityAction updateCounterListener;
 
 
     // Use this for initialization
@@ -40,6 +44,7 @@ public class StoneManager : MonoBehaviour {
         EventManager.StartListening("UpdatePlayerHealth", updatePlayerHealthListener);
         EventManager.StartListening("UpdateEnemyHealth", updateEnemyHealthListener);
         EventManager.StartListening("UpdateComboStatus", updateComboStatusListener);
+        EventManager.StartListening("UpdateCounter", updateCounterListener);
     }
 	
 	// Update is called once per frame
@@ -52,6 +57,7 @@ public class StoneManager : MonoBehaviour {
         updatePlayerHealthListener = new UnityAction(UpdatePlayerHealth);
         updateEnemyHealthListener = new UnityAction(UpdateEnemyHealth);
         updateComboStatusListener = new UnityAction(UpdateComboStatus);
+        updateCounterListener = new UnityAction(UpdateCounter);
 }
 
     private void UpdatePlayerHealth() {
@@ -189,6 +195,10 @@ public class StoneManager : MonoBehaviour {
         changeRemainingColor();
     }
 
+    private void UpdateCounter() {
+        textMeshProUGUI.text = rhythmRef.playerComboCount.ToString();
+    }
+
     private void changeRemainingColor() {
         foreach (Material[] mat in comboStonesMat) {
             for (int i = 1; i < 5; i++) {
@@ -221,4 +231,6 @@ public class StoneManager : MonoBehaviour {
             }
         }
     }
+
+    
 }
