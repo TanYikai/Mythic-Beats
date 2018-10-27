@@ -41,11 +41,11 @@ public class TextController : MonoBehaviour {
 
     private void setupTextList() {
         // Movement without beat stage
-        textList[0] = "Hello, welcome to the world of Ra Beats.";
-        textList[1] = "I am your guide in this world, <NAME>. Nice to meet you!";
+        textList[0] = "Hello, welcome to the world of Ra-Beats.";
+        textList[1] = "I am your familiar in this world, Ra. Nice to meet you!";
         textList[2] = "Oh right, I forgot you can’t speak in here.";
         textList[3] = "You can use the drums you have there to communicate with me. Try using it to tell me how to move!";
-        textList[4] = "Try moving <Name> in all four directions";
+        textList[4] = "Try moving me in all four directions";
         textList[5] = "";
 
         // Movement with beat stage

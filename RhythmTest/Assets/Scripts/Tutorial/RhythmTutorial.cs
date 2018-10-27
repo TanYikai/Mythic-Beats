@@ -65,10 +65,10 @@ public class RhythmTutorial : MonoBehaviour {
 
     public void startRhythm() {
         introClip.Play();
-        loopClip.PlayDelayed(introClip.clip.length);
+        //loopClip.PlayDelayed(introClip.clip.length);
 
         StartCoroutine(checkForBeatIntro());
-        StartCoroutine(waitForIntro());
+        //StartCoroutine(waitForIntro());
     }
 
     void openWindowForPlayerActionHandler() {

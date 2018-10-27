@@ -26,7 +26,8 @@ public class TutorialController : MonoBehaviour {
 
     private GameObject enemy;
     private TextController textController;
-    
+
+    private SceneChanger sceneChanger;
 
     void Awake() {
         enemy = GameObject.Find("Enemy");
@@ -36,7 +37,8 @@ public class TutorialController : MonoBehaviour {
     }
 
     void Start() {
-        enemy.SetActive(false);    
+        enemy.SetActive(false);
+        sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
     }
 
     void Update() {
@@ -112,6 +114,7 @@ public class TutorialController : MonoBehaviour {
     private void transitToMainGame() {
         // do nothing for now
         Debug.Log("Transiting to main game");
+        sceneChanger.fadeToScene("SampleScene");
     }
 
     public void checkDirectionChecklist(int direction) {
