@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ComboTutorial : MonoBehaviour {
 
-    public HPScreenTutorial hpScreen;
     private GameObject spells;
     private GameObject user;
     private Queue<string> queue;
@@ -52,7 +51,7 @@ public class ComboTutorial : MonoBehaviour {
                         (arrayOfCommand[2] == "Left" && command == "Right") ||
                         (arrayOfCommand[2] == "Up" && command == "Right")) {
                         queue.Enqueue(command);
-                        hpScreen.updateCombo(queue);
+                        EventManager.TriggerEvent("UpdateComboStatus");
                         determineCombo(buildComboCommand());
                         return true;
                     }
@@ -68,9 +67,9 @@ public class ComboTutorial : MonoBehaviour {
                     return false;
             }
 
-            hpScreen.updateCombo(queue);
         }
         determineCombo(command);
+        EventManager.TriggerEvent("UpdateComboStatus");
 
         return false;
     }
@@ -183,5 +182,9 @@ public class ComboTutorial : MonoBehaviour {
     public void clearCombo() {
         queue.Clear();
         EventManager.TriggerEvent("ClearComboText");
+    }
+
+    public Queue<string> getQueue() {
+        return queue;
     }
 }

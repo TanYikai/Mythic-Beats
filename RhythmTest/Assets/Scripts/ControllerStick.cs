@@ -8,7 +8,9 @@ public class ControllerStick : MonoBehaviour
 
     public int id;
     public PlayerControlController playerControl;
+    public PlayerControlControllerTutorial playerControlTutorial;
 
+    
     private SteamVR_TrackedObject trackedObj;
     private bool isButtonPressed = false;
 
@@ -34,7 +36,7 @@ public class ControllerStick : MonoBehaviour
             }
 
             isButtonPressed = true;
-            if (playerControl.isAttackMode)
+            if ((playerControl != null && playerControl.isAttackMode) || (playerControlTutorial != null && playerControlTutorial.isAttackMode))
             {
                 EventManager.TriggerEvent("ToggleDrumToMovement");
 

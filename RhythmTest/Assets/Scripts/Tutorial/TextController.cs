@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.Events;
 
 public class TextController : MonoBehaviour {
 
     private string[] textList;
-    private TextMesh displayText;
+    private TextMeshProUGUI displayText;
     private int currTextIndex;
 
     void Start() {
         textList = new string[22];
         setupTextList();
-        displayText =  this.GetComponent<TextMesh>();
+        displayText =  this.GetComponent<TextMeshProUGUI>();
         currTextIndex = 0;
         updateText();
     }
