@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class ControllerDrum : MonoBehaviour {
 
     public KeyCode keyCode;
+    public PlayerControlController playerControl;
 
     private SteamVR_TrackedObject trackedObj;
-    private PlayerControlController playerControl;
     private Material drumRimMat;
 
 
