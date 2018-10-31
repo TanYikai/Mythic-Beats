@@ -270,7 +270,6 @@ public class Spells : MonoBehaviour {
         if (type.Equals("combo2") && other.gameObject.tag == "Enemy" && other.gameObject != user) {
             //other.gameObject.GetComponent<Enemy>().takeDamage(20);
             DamageController.instance.doDamageToEnemy(20);
-
             Destroy(gameObject, 0.15f);
             spellDestroyed = true;
 
