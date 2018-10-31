@@ -51,8 +51,7 @@ public class TutorialController : MonoBehaviour {
                 break;
             case TutorialStage.MovementWithBeat:
                 if (checkDirectionChecklist()) {
-                    //setupTogglingToAttackStage();
-                    setupNormalAttackStage();
+                    setupTogglingToAttackStage();
                     displayTextAfterStage();
                 }
                 break;
