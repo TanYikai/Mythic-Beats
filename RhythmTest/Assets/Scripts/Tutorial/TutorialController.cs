@@ -25,20 +25,27 @@ public class TutorialController : MonoBehaviour {
     private bool[] attackDirectionChecklist; // in order of up, down, left, right
 
     private GameObject enemy;
+    private EnemyTutorial enemyTutorialScript;
     private TextController textController;
 
     private SceneChanger sceneChanger;
 
     void Awake() {
         enemy = GameObject.Find("Enemy");
+        enemyTutorialScript = enemy.GetComponentInChildren<EnemyTutorial>();
         textController = GameObject.Find("DisplayText").GetComponent<TextController>();
 
         setupMovementWithoutBeatStage();
     }
 
     void Start() {
-        enemy.SetActive(false);
+        StartCoroutine(LateStart());
         sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
+    }
+
+    IEnumerator LateStart() {
+        yield return new WaitForEndOfFrame();
+        enemy.SetActive(false);
     }
 
     void Update() {
@@ -51,8 +58,7 @@ public class TutorialController : MonoBehaviour {
                 break;
             case TutorialStage.MovementWithBeat:
                 if (checkDirectionChecklist()) {
-                    //setupTogglingToAttackStage();
-                    setupNormalAttackStage();
+                    setupTogglingToAttackStage();
                     displayTextAfterStage();
                 }
                 break;
@@ -69,7 +75,7 @@ public class TutorialController : MonoBehaviour {
                 }
                 break;
             case TutorialStage.ComboAttack:
-                if (isComboObjectiveCompleted) {
+                if (isComboObjectiveCompleted && enemyTutorialScript.getIsDead()) {
                     setupTransitionToMainGame();
                     displayTextAfterStage();
                 }

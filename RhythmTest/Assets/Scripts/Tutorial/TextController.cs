@@ -11,7 +11,7 @@ public class TextController : MonoBehaviour {
     private int currTextIndex;
 
     void Start() {
-        textList = new string[22];
+        textList = new string[24];
         setupTextList();
         displayText =  this.GetComponent<TextMeshProUGUI>();
         currTextIndex = 0;
@@ -68,12 +68,14 @@ public class TextController : MonoBehaviour {
 
         // Combo attack stage
         textList[16] = "Nice. How about we try some fancy combinations?";
-        textList[17] = "<List all the combos> LeftRightLeft Right => Fireball etc. You can take breaks inbetween but missing a beat will reset your combination";
-        textList[18] = "";
+        textList[17] = "Look at the stone pillars to help you out with the combinations.";
+        textList[18] = "You can take breaks in between but missing a beat will reset your combination.";
+        textList[19] = "Now, Let's do some practice and take down the dummy!";
+        textList[20] = "";
 
         // Before transition to main game
-        textList[19] = "Good job! Remember to keep to the beat. The more you keep to it, the more damage my attacks will deal";
-        textList[20] = "Now that you are all ready, let’s go greet Mister Bearowl!";
-        textList[21] = "";
+        textList[21] = "Good job! Remember to keep to the beat. The more you keep to it, the more damage my attacks will deal";
+        textList[22] = "Now that you are all ready, let’s go greet Mister Bearowl!";
+        textList[23] = "";
     }
 }

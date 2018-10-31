@@ -268,7 +268,8 @@ public class Spells : MonoBehaviour {
         // enemy and player should fall under the same base class
         // only if its projectile will check for collision
         if (type.Equals("combo2") && other.gameObject.tag == "Enemy" && other.gameObject != user) {
-            other.gameObject.GetComponent<Enemy>().takeDamage(20);
+            //other.gameObject.GetComponent<Enemy>().takeDamage(20);
+            DamageController.instance.doDamageToEnemy(20);
 
             Destroy(gameObject, 0.15f);
             spellDestroyed = true;
