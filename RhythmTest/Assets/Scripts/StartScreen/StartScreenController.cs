@@ -62,6 +62,7 @@ public class StartScreenController : MonoBehaviour {
     }
 
     private void ExecuteKey(KeyCode key) {
+        EventManager.TriggerEvent("FeedbackDrum");
         if (key == KeyCode.W) {
             sceneChanger.fadeToScene("Tutorial");
         }

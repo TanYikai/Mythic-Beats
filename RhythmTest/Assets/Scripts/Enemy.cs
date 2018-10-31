@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     private bool isBerserk;
     private bool isDead;
     private int initialHealth;
+    private SceneChanger sceneChanger;
 
     public Animator anim;
     private AudioSource enemyDamagedSound;
@@ -37,6 +38,8 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("B_Died", false);
 
         enemyDamagedSound = GetComponent<AudioSource>();
+
+        sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
     }
 
     private void doEnemyAction() {
@@ -92,6 +95,13 @@ public class Enemy : MonoBehaviour {
         controller = null;
         yield return new WaitForSeconds(duration);
         Destroy(this.gameObject.transform.parent.gameObject);
+        StartCoroutine(playEndingSequence());
+    }
+
+    private IEnumerator playEndingSequence() {
+        // play some ending music
+        yield return new WaitForSeconds(2.0f);
+        sceneChanger.fadeToScene("StartScreen");
     }
 
     public bool decideMoveOrCharge() {
