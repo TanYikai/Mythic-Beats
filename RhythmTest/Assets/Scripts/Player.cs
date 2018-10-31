@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
     private Rhythm rhythmController;
     private PlayerMovementRestrictor playerMovementRestrictor;
     private GameObject enemy;
+    private SceneChanger sceneChanger;
     public Animator anim;
 
     public Combo combo;
@@ -36,6 +37,8 @@ public class Player : MonoBehaviour {
         mainCamera = GameObject.Find("Main Camera");
 
         movementSounds = GetComponents<AudioSource>();
+
+        sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
     }
 	
 	// Update is called once per frame
@@ -346,8 +349,6 @@ public class Player : MonoBehaviour {
         anim.SetBool("RightAtk", false);
     }
 
-    
-
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
@@ -359,6 +360,7 @@ public class Player : MonoBehaviour {
         if (playerHealth <= 0) {
             Debug.Log("player dead");
             Destroy(this.gameObject);
+            sceneChanger.waitAndFadeToScene("StartScreen", 2.0f);
         }
     }
 

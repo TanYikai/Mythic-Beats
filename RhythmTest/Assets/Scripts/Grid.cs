@@ -44,6 +44,14 @@ public class Grid : MonoBehaviour {
         }
     }
 
+    public void resetAllGridMaterial() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                grid[i, j].GetComponent<Renderer>().material = originalMaterial;
+            }
+        }
+    }
+
     public void decideAndChangeMaterial(int i, int j, int stage) {
         int gridI, gridJ;
         changeFromArrayIndexToGridIndex(i, j, out gridI, out gridJ);
