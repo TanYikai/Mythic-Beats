@@ -11,6 +11,7 @@ public class DamageController : MonoBehaviour {
     private GameObject enemyMesh;
     private Player playerScript;
     private Enemy enemyScript;
+    private EnemyTutorial enemyTutorialScript;
 
     void Awake() {
         if (instance == null) {
@@ -24,7 +25,16 @@ public class DamageController : MonoBehaviour {
         enemy = GameObject.Find("Enemy");
         enemyMesh = GameObject.Find("EnemyMesh");
         playerScript = player.GetComponent<Player>();
-        enemyScript = enemy.GetComponentInChildren<Enemy>();
+        setEnemyScript();
+    }
+
+    private void setEnemyScript() {
+        if (enemy.GetComponentInChildren<Enemy>() != null) {
+            enemyScript = enemy.GetComponentInChildren<Enemy>();
+        }
+        else {
+            enemyTutorialScript = enemy.GetComponentInChildren<EnemyTutorial>();
+        }
     }
 
     public void checkAndDoDamageToPlayer(int i, int j) {
@@ -56,6 +66,10 @@ public class DamageController : MonoBehaviour {
     public void doDamageToEnemy(int dmg) {
         if (enemyScript != null) {
             enemyScript.takeDamage(dmg);
+        }
+
+        if (enemyTutorialScript != null) {
+            enemyTutorialScript.takeDamage(dmg);
         }
     }
 }

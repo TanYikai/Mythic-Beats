@@ -8,7 +8,7 @@ public class StoneManagerTutorial : MonoBehaviour
 {
 
     public PlayerTutorial playerRef;
-    //public EnemyTutorial enemyRef;
+    public EnemyTutorial enemyRef;
     public ComboTutorial playerComboRef;
     public RhythmTutorial rhythmRef;
     public TextMeshProUGUI textMeshProUGUI;
@@ -82,7 +82,7 @@ public class StoneManagerTutorial : MonoBehaviour
 
     private void UpdateEnemyHealth()
     {
-        /*int enemyCurrHealth = (int)Mathf.Ceil((float)(enemyRef.health / 10));
+        int enemyCurrHealth = (int)Mathf.Ceil((float)(enemyRef.health / 10));
 
         for (int i = 0; i < enemyCurrHealth; i++)
         {
@@ -92,7 +92,7 @@ public class StoneManagerTutorial : MonoBehaviour
         for (int i = 1; i < (11 - enemyCurrHealth); i++)
         {
             healthStonesMat[1][i + 1].color = Color.red;
-        }*/
+        }
     }
 
     private void UpdateComboStatus()
