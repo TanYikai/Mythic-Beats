@@ -41,6 +41,12 @@ public class StartScreenController : MonoBehaviour {
     public void drumHit(KeyCode key, int id) {
         drumSticks[id].triggerVibration();
         ExecuteKey(key);
+        StartCoroutine(resetDrum(0.2f));
+    }
+
+    IEnumerator resetDrum(float duration) {
+        yield return new WaitForSeconds(duration);
+        EventManager.TriggerEvent("ActivateDrum");
     }
 
     private void DeactivateDrum() {

@@ -425,5 +425,4 @@ public class PlayerTutorial : MonoBehaviour {
         EventManager.TriggerEvent("UpdateCounter");
         //combo.clearCombo();
     }
-
 }

@@ -44,7 +44,7 @@ public class PlayerControlControllerTutorial : MonoBehaviour {
     }
 
     private void ToggleDrumToAttack() {
-        if (tutorialController.isAttackTogglingEnabled) {
+        if (tutorialController.isAttackTogglingEnabled && !tutorialController.isTextShowing) {
             tutorialController.isAttackTogglingObjectiveCompleted = true;
             isAttackMode = true;
             foreach (ControllerDrum drum in movementDrums) {
@@ -57,12 +57,14 @@ public class PlayerControlControllerTutorial : MonoBehaviour {
     }
 
     private void ToggleDrumToMovement() {
-        isAttackMode = false;
-        foreach (ControllerDrum drum in attackDrums) {
-            drum.gameObject.SetActive(false);
-        }
-        foreach (ControllerDrum drum in movementDrums) {
-            drum.gameObject.SetActive(true);
+        if (!tutorialController.isTextShowing) {
+            isAttackMode = false;
+            foreach (ControllerDrum drum in attackDrums) {
+                drum.gameObject.SetActive(false);
+            }
+            foreach (ControllerDrum drum in movementDrums) {
+                drum.gameObject.SetActive(true);
+            }
         }
     }
 
