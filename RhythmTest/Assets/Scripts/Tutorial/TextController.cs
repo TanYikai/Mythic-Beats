@@ -52,7 +52,8 @@ public class TextController : MonoBehaviour {
 
         // Movement with beat stage
         textList[6] = "Great! We are musical creatures by nature, so we follow a rhythm of sorts";
-        textList[7] = "Try moving all four directions, according to the beat now. If it helps, you can look at the orb behind me to time your drum hits";
+        //textList[7] = "Try moving all four directions, according to the beat now. If it helps, you can look at the orb behind me to time your drum hits";
+        textList[7] = "Try moving all four directions, according to the beat now.";
         textList[8] = "";
 
         // Toggling to attack stage
@@ -69,7 +70,7 @@ public class TextController : MonoBehaviour {
         // Combo attack stage
         textList[16] = "Nice. How about we try some fancy combinations?";
         textList[17] = "Look at the stone pillars to help you out.";
-        textList[18] = "Let's do some practice and take down the dummy!";
+        textList[18] = "Let's get some practice and take down the dummy!";
         textList[19] = "";
 
         // Before transition to main game
