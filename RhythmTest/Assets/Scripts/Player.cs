@@ -349,8 +349,6 @@ public class Player : MonoBehaviour {
         anim.SetBool("RightAtk", false);
     }
 
-    
-
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
@@ -362,22 +360,8 @@ public class Player : MonoBehaviour {
         if (playerHealth <= 0) {
             Debug.Log("player dead");
             Destroy(this.gameObject);
-            StartCoroutine(playEndingSequence());
+            sceneChanger.waitAndFadeToScene("StartScreen", 2.0f);
         }
-    }
-
-    /*private IEnumerator doDeathAnimationAndDestroyObject(float duration) {
-        isDead = true;
-        controller = null;
-        yield return new WaitForSeconds(duration);
-        Destroy(this.gameObject.transform.parent.gameObject);
-        StartCoroutine(playEndingSequence());
-    }*/
-
-    private IEnumerator playEndingSequence() {
-        // play some ending music
-        yield return new WaitForSeconds(2.0f);
-        sceneChanger.fadeToScene("StartScreen");
     }
 
     private void failBeat() {

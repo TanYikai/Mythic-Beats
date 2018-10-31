@@ -90,7 +90,6 @@ public class Enemy : MonoBehaviour {
             Debug.Log("dead");
             //Create a delay here for the death animation
             StartCoroutine(doDeathAnimationAndDestroyObject(4.0f));
-            StartCoroutine(playEndingSequence());
         }
     }
 
@@ -99,12 +98,7 @@ public class Enemy : MonoBehaviour {
         controller = null;
         yield return new WaitForSeconds(duration);
         Destroy(this.gameObject.transform.parent.gameObject);
-    }
-
-    private IEnumerator playEndingSequence() {
-        // play some ending music
-        yield return new WaitForSeconds(6.0f);
-        sceneChanger.fadeToScene("StartScreen");
+        sceneChanger.waitAndFadeToScene("StartScreen", 2.0f);
     }
 
     public bool decideMoveOrCharge() {

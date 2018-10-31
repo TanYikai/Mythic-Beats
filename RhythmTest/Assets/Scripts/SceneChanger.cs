@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour {
@@ -21,5 +22,14 @@ public class SceneChanger : MonoBehaviour {
 
     public void onFadeComplete() {
         SceneManager.LoadScene(sceneToLoad);
+    }
+
+    public void waitAndFadeToScene(string sceneName, float duration) {
+        StartCoroutine(PreSceneChangeDelay(sceneName, duration));
+    }
+
+    private IEnumerator PreSceneChangeDelay(string sceneName, float duration) {
+        yield return new WaitForSeconds(duration);
+        fadeToScene(sceneName);
     }
 }
