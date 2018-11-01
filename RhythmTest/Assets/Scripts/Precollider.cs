@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Precollider : MonoBehaviour {
 
+    public bool setTo;
     private ControllerDrum drum;
 
 	// Use this for initialization
@@ -17,8 +18,8 @@ public class Precollider : MonoBehaviour {
 	}
 
     private void OnTriggerEnter(Collider collider) {
-        if (collider.CompareTag("DrumStick")) {
-            drum.canHit = true;
+        if (collider.CompareTag("DrumStick") && !drum.isTouching) {
+            drum.canHit = setTo;
         }
     }
 }

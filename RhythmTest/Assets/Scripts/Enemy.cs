@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void handleDamageTaken(int dmg) {
-        dmg = (int) (rhythmController.playerComboCount * 0.1 + dmg);
+        dmg = (int) (Mathf.Floor(Mathf.Pow(2,rhythmController.playerComboCount*0.2f)) + dmg);
         enemyDamagedSound.Play();
 
         Debug.Log("enemy damage taken");

@@ -48,7 +48,7 @@ public class Spells : MonoBehaviour {
                 sound.Play();
                 // damage
                 if (DamageController.instance.checkIfEnemyIsInRange(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x))) {
-                    DamageController.instance.doDamageToEnemy(5);
+                    DamageController.instance.doDamageToEnemy(1);
                 };
                 break;
             case "bBack":
@@ -79,7 +79,7 @@ public class Spells : MonoBehaviour {
                 // damaage
                 if (DamageController.instance.checkIfEnemyIsInRange(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x) - 1) ||
                    DamageController.instance.checkIfEnemyIsInRange(Mathf.RoundToInt(playerPos.z) + 2, Mathf.RoundToInt(playerPos.x) - 1)) {
-                    DamageController.instance.doDamageToEnemy(2);
+                    DamageController.instance.doDamageToEnemy(1);
                 }
                 break;
             case "bRight":
@@ -95,7 +95,7 @@ public class Spells : MonoBehaviour {
                 // damage
                 if (DamageController.instance.checkIfEnemyIsInRange(Mathf.RoundToInt(playerPos.z) + 1, Mathf.RoundToInt(playerPos.x) + 1) ||
                     DamageController.instance.checkIfEnemyIsInRange(Mathf.RoundToInt(playerPos.z) + 2, Mathf.RoundToInt(playerPos.x) + 1)) {
-                    DamageController.instance.doDamageToEnemy(2);
+                    DamageController.instance.doDamageToEnemy(1);
                 }
                 break;
             case "combo1":
@@ -129,7 +129,7 @@ public class Spells : MonoBehaviour {
                     }
                 }
                 if (dmgIsToBeDone) {
-                    DamageController.instance.doDamageToEnemy(20);
+                    DamageController.instance.doDamageToEnemy(15);
                 }
                 break;
             case "combo2":
@@ -182,7 +182,7 @@ public class Spells : MonoBehaviour {
                     }
                 }
                 if (dmgIsToBeDone) {
-                    DamageController.instance.doDamageToEnemy(20);
+                    DamageController.instance.doDamageToEnemy(15);
                 }
                 break;
             case "combo4":
@@ -200,7 +200,7 @@ public class Spells : MonoBehaviour {
                 if (DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x) - 1) ||
                 DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x)) ||
                 DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x) + 1)) {
-                    DamageController.instance.doDamageToEnemy(20);
+                    DamageController.instance.doDamageToEnemy(15);
                 }
                 break;
             case "enemyColumnProjectile":
@@ -269,7 +269,7 @@ public class Spells : MonoBehaviour {
         // only if its projectile will check for collision
         if (type.Equals("combo2") && other.gameObject.tag == "Enemy" && other.gameObject != user) {
             //other.gameObject.GetComponent<Enemy>().takeDamage(20);
-            DamageController.instance.doDamageToEnemy(20);
+            DamageController.instance.doDamageToEnemy(10);
             Destroy(gameObject, 0.15f);
             spellDestroyed = true;
 

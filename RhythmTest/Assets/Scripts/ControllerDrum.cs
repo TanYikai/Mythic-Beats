@@ -10,6 +10,7 @@ public class ControllerDrum : MonoBehaviour {
     public PlayerControlControllerTutorial playerControlTutorial;
     public StartScreenController startScreenController;
     public bool canHit = false;
+    public bool isTouching = false;
 
     private SteamVR_TrackedObject trackedObj;
     private Material drumRimMat;
@@ -34,6 +35,8 @@ public class ControllerDrum : MonoBehaviour {
             return;
         }
 
+        isTouching = true;
+
         if (playerControl != null && collider.CompareTag("DrumStick")) {
             playerControl.drumHit(keyCode, collider.gameObject.GetComponent<ControllerStick>().id);
         }
@@ -45,6 +48,10 @@ public class ControllerDrum : MonoBehaviour {
         }
 
         canHit = false;
+    }
+
+    private void OnTriggerExit(Collider collider) {
+        isTouching = false;
     }
 
 
