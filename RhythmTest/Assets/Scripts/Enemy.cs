@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour {
 
     public Animator anim;
     private AudioSource enemyDamagedSound;
+    public GameObject floatingText;
 
     // Use this for initialization
     void Start () {
@@ -69,6 +71,10 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("B_Hit", true);
         if (health - dmg >= 0) {
             health -= dmg;
+
+            if (floatingText) {
+                showFloatingText(dmg);
+            }
         }
         else {
             anim.SetBool("B_Died", true);
@@ -77,6 +83,12 @@ public class Enemy : MonoBehaviour {
         EventManager.TriggerEvent("UpdateEnemyHealth");
         checkAndDestroyIfDead();
         checkAndSetEnemyBerserk();
+    }
+
+    private void showFloatingText(int dmg)
+    {
+        var text = Instantiate(floatingText, transform.position, Quaternion.identity, transform);
+        text.GetComponent<TextMeshPro>().text = dmg.ToString();
     }
 
     private void checkAndSetEnemyBerserk() {
