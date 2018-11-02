@@ -85,9 +85,12 @@ public class Enemy : MonoBehaviour {
         checkAndSetEnemyBerserk();
     }
 
-    private void showFloatingText(int dmg)
-    {
-        var text = Instantiate(floatingText, transform.position, Quaternion.identity, transform);
+    private void showFloatingText(int dmg) {
+        Debug.Log("show floating");
+        Debug.Log(dmg);
+        Debug.Log(transform.position);
+        var text = Instantiate(floatingText, transform.position + new Vector3(0, 3, 0), Quaternion.identity, transform);
+        Debug.Log(text);
         text.GetComponent<TextMeshPro>().text = dmg.ToString();
     }
 
