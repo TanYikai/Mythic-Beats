@@ -86,11 +86,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void showFloatingText(int dmg) {
-        Debug.Log("show floating");
-        Debug.Log(dmg);
-        Debug.Log(transform.position);
         var text = Instantiate(floatingText, transform.position + new Vector3(0, 3, 0), Quaternion.identity, transform);
-        Debug.Log(text);
         text.GetComponent<TextMeshPro>().text = dmg.ToString();
     }
 
@@ -113,7 +109,7 @@ public class Enemy : MonoBehaviour {
         controller = null;
         yield return new WaitForSeconds(duration);
         Destroy(this.gameObject.transform.parent.gameObject);
-        sceneChanger.waitAndFadeToScene("StartScreen", 2.0f);
+        sceneChanger.waitAndFadeToScene("PlayerWin", 2.0f);
     }
 
     public bool decideMoveOrCharge() {

@@ -360,7 +360,7 @@ public class Player : MonoBehaviour {
         if (playerHealth <= 0) {
             Debug.Log("player dead");
             Destroy(this.gameObject);
-            sceneChanger.waitAndFadeToScene("StartScreen", 2.0f);
+            sceneChanger.waitAndFadeToScene("PlayerLose", 2.0f);
         }
     }
 
