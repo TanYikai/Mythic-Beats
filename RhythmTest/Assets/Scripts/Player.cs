@@ -39,6 +39,8 @@ public class Player : MonoBehaviour {
         movementSounds = GetComponents<AudioSource>();
 
         sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
+
+        anim.SetBool("Death", false);
     }
 	
 	// Update is called once per frame
@@ -47,6 +49,7 @@ public class Player : MonoBehaviour {
         anim.SetBool("Down", false);
         anim.SetBool("Left", false);
         anim.SetBool("Right", false);
+        anim.SetBool("Hit", false);
 
 
         if (mainCamera) {
@@ -352,6 +355,7 @@ public class Player : MonoBehaviour {
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
+        anim.SetBool("Hit", true);
         EventManager.TriggerEvent("UpdatePlayerHealth");
         checkAndDestroyIfDead();
     }
@@ -359,9 +363,20 @@ public class Player : MonoBehaviour {
     private void checkAndDestroyIfDead() {
         if (playerHealth <= 0) {
             Debug.Log("player dead");
-            Destroy(this.gameObject);
-            sceneChanger.waitAndFadeToScene("PlayerLose", 2.0f);
+            StartCoroutine(doDeathAnimationAndDestroyObject(4.0f));
+            //Destroy(this.gameObject);
+            //sceneChanger.waitAndFadeToScene("PlayerLose", 2.0f);
         }
+    }
+
+    private IEnumerator doDeathAnimationAndDestroyObject(float duration)
+    {
+        //stop player movement here
+
+        anim.SetBool("Death", true);
+        yield return new WaitForSeconds(duration);
+        //Destroy(this.gameObject);
+        sceneChanger.waitAndFadeToScene("PlayerLose", 2.0f);
     }
 
     private void failBeat() {
@@ -371,5 +386,4 @@ public class Player : MonoBehaviour {
         EventManager.TriggerEvent("UpdateCounter");
         //combo.clearCombo();
     }
-
 }
