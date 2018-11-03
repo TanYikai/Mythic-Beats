@@ -10,11 +10,17 @@ public class EnemyTutorial : MonoBehaviour {
     private bool isDead;
     private AudioSource enemyDamagedSound;
     public GameObject floatingText;
+    public Animator anim;
 
     // Use this for initialization
     void Start() {
         isDead = false;
         enemyDamagedSound = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        anim.SetBool("Hit", false);
     }
 
     public void takeDamage(int dmg) {
@@ -25,7 +31,7 @@ public class EnemyTutorial : MonoBehaviour {
         if (health - dmg >= 0) {
             health -= dmg;
             enemyDamagedSound.Play();
-
+            anim.SetBool("Hit", true);
             if (floatingText) {
                 showFloatingText(dmg);
             }
