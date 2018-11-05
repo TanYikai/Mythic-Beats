@@ -10,9 +10,11 @@ public class ControllerStick : MonoBehaviour
     public PlayerControlController playerControl;
     public PlayerControlControllerTutorial playerControlTutorial;
 
+    private bool downPressed = false;
+    private bool upPressed = false;
+
     
     private SteamVR_TrackedObject trackedObj;
-    private bool isButtonPressed = false;
 
 
     private SteamVR_Controller.Device Controller
@@ -28,26 +30,25 @@ public class ControllerStick : MonoBehaviour
     }
 
     void Update() {
-        if (Controller.GetHairTriggerDown())
-        {
-            if (isButtonPressed)
-            {
+        if (Controller.GetHairTriggerDown()) {
+            if (downPressed)
                 return;
-            }
 
-            isButtonPressed = true;
-            if ((playerControl != null && playerControl.isAttackMode) || (playerControlTutorial != null && playerControlTutorial.isAttackMode))
-            {
-                EventManager.TriggerEvent("ToggleDrumToMovement");
+            downPressed = true;
+            upPressed = false;
 
-            }
-            else {
+            if ((playerControl != null && !playerControl.isAttackMode) || (playerControlTutorial != null && !playerControlTutorial.isAttackMode))
                 EventManager.TriggerEvent("ToggleDrumToAttack");
-            }
-
         }
         else if (Controller.GetHairTriggerUp()) {
-            isButtonPressed = false;
+            if (upPressed)
+                return;
+
+            downPressed = false;
+            upPressed = true;
+
+            if ((playerControl != null && playerControl.isAttackMode) || (playerControlTutorial != null && playerControlTutorial.isAttackMode))
+                EventManager.TriggerEvent("ToggleDrumToMovement");
         }
     }
 

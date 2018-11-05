@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
     private PlayerMovementRestrictor playerMovementRestrictor;
     private GameObject enemy;
     private SceneChanger sceneChanger;
+    public Material playerMat;
     public Animator anim;
 
     public Combo combo;
@@ -355,6 +356,7 @@ public class Player : MonoBehaviour {
     public void takeDamage() {
         Debug.Log("player took damage");
         playerHealth--;
+        StartCoroutine(flashDamage());
         anim.SetBool("Hit", true);
         EventManager.TriggerEvent("UpdatePlayerHealth");
         checkAndDestroyIfDead();
@@ -385,5 +387,33 @@ public class Player : MonoBehaviour {
         rhythmController.playerComboCount = 0;
         EventManager.TriggerEvent("UpdateCounter");
         //combo.clearCombo();
+    }
+
+    IEnumerator flashDamage()
+    {
+        Material originalMat = playerMat;
+        Color originalCol = originalMat.color;
+
+        float currentAnimationTime = 0.0f;
+        float totalAnimationTime = 0.1f;
+        for (int i = 0; i < 3; i++)
+        {
+            while (currentAnimationTime < totalAnimationTime)
+            {
+                currentAnimationTime += Time.deltaTime;
+                playerMat.color = Color.Lerp(originalCol, Color.red, currentAnimationTime / totalAnimationTime);
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            currentAnimationTime = 0;
+            totalAnimationTime = 0.1f;
+
+            while (currentAnimationTime < totalAnimationTime)
+            {
+                currentAnimationTime += Time.deltaTime;
+                playerMat.color = Color.Lerp(Color.red, originalCol, currentAnimationTime / totalAnimationTime);
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
     }
 }

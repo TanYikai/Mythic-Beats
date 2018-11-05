@@ -9,6 +9,7 @@ public class Precollider : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        setTo = true;
         drum = this.GetComponentInParent<ControllerDrum>();
 	}
 	
