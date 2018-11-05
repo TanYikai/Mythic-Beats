@@ -82,7 +82,7 @@ public class StoneManagerTutorial : MonoBehaviour
 
     private void UpdateEnemyHealth()
     {
-        int enemyCurrHealth = (int)Mathf.Ceil((float)(enemyRef.health / 10));
+        int enemyCurrHealth = (int)Mathf.Ceil(enemyRef.health / 10f);
 
         for (int i = 0; i < enemyCurrHealth; i++)
         {

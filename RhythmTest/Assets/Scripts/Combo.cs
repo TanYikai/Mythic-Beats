@@ -46,9 +46,9 @@ public class Combo : MonoBehaviour {
                 break;
             case 3:
                 if ((arrayOfCommand[2] == "Down" && command == "Right") ||
-                    (arrayOfCommand[2] == "Up" && command == "Down") ||
+                    (arrayOfCommand[1] == "Right" && arrayOfCommand[2] == "Up" && command == "Down") ||
                     (arrayOfCommand[2] == "Left" && command == "Right") ||
-                    (arrayOfCommand[2] == "Up" && command == "Right")) {
+                    (arrayOfCommand[1] == "Down" && arrayOfCommand[2] == "Up" && command == "Right")) {
                     queue.Enqueue(command);
                     EventManager.TriggerEvent("UpdateComboStatus");
                     determineCombo(buildComboCommand());
