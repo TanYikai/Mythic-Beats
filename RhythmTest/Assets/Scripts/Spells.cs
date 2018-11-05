@@ -129,7 +129,7 @@ public class Spells : MonoBehaviour {
                     }
                 }
                 if (dmgIsToBeDone) {
-                    DamageController.instance.doDamageToEnemy(15);
+                    DamageController.instance.doDamageToEnemy(18);
                 }
                 break;
             case "combo2":
@@ -182,7 +182,7 @@ public class Spells : MonoBehaviour {
                     }
                 }
                 if (dmgIsToBeDone) {
-                    DamageController.instance.doDamageToEnemy(15);
+                    DamageController.instance.doDamageToEnemy(13);
                 }
                 break;
             case "combo4":
@@ -200,7 +200,7 @@ public class Spells : MonoBehaviour {
                 if (DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x) - 1) ||
                 DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x)) ||
                 DamageController.instance.checkIfEnemyIsInRange(rowIndex + 1, Mathf.RoundToInt(playerPos.x) + 1)) {
-                    DamageController.instance.doDamageToEnemy(15);
+                    DamageController.instance.doDamageToEnemy(25);
                 }
                 break;
             case "enemyColumnProjectile":
