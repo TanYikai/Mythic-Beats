@@ -9,13 +9,25 @@ public class TextController : MonoBehaviour {
     private string[] textList;
     private TextMeshProUGUI displayText;
     private int currTextIndex;
+    private bool isTextProceedPossible;
+    private List<int> specialTextIndexList;
+
+    private void OnEnable() {
+        isTextProceedPossible = true;
+    }
 
     void Start() {
         textList = new string[23];
         setupTextList();
+        setupSpecialTextIndex();
         displayText =  this.GetComponent<TextMeshProUGUI>();
         currTextIndex = 0;
         updateText();
+        isTextProceedPossible = true;
+    }
+
+    public bool getIsTextProceedPossible() {
+        return isTextProceedPossible;
     }
 
     private void proceedTextIndex() {
@@ -26,10 +38,18 @@ public class TextController : MonoBehaviour {
         displayText.text = textList[currTextIndex];
     }
 
+    public bool isTextSpecial() {
+        if (specialTextIndexList.Contains(currTextIndex)) {
+            return true;
+        }
+        return false;
+    }
+
     // returns false if text is turned inactive, true otherwise
     public bool proceedAndDisplayNextText() {
         proceedTextIndex();
         updateText();
+        StartCoroutine(delayBeforeNextTextProceedPossible());
         if (displayText.text == "") {
             hideText();
             return false;
@@ -39,6 +59,17 @@ public class TextController : MonoBehaviour {
 
     public void hideText() {
         transform.parent.gameObject.SetActive(false);
+    }
+
+    IEnumerator delayBeforeNextTextProceedPossible() {
+        isTextProceedPossible = false;
+        yield return new WaitForSeconds(0.3f);
+        isTextProceedPossible = true;
+    }
+
+    private void setupSpecialTextIndex() {
+        specialTextIndexList = new List<int>();
+        specialTextIndexList.Add(10);
     }
 
     private void setupTextList() {

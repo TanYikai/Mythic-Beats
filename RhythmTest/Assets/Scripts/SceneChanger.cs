@@ -10,7 +10,15 @@ public class SceneChanger : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M)) {
+        if (Input.GetKeyDown(KeyCode.M) && Input.GetKeyDown(KeyCode.UpArrow)) {
+            fadeToScene("StartScreen");
+        }
+
+        if (Input.GetKeyDown(KeyCode.T) && Input.GetKeyDown(KeyCode.UpArrow)) {
+            fadeToScene("Tutorial");
+        }
+
+        if (Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.UpArrow)) {
             fadeToScene("SampleScene");
         }
     }

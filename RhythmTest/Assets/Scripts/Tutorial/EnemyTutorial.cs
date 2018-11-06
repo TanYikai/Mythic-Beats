@@ -7,6 +7,7 @@ public class EnemyTutorial : MonoBehaviour {
 
     public int health;
 
+    private int initialHealth;
     private bool isDead;
     private AudioSource enemyDamagedSound;
     public GameObject floatingText;
@@ -16,6 +17,7 @@ public class EnemyTutorial : MonoBehaviour {
     void Start() {
         isDead = false;
         enemyDamagedSound = GetComponent<AudioSource>();
+        initialHealth = health;
     }
 
     private void Update()
@@ -25,6 +27,10 @@ public class EnemyTutorial : MonoBehaviour {
 
     public void takeDamage(int dmg) {
         handleDamageTaken(dmg);
+    }
+
+    public void resetEnemyHealth() {
+        health = initialHealth;
     }
 
     private void handleDamageTaken(int dmg) {
