@@ -9,6 +9,11 @@ public class TextController : MonoBehaviour {
     private string[] textList;
     private TextMeshProUGUI displayText;
     private int currTextIndex;
+    private bool isTextProceedPossible;
+
+    private void OnEnable() {
+        isTextProceedPossible = true;
+    }
 
     void Start() {
         textList = new string[23];
@@ -16,6 +21,11 @@ public class TextController : MonoBehaviour {
         displayText =  this.GetComponent<TextMeshProUGUI>();
         currTextIndex = 0;
         updateText();
+        isTextProceedPossible = true;
+    }
+
+    public bool getIsTextProceedPossible() {
+        return isTextProceedPossible;
     }
 
     private void proceedTextIndex() {
@@ -30,6 +40,7 @@ public class TextController : MonoBehaviour {
     public bool proceedAndDisplayNextText() {
         proceedTextIndex();
         updateText();
+        StartCoroutine(delayBeforeNextTextProceedPossible());
         if (displayText.text == "") {
             hideText();
             return false;
@@ -39,6 +50,12 @@ public class TextController : MonoBehaviour {
 
     public void hideText() {
         transform.parent.gameObject.SetActive(false);
+    }
+
+    IEnumerator delayBeforeNextTextProceedPossible() {
+        isTextProceedPossible = false;
+        yield return new WaitForSeconds(0.3f);
+        isTextProceedPossible = true;
     }
 
     private void setupTextList() {

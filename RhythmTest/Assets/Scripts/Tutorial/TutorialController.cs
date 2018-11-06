@@ -94,8 +94,10 @@ public class TutorialController : MonoBehaviour {
     }
 
     public void progressText() {
-        if (!textController.proceedAndDisplayNextText()) {
-            isTextShowing = false;
+        if (textController.getIsTextProceedPossible()) {
+            if (!textController.proceedAndDisplayNextText()) {
+                isTextShowing = false;
+            }
         }
     }
 
