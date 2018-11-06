@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     private SceneChanger sceneChanger;
     public Material playerMat;
     public Animator anim;
+    private bool isDead;
 
     public Combo combo;
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour {
 
         sceneChanger = GameObject.Find("SceneChanger").GetComponent<SceneChanger>();
 
+        isDead = false;
         anim.SetBool("Death", false);
     }
 	
@@ -52,6 +54,9 @@ public class Player : MonoBehaviour {
         anim.SetBool("Right", false);
         anim.SetBool("Hit", false);
 
+        if (isDead) {
+            return;
+        }
 
         if (mainCamera) {
             if (Input.GetKey(KeyCode.Q))
@@ -138,6 +143,10 @@ public class Player : MonoBehaviour {
     }
 
     public void ExecuteKey(KeyCode keyCode, bool attackMode) {
+        if (isDead) {
+            return;
+        }
+
         Vector3 newPosition;
         AudioSource sound;
 
@@ -354,6 +363,9 @@ public class Player : MonoBehaviour {
     }
 
     public void takeDamage() {
+        if (isDead) {
+            return;
+        }
         Debug.Log("player took damage");
         playerHealth--;
         StartCoroutine(flashDamage());
@@ -374,7 +386,7 @@ public class Player : MonoBehaviour {
     private IEnumerator doDeathAnimationAndDestroyObject(float duration)
     {
         //stop player movement here
-
+        isDead = true;
         anim.SetBool("Death", true);
         yield return new WaitForSeconds(duration);
         //Destroy(this.gameObject);
