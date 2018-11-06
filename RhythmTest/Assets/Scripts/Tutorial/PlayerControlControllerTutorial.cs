@@ -44,6 +44,11 @@ public class PlayerControlControllerTutorial : MonoBehaviour {
     }
 
     private void ToggleDrumToAttack() {
+        if (tutorialController.isSpecial) {
+            handleSpecial();
+            return;
+        }
+
         if (tutorialController.isAttackTogglingEnabled && !tutorialController.isTextShowing) {
             tutorialController.isAttackTogglingObjectiveCompleted = true;
             isAttackMode = true;
@@ -53,6 +58,18 @@ public class PlayerControlControllerTutorial : MonoBehaviour {
             foreach (ControllerDrum drum in attackDrums) {
                 drum.gameObject.SetActive(true);
             }
+        }
+    }
+
+    private void handleSpecial() {
+        tutorialController.isAttackTogglingObjectiveCompleted = true;
+        isAttackMode = true;
+        tutorialController.progressText();
+        foreach (ControllerDrum drum in movementDrums) {
+            drum.gameObject.SetActive(false);
+        }
+        foreach (ControllerDrum drum in attackDrums) {
+            drum.gameObject.SetActive(true);
         }
     }
 

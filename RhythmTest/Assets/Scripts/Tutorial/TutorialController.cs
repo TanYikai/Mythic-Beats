@@ -21,6 +21,7 @@ public class TutorialController : MonoBehaviour {
     [HideInInspector] public bool isComboEnabled;
     [HideInInspector] public bool isAttackTogglingObjectiveCompleted;
     [HideInInspector] public bool isComboObjectiveCompleted;
+    [HideInInspector] public bool isSpecial;    // to handle special case where text is showing but action is still enabled
     private bool[] directionChecklist; // in order of up, down, left, right
     private bool[] attackDirectionChecklist; // in order of up, down, left, right
 
@@ -95,7 +96,9 @@ public class TutorialController : MonoBehaviour {
 
     public void progressText() {
         if (textController.getIsTextProceedPossible()) {
-            if (!textController.proceedAndDisplayNextText()) {
+            bool isTextRemainVisible = textController.proceedAndDisplayNextText();
+            isSpecial = textController.isTextSpecial();
+            if (!isTextRemainVisible) {
                 isTextShowing = false;
             }
         }
@@ -144,6 +147,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
         Debug.Log("Entering movement without beat stage");
     }
 
@@ -158,6 +162,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
         Debug.Log("Entering movement with beat stage");
     }
 
@@ -172,6 +177,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
         Debug.Log("Entering toggling to attack stage");
     }
 
@@ -186,6 +192,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
 
         enemy.SetActive(true);
 
@@ -203,6 +210,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
 
         enemyTutorialScript.resetEnemyHealth();
 
@@ -220,6 +228,7 @@ public class TutorialController : MonoBehaviour {
         attackDirectionChecklist = new bool[4];
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
+        isSpecial = false;
 
         Debug.Log("Entering transition to main game stage");
     }

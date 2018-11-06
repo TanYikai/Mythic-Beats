@@ -10,6 +10,7 @@ public class TextController : MonoBehaviour {
     private TextMeshProUGUI displayText;
     private int currTextIndex;
     private bool isTextProceedPossible;
+    private List<int> specialTextIndexList;
 
     private void OnEnable() {
         isTextProceedPossible = true;
@@ -18,6 +19,7 @@ public class TextController : MonoBehaviour {
     void Start() {
         textList = new string[23];
         setupTextList();
+        setupSpecialTextIndex();
         displayText =  this.GetComponent<TextMeshProUGUI>();
         currTextIndex = 0;
         updateText();
@@ -34,6 +36,13 @@ public class TextController : MonoBehaviour {
 
     private void updateText() {
         displayText.text = textList[currTextIndex];
+    }
+
+    public bool isTextSpecial() {
+        if (specialTextIndexList.Contains(currTextIndex)) {
+            return true;
+        }
+        return false;
     }
 
     // returns false if text is turned inactive, true otherwise
@@ -56,6 +65,11 @@ public class TextController : MonoBehaviour {
         isTextProceedPossible = false;
         yield return new WaitForSeconds(0.3f);
         isTextProceedPossible = true;
+    }
+
+    private void setupSpecialTextIndex() {
+        specialTextIndexList = new List<int>();
+        specialTextIndexList.Add(10);
     }
 
     private void setupTextList() {
