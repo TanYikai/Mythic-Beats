@@ -363,6 +363,9 @@ public class Player : MonoBehaviour {
     }
 
     public void takeDamage() {
+        if (isDead) {
+            return;
+        }
         Debug.Log("player took damage");
         playerHealth--;
         StartCoroutine(flashDamage());
