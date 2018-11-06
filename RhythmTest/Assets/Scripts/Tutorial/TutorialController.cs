@@ -204,6 +204,8 @@ public class TutorialController : MonoBehaviour {
         isAttackTogglingObjectiveCompleted = false;
         isComboObjectiveCompleted = false;
 
+        enemyTutorialScript.resetEnemyHealth();
+
         Debug.Log("Entering combo attack stage");
     }
 
