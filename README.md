@@ -118,5 +118,5 @@ Being a rhythmic game, it is highly dependent on the music. Several challenges f
 </br>
 
 ## **Playing the game**
-Run the `RythmTest.exe` file in the `RhythmTest/Build` folder. </br> 
+Run the `RythmTest.exe` file in the `RhythmTest/ProjectBuild` folder. </br> 
 Requires a VR headset as a prerequisite. 
